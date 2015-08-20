@@ -1,0 +1,59 @@
+10
+
+dir
+17584
+http://subversion.grupocafebritt.com:80/Sistemas/app-britt-espresso/www/lib
+http://subversion.grupocafebritt.com:80/Sistemas
+
+
+
+2015-08-17T17:54:53.600337Z
+17584
+svado
+has-props
+has-prop-mods
+
+
+
+
+
+
+
+
+
+
+
+
+7fbfb38e-5f93-4992-b219-878775e548b1
+
+ionic
+dir
+
+angular-ui-router
+dir
+
+
+
+add
+
+angular
+dir
+
+
+
+add
+
+angular-sanitize
+dir
+
+
+
+add
+
+angular-messages
+dir
+
+
+
+add
+

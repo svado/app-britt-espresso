@@ -1,0 +1,23 @@
+/* Validaciones */
+
+.ng-invalid {
+    border-color: red;
+    outline-color: red;
+}
+
+.ng-valid {
+    border-color: green;
+    outline-color: green;
+}
+
+.messages {
+    font-size: smaller;
+    color: red;
+    width: 1px;
+    opacity: 0.7;
+}
+
+.messages div {
+    left: 60px;
+    position: relative;
+}

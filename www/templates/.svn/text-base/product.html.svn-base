@@ -1,0 +1,34 @@
+<ion-view view-title="{{title}}" ng-controller="ProductInfoCtrl">
+    <ion-content>
+
+        <div class="list card">
+
+            <div class="item item-avatar">
+                <img ng-src="{{imagen}}">
+                <h2>{{title}}</h2>
+            </div>
+
+            <div class="item item-body">
+                <img class="full-image" ng-src="{{imagen}}">
+                <p>
+                    {{description}}}
+                </p>
+            </div>
+
+            <div class="list">
+                <label class="item item-radio row" ng-repeat="product in items">
+                    <input type="radio" name="codigo_articulo_incluir" ng-value="{{product.CODIGO_ARTICULO}}">
+                    <div class="item-content col col-40">
+                        {{product.PRESENTATION_NAME}}                        
+                    </div>
+                    <div class="item-content col col-40">
+                        &cent; {{product.PRECIO}}
+                    </div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

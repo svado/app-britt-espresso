@@ -1,0 +1,30 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Ingresar</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeLogin()">Cerrar</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form name="fLogin" ng-submit="doLogin()">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Email</span>
+                    <div ng-messages="fLogin.username.$error" ng-messages-include="messages.html"></div>
+                    <input type="email" ng-model="loginData.username" name="username" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Contrase&ntilde;a</span>
+                    <div ng-messages="fLogin.password.$error" ng-messages-include="messages.html"></div>
+                    <input type="password" ng-model="loginData.password" name="password" required>
+                </label>
+                <label class="item">
+                    <button class="button button-block button-positive" type="submit" ng-disabled="fLogin.$invalid">Ingresar</button>
+                </label>
+                <div class="item text-center">
+                    <p>No eres miembro? <a class="" href="#/app/signup" ng-click="signup()">ingrese aqu&iacute;</a></p>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+</ion-modal-view>

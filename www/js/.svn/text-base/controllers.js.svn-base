@@ -1,0 +1,157 @@
+angular.module('starter.controllers', [])
+
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $ionicPopup) {
+
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
+
+    // Variables globales;
+    $rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
+    $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
+    $scope.rutaImagenes = 'http://www.brittespresso.com/siteimg/';
+
+    // Form data for the login modal
+    $scope.loginData = {};
+    $scope.loginData.username = 'stevadro@hotmail.com';
+    $scope.loginData.password = 'cafebritt';
+
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/login.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modalLogin = modal;
+    });
+
+    // Create the signup  modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/signup.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modalSignUp = modal;
+    });
+
+    // Create the signup modal that we will use later
+    /*$ionicModal.fromTemplateUrl('templates/signup.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });*/
+
+    // Triggered in the login modal to close it
+    $scope.closeLogin = function () {
+        $scope.modalLogin.hide();
+    };
+
+    // Triggered in the signup modal to close it
+    $scope.closeSignUp = function () {
+        $scope.modalSignUp.hide();
+    };
+
+    // Open the login modal
+    $scope.login = function () {
+        $scope.modalLogin.show();
+    };
+
+    // Open the signup modal
+    $scope.signup = function () {
+        $scope.modalSignUp.show();
+    };
+
+    // Logout
+    $scope.logout = function () {
+        window.localStorage.removeItem("cliente");
+    };
+
+    // Trata de loguearse en la web.
+    $scope.doLogin = function () {
+        $params = '&username=' + $scope.loginData.username + '&password=' + $scope.loginData.password;
+        $method = 'getUser';
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                $cliente = {};
+                $cliente.codigo_cliente = data[0].CODIGO_CLIENTE;
+                $cliente.first_name = data[0].FIRST_NAME;
+                $cliente.last_name = data[0].LAST_NAME;
+                $cliente.email = data[0].EMAIL;
+                window.localStorage.setItem('cliente', JSON.stringify($cliente));
+                console.log('Logueado', $cliente);
+                $scope.error = false;
+                $scope.closeLogin();
+            } else {
+                $scope.showPopup('Ingreso', 'El usuario o clave son inválidos');
+                $scope.error = true;
+            }
+        }).
+        error(function (data, status) {
+            $scope.error = true;
+            console.log(status);
+        });
+    };
+
+    // Trata de loguearse en la web.
+    $scope.doSignUp = function () {
+        console.log(123);
+    }
+
+    // Esta loqueado?
+    $scope.isLoggedIn = function () {
+        if (window.localStorage.getItem("cliente") !== null) {
+            $cliente = JSON.parse(window.localStorage.getItem("cliente"));
+            if ($cliente.codigo_cliente !== undefined) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    };
+
+    // Alertas.
+    $scope.showPopup = function ($title, $template) {
+        var alertPopup = $ionicPopup.alert({
+            title: $title,
+            template: $template
+        });
+        alertPopup.then(function (res) {});
+    };
+})
+
+// Lista de productos
+.controller('ProductListCtrl', function ($scope, $http, $stateParams) {
+    $params = '&url=' + $stateParams.page_url;
+    $method = 'getProducts';
+    $http.post($rutaPagesWs + $method + $params).
+    success(function (data, status, headers) {
+        $scope.products = data;
+        $scope.error = false;
+    }).
+    error(function (data, status) {
+        $scope.error = true;
+        console.log(status);
+    });
+})
+
+// Informacion de un producto
+.controller('ProductInfoCtrl', function ($scope, $http, $stateParams) {
+    $params = '&page_id=' + $stateParams.page_id;
+    $method = 'getProductInfo';
+    $http.post($rutaPagesWs + $method + $params).
+    success(function (data, status, headers) {
+        $scope.url = data.URL;
+        $scope.title = data.TITLE;
+        $scope.mini_description = data.MINI_DESCRIPTION;
+        $scope.description = data.DESCRIPTION;
+        $scope.imagen = $scope.rutaImagenes + data.IMAGEN;
+        $scope.items = data.ITEMS;
+        $scope.error = false;
+    }).
+    error(function (data, status) {
+        $scope.error = true;
+        console.log(status);
+    });
+});

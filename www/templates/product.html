@@ -1,0 +1,37 @@
+<ion-view view-title="{{title}}" ng-controller="ProductInfoCtrl">
+    <ion-content>
+        <form name="fProduct" ng-submit="addProduct()">
+            <div class="list card">
+
+                <div class="item item-avatar">
+                    <img ng-src="{{imagen}}">
+                    <h2>{{title}}</h2>
+                </div>
+
+                <div class="item item-body">
+                    <img class="full-image" ng-src="{{imagen}}">
+                    <p>
+                        {{description}}}
+                    </p>
+
+                    <div class="list">
+                        <label class="item item-radio" ng-repeat="product in items">
+                            <input type="radio" name="codigo_articulo_incluir" ng-value="{{product.CODIGO_ARTICULO}}" ng-checked="product.PRINCIPAL == 1">
+                            <div class="item-content">
+                                {{product.PRESENTATION_NAME}}
+                                <span class="padding-horizontal">-</span>
+                                <span>&cent; {{product.PRECIO}}</span>
+                            </div>
+                            <i class="radio-icon ion-checkmark"></i>
+                        </label>
+                    </div>
+                </div>
+
+                <label class="item item-input">
+                    <button class="button button-block button-positive" type="submit">Agregar al carrito</button>
+                </label>
+
+            </div>
+        </form>
+    </ion-content>
+</ion-view>
