@@ -6,6 +6,7 @@
                 <div class="item item-avatar">
                     <img ng-src="{{imagen}}">
                     <h2>{{title}}</h2>
+                    <p>{{mini_description}}</p>
                 </div>
 
                 <div class="item item-body">
@@ -20,15 +21,22 @@
                             <div class="item-content">
                                 {{product.PRESENTATION_NAME}}
                                 <span class="padding-horizontal">-</span>
-                                <span>&cent; {{product.PRECIO}}</span>
+                                <span>{{monedaSymbol}} {{product.PRECIO}}</span>
                             </div>
                             <i class="radio-icon ion-checkmark"></i>
                         </label>
                     </div>
+
+                    <label class="item item-input">
+                        <span class="input-label">Cantidad</span>
+                        <div ng-messages="fProduct.cantidad_incluir.$error" ng-messages-include="messages.html"></div>
+                        <input type="number" ng-model="productData.cantidad_incluir" name="cantidad_incluir" ng-minlength="1" ng-maxlength="99" required>
+                    </label>
+
                 </div>
 
                 <label class="item item-input">
-                    <button class="button button-block button-positive" type="submit">Agregar al carrito</button>
+                    <button class="button button-block button-positive" type="submit" ng-disabled="fProduct.$invalid">Agregar al carrito</button>
                 </label>
 
             </div>

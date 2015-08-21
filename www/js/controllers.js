@@ -10,6 +10,7 @@ angular.module('starter.controllers', [])
     //});
 
     // Variables globales;
+    $scope.monedaSymbol = '¢';
     $rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
     $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
     $scope.rutaImagenes = 'http://www.brittespresso.com/siteimg/';
@@ -20,13 +21,13 @@ angular.module('starter.controllers', [])
 
     // Obtiene los datos locales
     $scope.getLocalData = function (elemento) {
-        $elemento = {};        
+        $elemento = {};
         if (window.localStorage.getItem(elemento) !== null)
             $elemento = JSON.parse(window.localStorage.getItem(elemento));
         return $elemento;
     }
-    
-    //Obtiene los datos locales
+
+    //Obtiene los datos del cliente
     $scope.loginData = $scope.getLocalData('cliente');
 
     // Create the login modal that we will use later
@@ -34,10 +35,6 @@ angular.module('starter.controllers', [])
         scope: $scope
     }).then(function (modal) {
         $scope.modalLogin = modal;
-
-        /*$cliente = {};
-        $cliente = $scope.getLocalData('cliente');
-        console.log($cliente);*/
     });
 
     // Create the signup  modal that we will use later
@@ -72,11 +69,39 @@ angular.module('starter.controllers', [])
         window.localStorage.removeItem("cliente");
     };
 
+    // Esta loqueado?
+    $scope.isLoggedIn = function () {
+        if (window.localStorage.getItem("cliente") !== null) {
+            $cliente = JSON.parse(window.localStorage.getItem("cliente"));
+            if ($cliente.codigo_cliente !== undefined) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    };
+
+    // Alertas.
+    $scope.showPopup = function ($title, $template) {
+        var alertPopup = $ionicPopup.alert({
+            title: $title,
+            template: $template
+        });
+        alertPopup.then(function (res) {});
+    };
+})
+
+// Manejo de Clientes
+.controller('ContactCtrl', function ($scope, $http, $stateParams) {
+
     // Trata de loguearse en la web.
     $scope.doLogin = function () {
+
+        $scope.error = true;
         $params = '&username=' + $scope.loginData.email + '&password=' + $scope.loginData.password;
         $method = 'getUser';
-        $scope.error = true;
 
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
@@ -105,9 +130,10 @@ angular.module('starter.controllers', [])
 
     // Crea el cliente en la web.
     $scope.doSignUp = function () {
-        $params = '&first_name=' + $scope.signData.first_name + '&last_name=' + $scope.signData.last_name + '&last_name=' + $scope.signData.last_name + '&email=' + $scope.signData.email + '&phone=' + $scope.signData.phone + '&password=' + $scope.signData.password;
-        $method = 'createUser';
+
         $scope.error = true;
+        $params = '&first_name=' + $scope.signData.first_name + '&last_name=' + $scope.signData.last_name + '&last_name=' + $scope.signData.last_name + '&email=' + $scope.signData.email + '&phone=' + $scope.signData.phone + '&password=' + $scope.signData.password + '&password2=' + $scope.signData.password2;
+        $method = 'createUser';
 
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
@@ -129,35 +155,14 @@ angular.module('starter.controllers', [])
             console.log(status);
         });
     }
-
-    // Esta loqueado?
-    $scope.isLoggedIn = function () {
-        if (window.localStorage.getItem("cliente") !== null) {
-            $cliente = JSON.parse(window.localStorage.getItem("cliente"));
-            if ($cliente.codigo_cliente !== undefined) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    };
-
-    // Alertas.
-    $scope.showPopup = function ($title, $template) {
-        var alertPopup = $ionicPopup.alert({
-            title: $title,
-            template: $template
-        });
-        alertPopup.then(function (res) {});
-    };
 })
 
 // Lista de productos
 .controller('ProductListCtrl', function ($scope, $http, $stateParams) {
+
     $params = '&url=' + $stateParams.page_url;
     $method = 'getProducts';
+
     $http.post($rutaPagesWs + $method + $params).
     success(function (data, status, headers) {
         $scope.products = data;
@@ -172,8 +177,13 @@ angular.module('starter.controllers', [])
 
 // Informacion de un producto
 .controller('ProductInfoCtrl', function ($scope, $http, $stateParams) {
+
+    $scope.productData = {};
+    $scope.productData.cantidad_incluir = 1;
+
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
+
     $http.post($rutaPagesWs + $method + $params).
     success(function (data, status, headers) {
         $scope.url = data.URL;
