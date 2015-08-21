@@ -5,42 +5,45 @@
         <h1>Instalacion</h1>
         <p><pre>
 
-<strong>Instalacion</strong>
+<h4>Instalacion</h4>
 
 NodeJs <a href="https://nodejs.org/">https://nodejs.org/</a>
 
 PhoneGap <a href="http://phonegap.com/install/">http://phonegap.com/install/</a>
 
-Apache Cordova http://cordova.apache.org/docs/en/5.0.0//guide_cli_index.md.html#The%20Command-
+Apache Cordova <a href="http://cordova.apache.org/docs/en/5.0.0//guide_cli_index.md.html#The%20Command-">http://cordova.apache.org/docs/en/5.0.0//guide_cli_index.md.html#The%20Command-</a>
 
-Android SDK http://developer.android.com/sdk/installing/index.html?pkg=tools
+Android SDK <a href="http://developer.android.com/sdk/installing/index.html?pkg=tools
 Line%20Interface
+">http://developer.android.com/sdk/installing/index.html?pkg=tools
+Line%20Interface
+</a>
 
-Java SDK http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+Java SDK <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>
 
-Git http://git-scm.com/download/win
+Git <a href="http://git-scm.com/download/win">http://git-scm.com/download/win</a>
 
-	* https://github.com/svado/app-britt-espresso 
+	* <a href="</a>https://github.com/svado/app-britt-espresso">https://github.com/svado/app-britt-espresso</a>
 	* u: svado@britt.com
 	* p: Cafe2Britt1
 
-Gulp http://gulpjs.com/ 
+Gulp <a href="http://gulpjs.com/">http://gulpjs.com/</a>
 
 	* npm install -global gulp
 
-Bower http://bower.io/
+Bower <a href="http://bower.io/">http://bower.io/</a>
 
 	* npm install -g bower
 
-PhoneGap Build https://forums.adobe.com/message/4549827
+PhoneGap Build <a href="https://forums.adobe.com/message/4549827">https://forums.adobe.com/message/4549827</a>
 
-Ripple https://bradb.net/improving-the-quality-assurance-process/ 
+Ripple <a href="https://bradb.net/improving-the-quality-assurance-process/ ">https://bradb.net/improving-the-quality-assurance-process/ </a>
 
 	* npm install -g ripple-emulator
 	* C:\Users\YOUR_USERNAME\AppData\Roaming\npm\node_modules\ripple-emulator\lib\server\emulate --Open cordovaProject.js and replace all strings which contain "platforms" with an empty one ""
 	* ripple emulate --path platforms/android/assets/www
 
-Weinre (debugger): https://github.com/CGastrell/phonegap/wiki/Debugger-weinre 
+Weinre (debugger): <a href="https://github.com/CGastrell/phonegap/wiki/Debugger-weinre ">https://github.com/CGastrell/phonegap/wiki/Debugger-weinre </a>
 
 	* npm -g install weinre@2.0.0-pre-I0Z7U9OV
 	* weinre --boundHost 192.168.18.228
@@ -55,25 +58,25 @@ Genymotion https://www.genymotion.com
 
 Emulator:  C:\Users\svado\AppData\Local\Android\android-sdk\ AVD Manager.exe 
 
-<hh42>Referencias</h4>
+<h4>Referencias</h4>
 
-Adobe PhoneGap https://build.phonegap.com/apps
+Adobe PhoneGap <a href="https://build.phonegap.com/apps">https://build.phonegap.com/apps</a>
 
-Cordova http://cordova.apache.org/docs/en/5.0.0//guide_cli_index.md.html#The%20Command-Line%20Interface
+Cordova <a href="http://cordova.apache.org/docs/en/5.0.0//guide_cli_index.md.html#The%20Command-Line%20Interface">http://cordova.apache.org/docs/en/5.0.0//guide_cli_index.md.html#The%20Command-Line%20Interface</a>
 
-About https://github.com/CGastrell/phonegap/wiki/Estructura-de-un-proyecto-Phonegap 
+About <a href="https://github.com/CGastrell/phonegap/wiki/Estructura-de-un-proyecto-Phonegap ">https://github.com/CGastrell/phonegap/wiki/Estructura-de-un-proyecto-Phonegap </a>
 
-Phonegap Emulator http://www.raymondcamden.com/2013/11/05/Ripple-is-Reborn
+Phonegap Emulator <a href="http://www.raymondcamden.com/2013/11/05/Ripple-is-Reborn">http://www.raymondcamden.com/2013/11/05/Ripple-is-Reborn</a>
 
-Plugins http://plugins.cordova.io/#/ 
+Plugins <a href="http://plugins.cordova.io/#/ ">http://plugins.cordova.io/#/ </a>
 
-Github http://rogerdudler.github.io/git-guide/ 
+Github <a href="http://rogerdudler.github.io/git-guide/ ">http://rogerdudler.github.io/git-guide/ </a>
 
 <h4>Errores de instalacion</h4>
 
-#1 cordova minsdkversion cannot be smaller: http://stackoverflow.com/questions/27095077/how-do-i-use-toolsoverridelibrary-in-a-build-gradle-file 
+#1 cordova minsdkversion cannot be smaller: <a href="http://stackoverflow.com/questions/27095077/how-do-i-use-toolsoverridelibrary-in-a-build-gradle-file ">http://stackoverflow.com/questions/27095077/how-do-i-use-toolsoverridelibrary-in-a-build-gradle-file </a>
 
-<strong>Consola</strong>
+<h4>Consola</h4>
 
 Levantar el servidor phonegap: phonegap serve --> 192.168.18.228:3000
 Levantar el servidor cordova: cordova serve --> localhost:8000 / 192.168.18.228:3000
@@ -91,15 +94,15 @@ Github:
     <h1>Ionic framework</h1>
 
     <p><pre>
-<strong>Instalar</strong>
+<h4>Instalar</h4>
 
-Ionic http://ionicframework.com/
+Ionic <a href="http://ionicframework.com/">http://ionicframework.com/</a>
 
 Angular messages https://github.com/paullang/ionicNgMessagesExample 
 
 	* npm install angular-messages 
 
-<strong>Referencias</strong>
+<h4>Referencias</h4>
 
 Ionic creator https://creator.ionic.io 
 
@@ -107,7 +110,7 @@ Ionic brackets http://www.ionicbrackets.com/
 
 Angular batarang https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?utm_source=chrome-ntp-icon 
 
-<strong>Errores de instalacion</strong>
+<h4>Errores de instalacion</h4>
 
 #1 gulp: cannot find module 'through2' http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko 
 
@@ -118,7 +121,7 @@ Angular batarang https://chrome.google.com/webstore/detail/angularjs-batarang/ig
 
 	* http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path 
 
-<strong>Consola</strong>
+<h4>Consola</h4>
 
 Levantar servidor: ionic serve    
     </pre></p>
