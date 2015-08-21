@@ -5,7 +5,7 @@
         <h1>Instalacion</h1>
         <p><pre>
 
-NodeJs https://nodejs.org/
+NodeJs <a href="https://nodejs.org/">https://nodejs.org/</a>
 
 PhoneGap http://phonegap.com/install/
 
