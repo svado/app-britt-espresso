@@ -55,7 +55,7 @@ Genymotion https://www.genymotion.com
 
 Emulator:  C:\Users\svado\AppData\Local\Android\android-sdk\ AVD Manager.exe 
 
-<strong>Referencias</strong>
+<h2>Referencias</h2>
 
 Adobe PhoneGap https://build.phonegap.com/apps
 
@@ -69,7 +69,7 @@ Plugins http://plugins.cordova.io/#/
 
 Github http://rogerdudler.github.io/git-guide/ 
 
-<strong>Errores de instalacion</strong>
+<h3>Errores de instalacion</h3>
 
 #1 cordova minsdkversion cannot be smaller: http://stackoverflow.com/questions/27095077/how-do-i-use-toolsoverridelibrary-in-a-build-gradle-file 
 
