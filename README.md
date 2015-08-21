@@ -5,9 +5,11 @@
         <h1>Instalacion</h1>
         <p><pre>
 
+<strong>Instalacion</strong>
+
 NodeJs <a href="https://nodejs.org/">https://nodejs.org/</a>
 
-PhoneGap http://phonegap.com/install/
+PhoneGap <a href="http://phonegap.com/install/">http://phonegap.com/install/</a>
 
 Apache Cordova http://cordova.apache.org/docs/en/5.0.0//guide_cli_index.md.html#The%20Command-
 
@@ -53,7 +55,7 @@ Genymotion https://www.genymotion.com
 
 Emulator:  C:\Users\svado\AppData\Local\Android\android-sdk\ AVD Manager.exe 
 
-Referencias
+<strong>Referencias</strong>
 
 Adobe PhoneGap https://build.phonegap.com/apps
 
@@ -67,11 +69,11 @@ Plugins http://plugins.cordova.io/#/
 
 Github http://rogerdudler.github.io/git-guide/ 
 
-Errores de instalacion
+<strong>Errores de instalacion</strong>
 
 #1 cordova minsdkversion cannot be smaller: http://stackoverflow.com/questions/27095077/how-do-i-use-toolsoverridelibrary-in-a-build-gradle-file 
 
-Consola
+<strong>Consola</strong>
 
 Levantar el servidor phonegap: phonegap serve --> 192.168.18.228:3000
 Levantar el servidor cordova: cordova serve --> localhost:8000 / 192.168.18.228:3000
@@ -89,7 +91,7 @@ Github:
     <h1>Ionic framework</h1>
 
     <p><pre>
-Instalar
+<strong>Instalar</strong>
 
 Ionic http://ionicframework.com/
 
@@ -97,7 +99,7 @@ Angular messages https://github.com/paullang/ionicNgMessagesExample
 
 	* npm install angular-messages 
 
-Referencias
+<strong>Referencias</strong>
 
 Ionic creator https://creator.ionic.io 
 
@@ -105,7 +107,7 @@ Ionic brackets http://www.ionicbrackets.com/
 
 Angular batarang https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?utm_source=chrome-ntp-icon 
 
-Errores de instalacion
+<strong>Errores de instalacion</strong>
 
 #1 gulp: cannot find module 'through2' http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko 
 
@@ -116,7 +118,7 @@ Errores de instalacion
 
 	* http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path 
 
-Consola
+<strong>Consola</strong>
 
 Levantar servidor: ionic serve    
     </pre></p>
