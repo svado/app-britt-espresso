@@ -123,7 +123,7 @@ Angular batarang <a href="https://chrome.google.com/webstore/detail/angularjs-ba
     
 <h4>Consola</h4>
 
-Levantar servidor: ionic serve    
+Levantar servidor: <code>ionic serve    </code>
     </pre></p>
     </article>
 </div>
