@@ -114,13 +114,13 @@ Angular batarang <a href="https://chrome.google.com/webstore/detail/angularjs-ba
 
 #1 gulp: cannot find module 'through2' <a href="http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko ">http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko </a>
 
-	* npm install through2 --save-dev
+    * npm install through2 --save-dev
 	* npm install concat-with-sourcemaps --save-dev
 
 #2 Angular-messages: ENOGIT Git is not installed or not in the PATH: 
 
-	* <a href="http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path ">http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path </a>
-
+    * <a href="http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path ">http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path </a>
+    
 <h4>Consola</h4>
 
 Levantar servidor: ionic serve    
