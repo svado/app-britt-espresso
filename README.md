@@ -98,7 +98,7 @@ Github:
 
 Ionic <a href="http://ionicframework.com/">http://ionicframework.com/</a>
 
-Angular messages <a href="https://github.com/paullang/ionicNgMessagesExample ">https://github.com/paullang/ionicNgMessagesExample </a>
+Angular messages <a href="https://github.com/paullang/ionicNgMessagesExample">https://github.com/paullang/ionicNgMessagesExample </a>
 
 	* npm install angular-messages 
 
