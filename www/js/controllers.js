@@ -14,16 +14,30 @@ angular.module('starter.controllers', [])
     $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
     $scope.rutaImagenes = 'http://www.brittespresso.com/siteimg/';
 
-    // Form data for the login modal
+    // Inicializador
     $scope.loginData = {};
-    $scope.loginData.username = 'stevadro@hotmail.com';
-    $scope.loginData.password = 'cafebritt';
+    $scope.signData = [];
+
+    // Obtiene los datos locales
+    $scope.getLocalData = function (elemento) {
+        $elemento = {};        
+        if (window.localStorage.getItem(elemento) !== null)
+            $elemento = JSON.parse(window.localStorage.getItem(elemento));
+        return $elemento;
+    }
+    
+    //Obtiene los datos locales
+    $scope.loginData = $scope.getLocalData('cliente');
 
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope
     }).then(function (modal) {
         $scope.modalLogin = modal;
+
+        /*$cliente = {};
+        $cliente = $scope.getLocalData('cliente');
+        console.log($cliente);*/
     });
 
     // Create the signup  modal that we will use later
@@ -32,13 +46,6 @@ angular.module('starter.controllers', [])
     }).then(function (modal) {
         $scope.modalSignUp = modal;
     });
-
-    // Create the signup modal that we will use later
-    /*$ionicModal.fromTemplateUrl('templates/signup.html', {
-        scope: $scope
-    }).then(function (modal) {
-        $scope.modal = modal;
-    });*/
 
     // Triggered in the login modal to close it
     $scope.closeLogin = function () {
@@ -67,34 +74,60 @@ angular.module('starter.controllers', [])
 
     // Trata de loguearse en la web.
     $scope.doLogin = function () {
-        $params = '&username=' + $scope.loginData.username + '&password=' + $scope.loginData.password;
+        $params = '&username=' + $scope.loginData.email + '&password=' + $scope.loginData.password;
         $method = 'getUser';
+        $scope.error = true;
+
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
             if (data.length != 0) {
-                $cliente = {};
-                $cliente.codigo_cliente = data[0].CODIGO_CLIENTE;
-                $cliente.first_name = data[0].FIRST_NAME;
-                $cliente.last_name = data[0].LAST_NAME;
-                $cliente.email = data[0].EMAIL;
-                window.localStorage.setItem('cliente', JSON.stringify($cliente));
-                console.log('Logueado', $cliente);
-                $scope.error = false;
-                $scope.closeLogin();
+                if (data.ERROR == false) {
+                    $cliente = {};
+                    $cliente.codigo_cliente = data.CODIGO_CLIENTE;
+                    $cliente.first_name = data.FIRST_NAME;
+                    $cliente.last_name = data.LAST_NAME;
+                    $cliente.email = data.EMAIL;
+                    $scope.error = false;
+                    window.localStorage.setItem('cliente', JSON.stringify($cliente));
+                    console.log('Logueado', $cliente);
+                    if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
+                    $scope.closeLogin();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
             } else {
-                $scope.showPopup('Ingreso', 'El usuario o clave son inválidos');
-                $scope.error = true;
+                $scope.showPopup('Ingreso', 'Error de conexión');
             }
         }).
         error(function (data, status) {
-            $scope.error = true;
             console.log(status);
         });
     };
 
-    // Trata de loguearse en la web.
+    // Crea el cliente en la web.
     $scope.doSignUp = function () {
-        console.log(123);
+        $params = '&first_name=' + $scope.signData.first_name + '&last_name=' + $scope.signData.last_name + '&last_name=' + $scope.signData.last_name + '&email=' + $scope.signData.email + '&phone=' + $scope.signData.phone + '&password=' + $scope.signData.password;
+        $method = 'createUser';
+        $scope.error = true;
+
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $cliente = {};
+                    $cliente.email = data.EMAIL;
+                    window.localStorage.setItem('cliente', JSON.stringify($cliente));
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Registro', data.ALERTA);
+                    $scope.login();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Registro', data.ALERTA);
+            } else {
+                $scope.showPopup('Registro', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
     }
 
     // Esta loqueado?
