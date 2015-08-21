@@ -50,7 +50,7 @@ Weinre (debugger): <a href="https://github.com/CGastrell/phonegap/wiki/Debugger-
 	* http://192.168.18.228:8080--avg android
 
 
-Genymotion https://www.genymotion.com
+Genymotion <a href="https://www.genymotion.com">https://www.genymotion.com</a>
 
 	* u: svado@britt.com
 	* p: Cafe2Britt1
@@ -98,28 +98,28 @@ Github:
 
 Ionic <a href="http://ionicframework.com/">http://ionicframework.com/</a>
 
-Angular messages https://github.com/paullang/ionicNgMessagesExample 
+Angular messages <a href="https://github.com/paullang/ionicNgMessagesExample ">https://github.com/paullang/ionicNgMessagesExample </a>
 
 	* npm install angular-messages 
 
 <h4>Referencias</h4>
 
-Ionic creator https://creator.ionic.io 
+Ionic creator <a href="https://creator.ionic.io ">https://creator.ionic.io </a>
 
-Ionic brackets http://www.ionicbrackets.com/ 
+Ionic brackets <a href="http://www.ionicbrackets.com/ ">http://www.ionicbrackets.com/ </a>
 
-Angular batarang https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?utm_source=chrome-ntp-icon 
+Angular batarang <a href="https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?utm_source=chrome-ntp-icon ">https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?utm_source=chrome-ntp-icon </a>
 
 <h4>Errores de instalacion</h4>
 
-#1 gulp: cannot find module 'through2' http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko 
+#1 gulp: cannot find module 'through2' <a href="http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko ">http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko </a>
 
 	* npm install through2 --save-dev
 	* npm install concat-with-sourcemaps --save-dev
 
 #2 Angular-messages: ENOGIT Git is not installed or not in the PATH: 
 
-	* http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path 
+	* <a href="http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path ">http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path </a>
 
 <h4>Consola</h4>
 
