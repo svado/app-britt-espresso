@@ -84,8 +84,41 @@ Github:
 	* git add *
 	* git commit -m ""
 	* git push origin master
+    </pre></p>
 
+    <h1>Ionic framework</h1>
 
+    <p><pre>
+Instalar
 
-    </pre></article>
+Ionic http://ionicframework.com/
+
+Angular messages https://github.com/paullang/ionicNgMessagesExample 
+
+	* npm install angular-messages 
+
+Referencias
+
+Ionic creator https://creator.ionic.io 
+
+Ionic brackets http://www.ionicbrackets.com/ 
+
+Angular batarang https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?utm_source=chrome-ntp-icon 
+
+Errores de instalacion
+
+#1 gulp: cannot find module 'through2' http://www.saintsatplay.com/blog/2015/01/resolving-gulp-cannot-find-module-errors#.Vc4BAvlViko 
+
+	* npm install through2 --save-dev
+	* npm install concat-with-sourcemaps --save-dev
+
+#2 Angular-messages: ENOGIT Git is not installed or not in the PATH: 
+
+	* http://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path 
+
+Consola
+
+Levantar servidor: ionic serve    
+    </pre></p>
+    </article>
 </div>
