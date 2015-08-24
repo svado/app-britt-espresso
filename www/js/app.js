@@ -50,6 +50,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         }
     })
 
+    // Manejo de paginas
     $stateProvider
         .state('app', {
             url: '/app',

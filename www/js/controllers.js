@@ -1,5 +1,6 @@
 angular.module('starter.controllers', [])
 
+// Controlador general
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $ionicPopup) {
 
     // With the new view caching in Ionic, Controllers are only called
@@ -95,7 +96,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-// Consulta de Clientes
+// Manejo de clientes
 .controller('ContactCtrl', function ($scope, $http, $stateParams, $state) {
 
     // Trata de loguearse en la web.
@@ -135,7 +136,7 @@ angular.module('starter.controllers', [])
     $scope.doSignUp = function () {
 
         $scope.error = true;
-        $params = '&first_name=' + $scope.signData.first_name + '&last_name=' + $scope.signData.last_name + '&last_name=' + $scope.signData.last_name + '&email=' + $scope.signData.email + '&phone=' + $scope.signData.phone + '&password=' + $scope.signData.password + '&password2=' + $scope.signData.password2;
+        $params = '&first_name=' + $scope.signData.first_name + '&last_name=' + $scope.signData.last_name + '&email=' + $scope.signData.email + '&phone=' + $scope.signData.phone + '&password=' + $scope.signData.password + '&password2=' + $scope.signData.password2;
         $method = 'createUser';
 
         $http.post($rutaAccountWs + $method + $params).
@@ -152,6 +153,33 @@ angular.module('starter.controllers', [])
                 if (data.ALERTA.length != 0) $scope.showPopup('Registro', data.ALERTA);
             } else {
                 $scope.showPopup('Registro', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
+    };
+
+    // Actualiza un contacto
+    $scope.updContact = function () {
+
+        $scope.error = true;
+        $params = '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&phone=' + $scope.phone + '&password=' + $scope.password + '&password2=' + $scope.password2 + '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_email=' + $scope.codigo_email + '&codigo_phone=' + $scope.codigo_phone;
+        $method = 'updContact';
+
+        console.log($params);
+
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    console.log('actualizado');
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+            } else {
+                $scope.showPopup('Perfil', 'Error de conexión');
             }
         }).
         error(function (data, status) {
@@ -223,6 +251,9 @@ angular.module('starter.controllers', [])
         $scope.phone = data.PHONE;
         $scope.codigo_email = data.CODIGO_EMAIL;
         $scope.codigo_address = data.CODIGO_ADDRESS;
+        $scope.codigo_phone = data.CODIGO_PHONE;
+        $scope.password = '';
+        $scope.password2 = '';
         $scope.error = false;
     }).
     error(function (data, status) {

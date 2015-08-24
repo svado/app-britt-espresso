@@ -1,9 +1,10 @@
 <ion-view view-title="Mi Perfil" ng-controller="ContactInfoCtrl">
     <ion-content>
-        <form name="fProfile">
+        <form name="fProfile" ng-submit="updContact()" ng-controller="ContactCtrl">
 
-            <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}" required>
-            <input type="hidden" ng-model="codigo_email" name="codigo_email" ng-value="{{codigo_email}}" required>
+            <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+            <input type="hidden" ng-model="codigo_email" name="codigo_email" ng-value="{{codigo_email}}">
+            <input type="hidden" ng-model="codigo_phone" name="codigo_phone" ng-value="{{codigo_phone}}">
 
             <div class="list">
 
@@ -42,13 +43,13 @@
                 <label class="item item-input">
                     <span class="input-label">Contrase&ntilde;a</span>
                     <div ng-messages="fProfile.password.$error" ng-messages-include="messages.html"></div>
-                    <input type="password" name="password" required ng-minlength="6">
+                    <input type="password" ng-model="password" name="password" ng-minlength="6">
                 </label>
 
                 <label class="item item-input">
                     <span class="input-label">Confirmar</span>
                     <div ng-messages="fProfile.password2.$error" ng-messages-include="messages.html"></div>
-                    <input type="password" name="password2" required ng-minlength="6">
+                    <input type="password" ng-model="password2" name="password2" ng-minlength="6">
                 </label>
 
                 <label class="item">
