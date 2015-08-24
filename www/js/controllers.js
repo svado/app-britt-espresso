@@ -96,7 +96,7 @@ angular.module('starter.controllers', [])
 })
 
 // Manejo de Clientes
-.controller('ContactCtrl', function ($scope, $http, $stateParams) {
+.controller('ContactCtrl', function ($scope, $http, $stateParams, $state) {
 
     // Trata de loguearse en la web.
     $scope.doLogin = function () {
@@ -119,6 +119,7 @@ angular.module('starter.controllers', [])
                     console.log('Logueado', $cliente);
                     if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
                     $scope.closeLogin();
+                    $state.go("app.contactinfo");
                 } else
                 if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
             } else {
@@ -181,7 +182,7 @@ angular.module('starter.controllers', [])
 .controller('ProductInfoCtrl', function ($scope, $http, $stateParams) {
 
     $scope.productData = {};
-    $scope.productData.cantidad_incluir = 1;
+    $scope.productData.cantidad_incluir = "1";
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
@@ -194,6 +195,31 @@ angular.module('starter.controllers', [])
         $scope.description = data.DESCRIPTION;
         $scope.imagen = $scope.rutaImagenes + data.IMAGEN;
         $scope.items = data.ITEMS;
+        $scope.error = false;
+    }).
+    error(function (data, status) {
+        $scope.error = true;
+        console.log(status);
+    });
+})
+
+// Informacion de un contacto
+.controller('ContactInfoCtrl', function ($scope, $http, $stateParams) {
+
+    $cliente = $scope.getLocalData('cliente');
+    $params = '&codigo_cliente=' + $cliente.codigo_cliente;
+    $method = 'getContact';
+
+    $http.post($rutaAccountWs + $method + $params).
+    success(function (data, status, headers) {
+        $scope.first_name = data.FIRST_NAME;
+        $scope.last_name = data.LAST_NAME;
+        $scope.email = data.EMAIL;
+        $scope.address_1 = data.ADDRESS_1;
+        $scope.address_2 = data.ADDRESS_2;
+        $scope.state = data.STATE;
+        $scope.pais = data.PAIS;
+        $scope.phone = data.PHONE;
         $scope.error = false;
     }).
     error(function (data, status) {

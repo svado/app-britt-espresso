@@ -30,22 +30,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
             controller: 'AppCtrl'
         })
 
-    .state('app.search', {
-        url: '/search',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/search.html'
-            }
-        }
-    })
-
     //Devuelve la lista de productos.
     .state('app.productlist', {
         url: '/products/:page_url',
         views: {
             'menuContent': {
-                templateUrl: 'templates/products.html',
-                controller: 'ProductListCtrl'
+                templateUrl: 'templates/products.html'
             }
         }
     })
@@ -55,8 +45,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         url: '/product/:page_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/product.html',
-                controller: 'ProductInfoCtrl'
+                templateUrl: 'templates/product.html'
+            }
+        }
+    })
+
+    //Informacion de un cliente
+    .state('app.contactinfo', {
+        url: '/my-account',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/my-account.html'
             }
         }
     })

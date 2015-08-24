@@ -124,6 +124,7 @@ Angular batarang <a href="https://chrome.google.com/webstore/detail/angularjs-ba
 <h4>Consola</h4>
 
 Levantar servidor: ionic serve
+Cambiar servidor: ionic address
     </pre></p>
     </article>
 </div>

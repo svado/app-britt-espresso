@@ -27,10 +27,12 @@
                         </label>
                     </div>
 
-                    <label class="item item-input">
-                        <span class="input-label">Cantidad</span>
+                    <label class="item item-input item-select">
+                        <div class="input-label">Cantidad</div>
                         <div ng-messages="fProduct.cantidad_incluir.$error" ng-messages-include="messages.html"></div>
-                        <input type="number" ng-model="productData.cantidad_incluir" name="cantidad_incluir" ng-minlength="1" ng-maxlength="99" required>
+                        <select ng-model="productData.cantidad_incluir" name="cantidad_incluir" ng-minlength="1" ng-maxlength="99" required>
+                            <option selected>1</option>
+                        </select>
                     </label>
 
                 </div>
