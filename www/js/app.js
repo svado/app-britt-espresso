@@ -21,7 +21,35 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
     });
 })
 
-.config(function ($stateProvider, $urlRouterProvider) {
+// Muestra un mensaje mientras carga datos en la vista
+.run(function ($rootScope, $ionicLoading) {
+    $rootScope.$on('loading:show', function () {
+        $ionicLoading.show({
+            template: 'Un momento por favor'
+        })
+    })
+
+    $rootScope.$on('loading:hide', function () {
+        $ionicLoading.hide()
+    })
+})
+
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+
+    // Intercepta un evento http cuando es invocado
+    $httpProvider.interceptors.push(function ($rootScope) {
+        return {
+            request: function (config) {
+                $rootScope.$broadcast('loading:show')
+                return config
+            },
+            response: function (response) {
+                $rootScope.$broadcast('loading:hide')
+                return response
+            }
+        }
+    })
+
     $stateProvider
         .state('app', {
             url: '/app',
@@ -56,6 +84,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         views: {
             'menuContent': {
                 templateUrl: 'templates/my-account.html'
+            }
+        }
+    })
+
+    //Profile del cliente
+    .state('app.contactedit', {
+        url: '/profile',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/profile.html'
             }
         }
     })
