@@ -95,7 +95,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-// Manejo de Clientes
+// Consulta de Clientes
 .controller('ContactCtrl', function ($scope, $http, $stateParams, $state) {
 
     // Trata de loguearse en la web.
@@ -212,6 +212,7 @@ angular.module('starter.controllers', [])
 
     $http.post($rutaAccountWs + $method + $params).
     success(function (data, status, headers) {
+        $scope.codigo_cliente = data.CODIGO_CLIENTE;
         $scope.first_name = data.FIRST_NAME;
         $scope.last_name = data.LAST_NAME;
         $scope.email = data.EMAIL;
@@ -220,6 +221,8 @@ angular.module('starter.controllers', [])
         $scope.state = data.STATE;
         $scope.pais = data.PAIS;
         $scope.phone = data.PHONE;
+        $scope.codigo_email = data.CODIGO_EMAIL;
+        $scope.codigo_address = data.CODIGO_ADDRESS;
         $scope.error = false;
     }).
     error(function (data, status) {
