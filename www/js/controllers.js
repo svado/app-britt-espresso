@@ -10,14 +10,6 @@ angular.module('starter.controllers', [])
     //$scope.$on('$ionicView.enter', function(e) {
     //});
 
-    // Variables globales
-    $scope.monedaSymbol = '¢';
-    $rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
-    $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
-    /*$rutaPagesWs = 'http://www.brittespresso.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
-    $rutaAccountWs = 'http://www.brittespresso.com/app/ws/account.cfc?returnformat=json&callback=&method=';*/
-    $scope.rutaImagenes = 'http://www.brittespresso.com/siteimg/';
-
     // Inicializador
     $scope.loginData = {};
     $scope.signData = [];
@@ -185,11 +177,67 @@ angular.module('starter.controllers', [])
         error(function (data, status) {
             console.log(status);
         });
+    };
+
+    // Actualiza la direccion de un contacto
+    $scope.updContactAddress = function () {
+
+        // TODO: crear direccion si viene con 0 y actualizar el model para que ahora sea el codigo de direccion
+
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email;
+        $method = 'updContactAddress';
+
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    console.log('actualizado');
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+            } else {
+                $scope.showPopup('Mi dirección', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
+    };
+
+    // Actualiza la tarjeta de un contacto
+    $scope.updContactPayment = function () {
+
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card + '&number=' + $scope.credit_card_number + '&validation_number=' + $scope.validation_number + '&exp_month=' + $scope.exp_month + '&exp_year=' + $scope.exp_year;
+        $method = 'updContactPayment';
+
+        console.log(1);
+
+        /*$http.post($rutaAccountWs + $method + $params).
+success(function (data, status, headers) {
+    if (data.length != 0) {
+        if (data.ERROR == false) {
+            console.log('actualizado');
+            $scope.error = false;
+            if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+        } else
+        if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+    } else {
+        $scope.showPopup('Mi dirección', 'Error de conexión');
+    }
+}).
+error(function (data, status) {
+    console.log(status);
+});*/
     }
 })
 
 // Lista de productos
 .controller('ProductListCtrl', function ($scope, $http, $stateParams) {
+
+    $scope.$rutaImagenes = $rutaImagenes;
 
     $params = '&url=' + $stateParams.page_url;
     $method = 'getProducts';
@@ -209,8 +257,10 @@ angular.module('starter.controllers', [])
 // Informacion de un producto
 .controller('ProductInfoCtrl', function ($scope, $http, $stateParams) {
 
+    $scope.totalitems = $totalitems;
     $scope.productData = {};
     $scope.productData.cantidad_incluir = "1";
+    $scope.$rutaImagenes = $rutaImagenes;
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
@@ -221,7 +271,7 @@ angular.module('starter.controllers', [])
         $scope.title = data.TITLE;
         $scope.mini_description = data.MINI_DESCRIPTION;
         $scope.description = data.DESCRIPTION;
-        $scope.imagen = $scope.rutaImagenes + data.IMAGEN;
+        $scope.imagen = $rutaImagenes + data.IMAGEN;
         $scope.items = data.ITEMS;
         $scope.error = false;
     }).
@@ -234,8 +284,10 @@ angular.module('starter.controllers', [])
 // Informacion de un contacto
 .controller('ContactInfoCtrl', function ($scope, $http, $stateParams) {
 
-    // Lista de provincias
+    // Lista de provincias, meses
     $scope.stateslst = $states;
+    $scope.meseslst = $meses;
+    $scope.anoslist = $anostarjeta;
 
     $cliente = $scope.getLocalData('cliente');
     $params = '&codigo_cliente=' + $cliente.codigo_cliente;
@@ -257,6 +309,14 @@ angular.module('starter.controllers', [])
         $scope.codigo_address = data.CODIGO_ADDRESS;
         $scope.codigo_phone = data.CODIGO_PHONE;
         $scope.codigo_state = data.CODIGO_STATE;
+        $scope.zipcode = data.ZIPCODE;
+        $scope.codigo_credit_card = data.CODIGO_CREDIT_CARD;
+        $scope.card_holder_name = data.CARD_HOLDER_NAME;
+        $scope.exp_month = data.EXP_MONTH;
+        $scope.exp_year = data.EXP_YEAR;
+        $scope.number_display = data.NUMBER_DISPLAY;
+        $scope.validation_number = data.VALIDATION_NUMBER;
+        $scope.credit_card_number = '';
         $scope.password = '';
         $scope.password2 = '';
         $scope.error = false;

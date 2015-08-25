@@ -20,6 +20,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         }
 
         // Variables globales
+        $monedaSymbol = '¢';
+        $rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
+        /*$rutaPagesWs = 'http://www.brittespresso.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaAccountWs = 'http://www.brittespresso.com/app/ws/account.cfc?returnformat=json&callback=&method=';*/
+        $rutaImagenes = 'http://www.brittespresso.com/siteimg/';
+
+        // Maximo de productos permitidos
+        $totalitems = [];
+        for (var i = 1; i <= 99; i++) $totalitems.push(i);
+
+        // Años tarjeta
+        $anostarjeta = [];
+        $currentyear = new Date().getFullYear();
+        $maxyear = $currentyear + 10;
+        for (var i = $maxyear; i >= $currentyear; i--) $anostarjeta.push(i);
+
+        // Estados de Costa Rica
         $states = {};
         $states = [
             {
@@ -47,11 +65,57 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
                 nombre: "Puntarenas"
             },
             {
-                codigo_state: "SJP",
+                codigo_state: "SJO",
                 nombre: "San Jose"
-            },
+            }
 
         ];
+
+        // Meses
+        $meses = {};
+        $meses = [
+            {
+                mes: "01",
+                nombre: "Enero"
+            },
+            {
+                mes: "02",
+                nombre: "Febrero"
+            },
+            {
+                mes: "03",
+                nombre: "Marzo"
+            }, {
+                mes: "04",
+                nombre: "Abril"
+            }, {
+                mes: "05",
+                nombre: "Mayo"
+            }, {
+                mes: "06",
+                nombre: "Junio"
+            }, {
+                mes: "07",
+                nombre: "Julio"
+            }, {
+                mes: "08",
+                nombre: "Agosto"
+            }, {
+                mes: "09",
+                nombre: "Setiembre"
+            }, {
+                mes: "10",
+                nombre: "Octubre"
+            }, {
+                mes: "11",
+                nombre: "Noviembre"
+            },
+            {
+                mes: "12",
+                nombre: "Diciembre"
+            }
+        ];
+
     });
 })
 
@@ -66,6 +130,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
     $rootScope.$on('loading:hide', function () {
         $ionicLoading.hide()
     })
+})
+
+// Directiva: solo digitar numeros
+.directive('onlyDigits', function () {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function (scope, element, attr, ctrl) {
+            function inputValue(val) {
+                if (val) {
+                    var digits = val.replace(/[^0-9]/g, '');
+
+                    if (digits !== val) {
+                        ctrl.$setViewValue(digits);
+                        ctrl.$render();
+                    }
+                    return parseInt(digits, 10);
+                }
+                return undefined;
+            }
+            ctrl.$parsers.push(inputValue);
+        }
+    };
 })
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -123,6 +210,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         }
     })
 
+    //Perfil de un cliente
+    .state('app.profileinfo', {
+        url: '/profile',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/profile.html'
+            }
+        }
+    })
+
     //Direccion del cliente
     .state('app.addressedit', {
         url: '/my-address/:address_id',
@@ -133,6 +230,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         }
     })
 
+    //Tarjeta del cliente
+    .state('app.paymentedit', {
+        url: '/my-payment/:payment_id',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/my-payment.html'
+            }
+        }
+    })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/products/espresso');
+
 });

@@ -1,8 +1,9 @@
 <ion-view view-title="Mi Dirección" ng-controller="ContactInfoCtrl">
     <ion-content>
-        <form name="fAddress" ng-submit="updContact()" ng-controller="ContactCtrl">
+        <form name="fAddress" ng-submit="updContactAddress()" ng-controller="ContactCtrl">
 
             <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+            <input type="hidden" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
 
             <div class="list">
 
@@ -29,10 +30,20 @@
                         Provincia
                     </div>
                     <select ng-model="codigo_state">
-                        <option ng-repeat="state in stateslst" ng-value="{{state.codigo_state}}" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
+                        <option ng-repeat="state in stateslst" value="{{state.codigo_state}}" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
                     </select>
                 </div>
 
+                <label class="item item-input">
+                    <span class="input-label">Código postal</span>
+                    <input type="text" ng-model="zipcode" name="zipcode">
+                </label>
+
+                <label class="item item-input">
+                    <span class="input-label">Teléfono</span>
+                    <div ng-messages="fAddress.phone.$error" ng-messages-include="messages.html"></div>
+                    <input type="tel" ng-model="phone" name="phone" required>
+                </label>
                 <label class="item">
                     <button class="button button-block button-positive" type="submit" ng-disabled="fAddress.$invalid">Actualizar</button>
                 </label>

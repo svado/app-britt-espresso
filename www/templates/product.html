@@ -31,7 +31,7 @@
                         <div class="input-label">Cantidad</div>
                         <div ng-messages="fProduct.cantidad_incluir.$error" ng-messages-include="messages.html"></div>
                         <select ng-model="productData.cantidad_incluir" name="cantidad_incluir" ng-minlength="1" ng-maxlength="99" required>
-                            <option selected>1</option>
+                            <option ng-repeat="i in totalitems" value="{{i}}">{{i}}</option>
                         </select>
                     </label>
 
