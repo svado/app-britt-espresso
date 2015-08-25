@@ -163,11 +163,11 @@ angular.module('starter.controllers', [])
     // Actualiza un contacto
     $scope.updContact = function () {
 
+        // TODO: actualizar perfil en local storage.
+
         $scope.error = true;
         $params = '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&phone=' + $scope.phone + '&password=' + $scope.password + '&password2=' + $scope.password2 + '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_email=' + $scope.codigo_email + '&codigo_phone=' + $scope.codigo_phone;
         $method = 'updContact';
-
-        console.log($params);
 
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
@@ -234,6 +234,9 @@ angular.module('starter.controllers', [])
 // Informacion de un contacto
 .controller('ContactInfoCtrl', function ($scope, $http, $stateParams) {
 
+    // Lista de provincias
+    $scope.stateslst = $states;
+
     $cliente = $scope.getLocalData('cliente');
     $params = '&codigo_cliente=' + $cliente.codigo_cliente;
     $method = 'getContact';
@@ -246,12 +249,14 @@ angular.module('starter.controllers', [])
         $scope.email = data.EMAIL;
         $scope.address_1 = data.ADDRESS_1;
         $scope.address_2 = data.ADDRESS_2;
+        $scope.city = data.CITY;
         $scope.state = data.STATE;
         $scope.pais = data.PAIS;
         $scope.phone = data.PHONE;
         $scope.codigo_email = data.CODIGO_EMAIL;
         $scope.codigo_address = data.CODIGO_ADDRESS;
         $scope.codigo_phone = data.CODIGO_PHONE;
+        $scope.codigo_state = data.CODIGO_STATE;
         $scope.password = '';
         $scope.password2 = '';
         $scope.error = false;

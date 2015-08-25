@@ -18,6 +18,40 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
         }
+
+        // Variables globales
+        $states = {};
+        $states = [
+            {
+                codigo_state: "ALAJ",
+                nombre: "Alajuela"
+            },
+            {
+                codigo_state: "CAR",
+                nombre: "Cartago"
+            },
+            {
+                codigo_state: "GUAN",
+                nombre: "Guanacaste"
+            },
+            {
+                codigo_state: "HER",
+                nombre: "Heredia"
+            },
+            {
+                codigo_state: "LIM",
+                nombre: "Limon"
+            },
+            {
+                codigo_state: "PUN",
+                nombre: "Puntarenas"
+            },
+            {
+                codigo_state: "SJP",
+                nombre: "San Jose"
+            },
+
+        ];
     });
 })
 
@@ -89,12 +123,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         }
     })
 
-    //Profile del cliente
-    .state('app.contactedit', {
-        url: '/profile',
+    //Direccion del cliente
+    .state('app.addressedit', {
+        url: '/my-address/:address_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/profile.html'
+                templateUrl: 'templates/my-address.html'
             }
         }
     })
