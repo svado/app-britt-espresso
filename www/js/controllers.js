@@ -182,8 +182,6 @@ angular.module('starter.controllers', [])
     // Actualiza la direccion de un contacto
     $scope.updContactAddress = function () {
 
-        // TODO: crear direccion si viene con 0 y actualizar el model para que ahora sea el codigo de direccion
-
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email;
         $method = 'updContactAddress';
@@ -192,7 +190,7 @@ angular.module('starter.controllers', [])
         success(function (data, status, headers) {
             if (data.length != 0) {
                 if (data.ERROR == false) {
-                    console.log('actualizado');
+                    $scope.codigo_address = data.CODIGO_ADDRESS;
                     $scope.error = false;
                     if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
                 } else
