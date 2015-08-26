@@ -1,4 +1,17 @@
-<ion-view view-title="Mi Tarjeta" ng-controller="ContactInfoCtrl">
+<div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+
+<ion-view view-title="Mi Tarjeta" ng-controller="ContactInfoCtrl" ng-if="isLoggedIn()">
+
+    <ion-nav-buttons side="right">
+        <a class="button button-clear button-balanced" href="#/app/my-payment/0">
+            <i class="icon ion-plus-circled"></i>
+        </a>
+
+        <button class="button button-clear button-assertive" ng-click="delContactCard()">
+            <i class="icon ion-trash-b"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content>
         <form name="fCreditcard" ng-submit="updContactCreditcard()" ng-controller="ContactCtrl">
 
@@ -49,9 +62,23 @@
                 </label>
 
                 <label class="item ">
-                    <button class="button button-block button-positive " type="submit" ng-disabled="fCreditcard.$invalid ">Actualizar</button>
+                    <button class="button button-block button-positive " type="submit" ng-disabled="fCreditcard.$invalid ">
+                        <span ng-if="codigo_credit_card==0">Crear</span>
+                        <span ng-if="codigo_credit_card>0">Actualizar</span>
+                    </button>
                 </label>
             </div>
         </form>
+
+
+        <div class="list">
+            <div class="item item-divider">
+                Otras tarjetas
+            </div>
+            <a ng-repeat="card in cards" class="item item-icon-left item-icon-right" href="#/app/my-payment/{{card.CODIGO_CREDIT_CARD}}">
+                <i class="icon ion-home"></i> #{{$index+1}} {{card.CARD_TYPE}}, {{card.NUMBER_DISPLAY}}, finaliza {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
+                <i class="icon ion-arrow-right-c"></i>
+            </a>
+        </div>
     </ion-content>
 </ion-view>

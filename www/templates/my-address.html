@@ -1,5 +1,19 @@
-<ion-view view-title="Mi Dirección" ng-controller="ContactInfoCtrl">
+<div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+
+<ion-view view-title="Mi Dirección" ng-controller="ContactInfoCtrl" ng-if="isLoggedIn()">
+
+    <ion-nav-buttons side="right">
+        <a class="button button-clear button-balanced" href="#/app/my-address/0">
+            <i class="icon ion-plus-circled"></i>
+        </a>
+
+        <button class="button button-clear button-assertive" ng-click="delContactAddress()">
+            <i class="icon ion-trash-b"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content>
+
         <form name="fAddress" ng-submit="updContactAddress()" ng-controller="ContactCtrl">
 
             <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
@@ -45,9 +59,23 @@
                     <input type="tel" ng-model="phone" name="phone" required>
                 </label>
                 <label class="item">
-                    <button class="button button-block button-positive" type="submit" ng-disabled="fAddress.$invalid">Actualizar</button>
+                    <button class="button button-block button-positive" type="submit" ng-disabled="fAddress.$invalid">
+                        <span ng-if="codigo_address==0">Crear</span>
+                        <span ng-if="codigo_address>0">Actualizar</span>
+                    </button>
                 </label>
             </div>
         </form>
+
+        <div class="list">
+            <div class="item item-divider">
+                Otras direcciones
+            </div>
+            <a ng-repeat="address in addresses" class="item item-icon-left item-icon-right" href="#/app/my-address/{{address.CODIGO_ADDRESS}}">
+                <i class="icon ion-home"></i> #{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}
+                <i class="icon ion-arrow-right-c"></i>
+            </a>
+        </div>
     </ion-content>
+
 </ion-view>

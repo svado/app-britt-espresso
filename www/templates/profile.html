@@ -1,4 +1,6 @@
-<ion-view view-title="Mi Perfil" ng-controller="ContactInfoCtrl">
+<div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+
+<ion-view view-title="Mi Perfil" ng-controller="ContactInfoCtrl" ng-if="isLoggedIn()">
     <ion-content>
         <form name="fProfile" ng-submit="updContact()" ng-controller="ContactCtrl">
 

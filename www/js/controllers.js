@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 // Controlador general
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $ionicPopup) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $ionicPopup, $state) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -13,6 +13,7 @@ angular.module('starter.controllers', [])
     // Inicializador
     $scope.loginData = {};
     $scope.signData = [];
+    $scope.isLoggedIn = isLoggedIn;
 
     // Obtiene los datos locales
     $scope.getLocalData = function (elemento) {
@@ -64,21 +65,7 @@ angular.module('starter.controllers', [])
         window.localStorage.removeItem("cliente");
     };
 
-    // Esta loqueado?
-    $scope.isLoggedIn = function () {
-        if (window.localStorage.getItem("cliente") !== null) {
-            $cliente = JSON.parse(window.localStorage.getItem("cliente"));
-            if ($cliente.codigo_cliente !== undefined) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    };
-
-    // Alertas.
+    // Alertas
     $scope.showPopup = function ($title, $template) {
         var alertPopup = $ionicPopup.alert({
             title: $title,
@@ -86,6 +73,14 @@ angular.module('starter.controllers', [])
         });
         alertPopup.then(function (res) {});
     };
+
+    // Actualiza una paginas
+    $scope.refreshPage = function () {
+        $state.go($state.current, {}, {
+            reload: true
+        });
+    }
+
 })
 
 // Manejo de clientes
@@ -227,7 +222,8 @@ angular.module('starter.controllers', [])
         error(function (data, status) {
             console.log(status);
         });
-    }
+    };
+
 })
 
 // Lista de productos
@@ -256,7 +252,8 @@ angular.module('starter.controllers', [])
     $scope.totalitems = $totalitems;
     $scope.productData = {};
     $scope.productData.cantidad_incluir = "1";
-    $scope.$rutaImagenes = $rutaImagenes;
+    $scope.rutaImagenes = $rutaImagenes;
+    $scope.monedaSymbol = $monedaSymbol;
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
@@ -295,6 +292,7 @@ angular.module('starter.controllers', [])
         $params = $params + '&codigo_credit_card=' + $stateParams.payment_id;
 
     $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
+
         $scope.codigo_cliente = data.CODIGO_CLIENTE;
         $scope.first_name = data.FIRST_NAME;
         $scope.last_name = data.LAST_NAME;
@@ -319,9 +317,61 @@ angular.module('starter.controllers', [])
         $scope.credit_card_number = '';
         $scope.password = '';
         $scope.password2 = '';
+        $scope.addresses = data.ADDRESSES;
+        $scope.cards = data.CARDS;
         $scope.error = false;
     }).error(function (data, status) {
         $scope.error = true;
         console.log(status);
     });
+
+    // Borra la direccion de un contacto
+    $scope.delContactAddress = function () {
+
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address;
+        $method = 'removeAddress';
+
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
+                    $scope.refreshPage();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
+            } else {
+                $scope.showPopup('Mi dirección', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
+    };
+
+    // Borra la tarjeta de un contacto
+    $scope.delContactCard = function () {
+
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card;
+        $method = 'removeCreditCard';
+
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Mi tarjeta', data.ALERTA);
+                    $scope.refreshPage();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Mi tarjeta', data.ALERTA);
+            } else {
+                $scope.showPopup('Mi tarjeta', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
+    };
 });

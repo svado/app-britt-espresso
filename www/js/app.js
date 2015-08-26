@@ -117,6 +117,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
         ];
 
     });
+
+    // Esta loqueado?
+    isLoggedIn = function () {
+        if (window.localStorage.getItem("cliente") !== null) {
+            $cliente = JSON.parse(window.localStorage.getItem("cliente"));
+            if ($cliente.codigo_cliente !== undefined) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    };
+
 })
 
 // Muestra un mensaje mientras carga datos en la vista
@@ -223,6 +238,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
     //Direccion del cliente
     .state('app.addressedit', {
         url: '/my-address/:address_id',
+        cache: false,
         views: {
             'menuContent': {
                 templateUrl: 'templates/my-address.html'
@@ -233,9 +249,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
     //Tarjeta del cliente
     .state('app.paymentedit', {
         url: '/my-payment/:payment_id',
+        cache: false,
         views: {
             'menuContent': {
                 templateUrl: 'templates/my-payment.html'
+            }
+        }
+    })
+
+    //Acceso invalido
+    .state('app.invalidaccess', {
+        url: '/invalid-access',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/invalid-access.html'
             }
         }
     })

@@ -1,4 +1,6 @@
-<ion-view view-title="Mi cuenta" ng-controller="ContactInfoCtrl">
+<div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+
+<ion-view view-title="Mi cuenta" ng-controller="ContactInfoCtrl" ng-if="isLoggedIn()">
     <ion-content>
 
         <div class="list card">
@@ -16,10 +18,10 @@
                 <i class="icon ion-person"></i> Editar perfil
             </a>
             <a class="item item-icon-left" href="#/app/my-address/{{codigo_address}}">
-                <i class="icon ion-home"></i> Editar dirección
+                <i class="icon ion-home"></i> Agregar / editar dirección
             </a>
             <a class="item item-icon-left" href="#/app/my-payment/{{codigo_credit_card}}">
-                <i class="icon ion-card"></i> Editar tarjeta
+                <i class="icon ion-card"></i> Agregar / editar tarjeta
             </a>
             <a class="item item-icon-left" href="#">
                 <i class="icon ion-ios-box"></i> Mi pedidos
