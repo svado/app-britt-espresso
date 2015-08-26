@@ -26,7 +26,8 @@
                     <div class="input-label">
                         Mes
                     </div>
-                    <select ng-model="exp_month">
+                    <div ng-messages="fCreditcard.exp_month.$error" ng-messages-include="messages.html"></div>
+                    <select ng-model="exp_month" name="exp_month" required>
                         <option ng-repeat="mes in meseslst" value="{{mes.mes}}" ng-selected="mes.mes == exp_month">{{mes.nombre}}</option>
                     </select>
                 </div>
@@ -35,7 +36,8 @@
                     <div class="input-label">
                         Año
                     </div>
-                    <select ng-model="exp_year">
+                    <div ng-messages="fCreditcard.exp_year.$error" ng-messages-include="messages.html"></div>
+                    <select ng-model="exp_year" name="exp_year" required>
                         <option ng-repeat="anno in anoslist" value="{{anno}}" ng-selected="anno == exp_year">{{anno}}</option>
                     </select>
                 </div>

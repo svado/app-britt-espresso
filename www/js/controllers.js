@@ -192,9 +192,9 @@ angular.module('starter.controllers', [])
                 if (data.ERROR == false) {
                     $scope.codigo_address = data.CODIGO_ADDRESS;
                     $scope.error = false;
-                    if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+                    if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
                 } else
-                if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
+                if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
             } else {
                 $scope.showPopup('Mi dirección', 'Error de conexión');
             }
@@ -205,30 +205,28 @@ angular.module('starter.controllers', [])
     };
 
     // Actualiza la tarjeta de un contacto
-    $scope.updContactPayment = function () {
+    $scope.updContactCreditcard = function () {
 
         $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card + '&number=' + $scope.credit_card_number + '&validation_number=' + $scope.validation_number + '&exp_month=' + $scope.exp_month + '&exp_year=' + $scope.exp_year;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card + '&credit_card_number=' + $scope.credit_card_number + '&validation_number=' + $scope.validation_number + '&exp_month=' + $scope.exp_month + '&exp_year=' + $scope.exp_year + '&card_holder_name=' + $scope.card_holder_name;
         $method = 'updContactPayment';
 
-        console.log(1);
-
-        /*$http.post($rutaAccountWs + $method + $params).
-success(function (data, status, headers) {
-    if (data.length != 0) {
-        if (data.ERROR == false) {
-            console.log('actualizado');
-            $scope.error = false;
-            if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
-        } else
-        if (data.ALERTA.length != 0) $scope.showPopup('Perfil', data.ALERTA);
-    } else {
-        $scope.showPopup('Mi dirección', 'Error de conexión');
-    }
-}).
-error(function (data, status) {
-    console.log(status);
-});*/
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $scope.codigo_credit_card = data.CODIGO_CREDIT_CARD;
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Mi Tarjeta', data.ALERTA);
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Mi Tarjeta', data.ALERTA);
+            } else {
+                $scope.showPopup('Mi Tarjeta', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
     }
 })
 
@@ -280,7 +278,7 @@ error(function (data, status) {
 })
 
 // Informacion de un contacto
-.controller('ContactInfoCtrl', function ($scope, $http, $stateParams) {
+.controller('ContactInfoCtrl', function ($scope, $http, $stateParams, $ionicHistory) {
 
     // Lista de provincias, meses
     $scope.stateslst = $states;
@@ -291,8 +289,12 @@ error(function (data, status) {
     $params = '&codigo_cliente=' + $cliente.codigo_cliente;
     $method = 'getContact';
 
-    $http.post($rutaAccountWs + $method + $params).
-    success(function (data, status, headers) {
+    if ($ionicHistory.currentView().stateName == 'app.addressedit')
+        $params = $params + '&codigo_address=' + $stateParams.address_id;
+    else if ($ionicHistory.currentView().stateName == 'app.paymentedit')
+        $params = $params + '&codigo_credit_card=' + $stateParams.payment_id;
+
+    $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
         $scope.codigo_cliente = data.CODIGO_CLIENTE;
         $scope.first_name = data.FIRST_NAME;
         $scope.last_name = data.LAST_NAME;
@@ -318,8 +320,7 @@ error(function (data, status) {
         $scope.password = '';
         $scope.password2 = '';
         $scope.error = false;
-    }).
-    error(function (data, status) {
+    }).error(function (data, status) {
         $scope.error = true;
         console.log(status);
     });
