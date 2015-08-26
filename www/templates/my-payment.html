@@ -1,84 +1,89 @@
-<div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+<ion-view view-title="Mi Tarjeta" ng-controller="ContactInfoCtrl">
 
-<ion-view view-title="Mi Tarjeta" ng-controller="ContactInfoCtrl" ng-if="isLoggedIn()">
+    <div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
 
     <ion-nav-buttons side="right">
-        <a class="button button-clear button-balanced" href="#/app/my-payment/0">
-            <i class="icon ion-plus-circled"></i>
-        </a>
+        <div ng-if="isLoggedIn()">
+            <a class="button button-clear button-balanced" href="#/app/my-payment/0">
+                <i class="icon ion-plus-circled"></i>
+            </a>
 
-        <button class="button button-clear button-assertive" ng-click="delContactCard()">
-            <i class="icon ion-trash-b"></i>
-        </button>
+            <button class="button button-clear button-assertive" ng-click="delContactCard()">
+                <i class="icon ion-trash-b"></i>
+            </button>
+        </div>
     </ion-nav-buttons>
 
     <ion-content>
-        <form name="fCreditcard" ng-submit="updContactCreditcard()" ng-controller="ContactCtrl">
+        <div ng-if="isLoggedIn()">
+            <form name="fCreditcard" ng-submit="updContactCreditcard()" ng-controller="ContactCtrl">
 
-            <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
-            <input type="hidden" ng-model="codigo_credit_card" name="codigo_credit_card" ng-value="{{codigo_credit_card}}">
+                <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+                <input type="hidden" ng-model="codigo_credit_card" name="codigo_credit_card" ng-value="{{codigo_credit_card}}">
 
-            <div class="list">
+                <div class="list">
 
-                <label class="item item-input">
-                    <span class="input-label">Nombre</span>
-                    <div ng-messages="fCreditcard.card_holder_name.$error" ng-messages-include="messages.html"></div>
-                    <input type="text" ng-model="card_holder_name" name="card_holder_name" required ng-minlength="3">
-                </label>
+                    <label class="item item-input">
+                        <span class="input-label">Nombre</span>
+                        <div ng-messages="fCreditcard.card_holder_name.$error" ng-messages-include="messages.html"></div>
+                        <input type="text" ng-model="card_holder_name" name="card_holder_name" required ng-minlength="3">
+                    </label>
 
-                <label class="item item-input">
-                    <span class="input-label">
+                    <label class="item item-input">
+                        <span class="input-label">
                         Numero<br>
                         <small>{{number_display}}</small>
                     </span>
-                    <div ng-messages="fCreditcard.credit_card_number.$error" ng-messages-include="messages.html"></div>
-                    <input type="number" ng-model="credit_card_number" name="credit_card_number" required ng-minlength="15" ng-maxlength="18">
-                </label>
+                        <div ng-messages="fCreditcard.credit_card_number.$error" ng-messages-include="messages.html"></div>
+                        <input type="number" ng-model="credit_card_number" name="credit_card_number" required ng-minlength="15" ng-maxlength="18">
+                    </label>
 
-                <div class="item item-input item-select">
-                    <div class="input-label">
-                        Mes
+                    <div class="item item-input item-select">
+                        <div class="input-label">
+                            Mes
+                        </div>
+                        <div ng-messages="fCreditcard.exp_month.$error" ng-messages-include="messages.html"></div>
+                        <select ng-model="exp_month" name="exp_month" required>
+                            <option ng-repeat="mes in meseslst" value="{{mes.mes}}" ng-selected="mes.mes == exp_month">{{mes.nombre}}</option>
+                        </select>
                     </div>
-                    <div ng-messages="fCreditcard.exp_month.$error" ng-messages-include="messages.html"></div>
-                    <select ng-model="exp_month" name="exp_month" required>
-                        <option ng-repeat="mes in meseslst" value="{{mes.mes}}" ng-selected="mes.mes == exp_month">{{mes.nombre}}</option>
-                    </select>
-                </div>
 
-                <div class="item item-input item-select">
-                    <div class="input-label">
-                        Año
+                    <div class="item item-input item-select">
+                        <div class="input-label">
+                            Año
+                        </div>
+                        <div ng-messages="fCreditcard.exp_year.$error" ng-messages-include="messages.html"></div>
+                        <select ng-model="exp_year" name="exp_year" required>
+                            <option ng-repeat="anno in anoslist" value="{{anno}}" ng-selected="anno == exp_year">{{anno}}</option>
+                        </select>
                     </div>
-                    <div ng-messages="fCreditcard.exp_year.$error" ng-messages-include="messages.html"></div>
-                    <select ng-model="exp_year" name="exp_year" required>
-                        <option ng-repeat="anno in anoslist" value="{{anno}}" ng-selected="anno == exp_year">{{anno}}</option>
-                    </select>
+
+                    <label class="item item-input">
+                        <span class="input-label">CCV</span>
+                        <div ng-messages="fCreditcard.validation_number.$error" ng-messages-include="messages.html"></div>
+                        <input type="number" ng-model="validation_number" name="validation_number" required ng-minlength="3" ng-maxlength="5">
+                    </label>
+
+                    <label class="item ">
+                        <button class="button button-block button-positive " type="submit" ng-disabled="fCreditcard.$invalid ">
+                            <span ng-if="codigo_credit_card==0">Crear</span>
+                            <span ng-if="codigo_credit_card>0">Actualizar</span>
+                        </button>
+                    </label>
                 </div>
+            </form>
 
-                <label class="item item-input">
-                    <span class="input-label">CCV</span>
-                    <div ng-messages="fCreditcard.validation_number.$error" ng-messages-include="messages.html"></div>
-                    <input type="number" ng-model="validation_number" name="validation_number" required ng-minlength="3" ng-maxlength="5">
-                </label>
 
-                <label class="item ">
-                    <button class="button button-block button-positive " type="submit" ng-disabled="fCreditcard.$invalid ">
-                        <span ng-if="codigo_credit_card==0">Crear</span>
-                        <span ng-if="codigo_credit_card>0">Actualizar</span>
-                    </button>
-                </label>
+            <div class="list">
+                <div class="item item-divider">
+                    <div class="item item-divider">
+                        Otras tarjetas
+                    </div>
+                    <a ng-repeat="card in cards" class="item item-icon-left item-icon-right" href="#/app/my-payment/{{card.CODIGO_CREDIT_CARD}}">
+                        <i class="icon ion-home"></i> #{{$index+1}} {{card.CARD_TYPE}}, {{card.NUMBER_DISPLAY}}, finaliza {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
+                        <i class="icon ion-arrow-right-c"></i>
+                    </a>
+                </div>
             </div>
-        </form>
-
-
-        <div class="list">
-            <div class="item item-divider">
-                Otras tarjetas
-            </div>
-            <a ng-repeat="card in cards" class="item item-icon-left item-icon-right" href="#/app/my-payment/{{card.CODIGO_CREDIT_CARD}}">
-                <i class="icon ion-home"></i> #{{$index+1}} {{card.CARD_TYPE}}, {{card.NUMBER_DISPLAY}}, finaliza {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
-                <i class="icon ion-arrow-right-c"></i>
-            </a>
-        </div>
     </ion-content>
 </ion-view>

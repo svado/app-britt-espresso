@@ -1,36 +1,37 @@
-<div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+<ion-view view-title="Mi cuenta" ng-controller="ContactInfoCtrl">
 
-<ion-view view-title="Mi cuenta" ng-controller="ContactInfoCtrl" ng-if="isLoggedIn()">
+    <div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+
     <ion-content>
+        <div ng-if="isLoggedIn()">
+            <div class="list card">
+                <div class="item item-avatar">
+                    <img src="img/ionic.png">
+                    <h2><i class="icon ion-person"></i> {{first_name}} {{last_name}}</h2>
+                    <p><i class="icon ion-email"></i> {{email}}</p>
+                    <p><i class="icon ion-home"></i> {{state}}, {{pais}}</p>
+                    <p><i class="icon ion-ios-telephone"></i> {{phone}}</p>
+                </div>
+            </div>
 
-        <div class="list card">
-            <div class="item item-avatar">
-                <img src="img/ionic.png">
-                <h2><i class="icon ion-person"></i> {{first_name}} {{last_name}}</h2>
-                <p><i class="icon ion-email"></i> {{email}}</p>
-                <p><i class="icon ion-home"></i> {{state}}, {{pais}}</p>
-                <p><i class="icon ion-ios-telephone"></i> {{phone}}</p>
+            <div class="list">
+                <a class="item item-icon-left" href="#/app/profile">
+                    <i class="icon ion-person"></i> Editar perfil
+                </a>
+                <a class="item item-icon-left" href="#/app/my-address/{{codigo_address}}">
+                    <i class="icon ion-home"></i> Agregar / editar dirección
+                </a>
+                <a class="item item-icon-left" href="#/app/my-payment/{{codigo_credit_card}}">
+                    <i class="icon ion-card"></i> Agregar / editar tarjeta
+                </a>
+                <a class="item item-icon-left" href="#">
+                    <i class="icon ion-ios-box"></i> Mi pedidos
+                </a>
+                <a class="item item-icon-left item-icon-right" href="#/app/espresso">
+                    <i class="icon ion-bag"></i> Continuar compra
+                    <i class="icon ion-arrow-right-c"></i>
+                </a>
             </div>
         </div>
-
-        <div class="list">
-            <a class="item item-icon-left" href="#/app/profile">
-                <i class="icon ion-person"></i> Editar perfil
-            </a>
-            <a class="item item-icon-left" href="#/app/my-address/{{codigo_address}}">
-                <i class="icon ion-home"></i> Agregar / editar dirección
-            </a>
-            <a class="item item-icon-left" href="#/app/my-payment/{{codigo_credit_card}}">
-                <i class="icon ion-card"></i> Agregar / editar tarjeta
-            </a>
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-ios-box"></i> Mi pedidos
-            </a>
-            <a class="item item-icon-left item-icon-right" href="#/app/espresso">
-                <i class="icon ion-bag"></i> Continuar compra
-                <i class="icon ion-arrow-right-c"></i>
-            </a>
-        </div>
-
     </ion-content>
 </ion-view>

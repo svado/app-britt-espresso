@@ -1,63 +1,67 @@
-<div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+<ion-view view-title="Mi Perfil" ng-controller="ContactInfoCtrl">
 
-<ion-view view-title="Mi Perfil" ng-controller="ContactInfoCtrl" ng-if="isLoggedIn()">
+    <div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
+
     <ion-content>
-        <form name="fProfile" ng-submit="updContact()" ng-controller="ContactCtrl">
 
-            <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
-            <input type="hidden" ng-model="codigo_email" name="codigo_email" ng-value="{{codigo_email}}">
-            <input type="hidden" ng-model="codigo_phone" name="codigo_phone" ng-value="{{codigo_phone}}">
+        <div ng-if="isLoggedIn()">
+            <form name="fProfile" ng-submit="updContact()" ng-controller="ContactCtrl">
 
-            <div class="list">
+                <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+                <input type="hidden" ng-model="codigo_email" name="codigo_email" ng-value="{{codigo_email}}">
+                <input type="hidden" ng-model="codigo_phone" name="codigo_phone" ng-value="{{codigo_phone}}">
 
-                <div class="item item-divider">
-                    Datos b&aacute;sicos
+                <div class="list">
+
+                    <div class="item item-divider">
+                        Datos b&aacute;sicos
+                    </div>
+
+                    <label class="item item-input">
+                        <span class="input-label">Nombre</span>
+                        <div ng-messages="fProfile.first_name.$error" ng-messages-include="messages.html"></div>
+                        <input type="text" ng-model="first_name" name="first_name" required ng-minlength="3">
+                    </label>
+
+                    <label class="item item-input">
+                        <span class="input-label">Apellido</span>
+                        <div ng-messages="fProfile.last_name.$error" ng-messages-include="messages.html"></div>
+                        <input type="text" ng-model="last_name" name="last_name" required ng-minlength="3">
+                    </label>
+
+                    <label class="item item-input">
+                        <span class="input-label">Email</span>
+                        <div ng-messages="fProfile.email.$error" ng-messages-include="messages.html"></div>
+                        <input type="email" ng-model="email" name="email" required>
+                    </label>
+
+                    <label class="item item-input">
+                        <span class="input-label">Tel&eacute;fono</span>
+                        <div ng-messages="fProfile.phone.$error" ng-messages-include="messages.html"></div>
+                        <input type="tel" ng-model="phone" name="phone" required>
+                    </label>
+
+                    <div class="item item-divider">
+                        Cambiar contrase&ntilde;a
+                    </div>
+
+                    <label class="item item-input">
+                        <span class="input-label">Contrase&ntilde;a</span>
+                        <div ng-messages="fProfile.password.$error" ng-messages-include="messages.html"></div>
+                        <input type="password" ng-model="password" name="password" ng-minlength="6">
+                    </label>
+
+                    <label class="item item-input">
+                        <span class="input-label">Confirmar</span>
+                        <div ng-messages="fProfile.password2.$error" ng-messages-include="messages.html"></div>
+                        <input type="password" ng-model="password2" name="password2" ng-minlength="6">
+                    </label>
+
+                    <label class="item">
+                        <button class="button button-block button-positive" type="submit" ng-disabled="fProfile.$invalid">Actualizar</button>
+                    </label>
                 </div>
-
-                <label class="item item-input">
-                    <span class="input-label">Nombre</span>
-                    <div ng-messages="fProfile.first_name.$error" ng-messages-include="messages.html"></div>
-                    <input type="text" ng-model="first_name" name="first_name" required ng-minlength="3">
-                </label>
-
-                <label class="item item-input">
-                    <span class="input-label">Apellido</span>
-                    <div ng-messages="fProfile.last_name.$error" ng-messages-include="messages.html"></div>
-                    <input type="text" ng-model="last_name" name="last_name" required ng-minlength="3">
-                </label>
-
-                <label class="item item-input">
-                    <span class="input-label">Email</span>
-                    <div ng-messages="fProfile.email.$error" ng-messages-include="messages.html"></div>
-                    <input type="email" ng-model="email" name="email" required>
-                </label>
-
-                <label class="item item-input">
-                    <span class="input-label">Tel&eacute;fono</span>
-                    <div ng-messages="fProfile.phone.$error" ng-messages-include="messages.html"></div>
-                    <input type="tel" ng-model="phone" name="phone" required>
-                </label>
-
-                <div class="item item-divider">
-                    Cambiar contrase&ntilde;a
-                </div>
-
-                <label class="item item-input">
-                    <span class="input-label">Contrase&ntilde;a</span>
-                    <div ng-messages="fProfile.password.$error" ng-messages-include="messages.html"></div>
-                    <input type="password" ng-model="password" name="password" ng-minlength="6">
-                </label>
-
-                <label class="item item-input">
-                    <span class="input-label">Confirmar</span>
-                    <div ng-messages="fProfile.password2.$error" ng-messages-include="messages.html"></div>
-                    <input type="password" ng-model="password2" name="password2" ng-minlength="6">
-                </label>
-
-                <label class="item">
-                    <button class="button button-block button-positive" type="submit" ng-disabled="fProfile.$invalid">Actualizar</button>
-                </label>
-            </div>
-        </form>
+            </form>
+        </div>
     </ion-content>
 </ion-view>
