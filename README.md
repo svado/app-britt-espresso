@@ -55,8 +55,12 @@ Genymotion <a href="https://www.genymotion.com">https://www.genymotion.com</a>
 	* u: svado@britt.com
 	* p: Cafe2Britt1
 
-
 Emulator:  C:\Users\svado\AppData\Local\Android\android-sdk\ AVD Manager.exe 
+
+NGCordova: <a href="http://ngcordova.com/docs/install/ ">http://ngcordova.com/docs/install/ </a>
+
+    * bower install ngCordova
+    * cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage.git
 
 <h4>Referencias</h4>
 

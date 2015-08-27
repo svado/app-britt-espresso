@@ -1,7 +1,7 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['app.services'])
 
 // Controlador general
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $ionicPopup, $state) {
+.controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state, WebSqlDbService) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -9,6 +9,16 @@ angular.module('starter.controllers', [])
     // listen for the $ionicView.enter event:
     //$scope.$on('$ionicView.enter', function(e) {
     //});
+
+    $ionicPlatform.ready(function () {
+        $scope.userInfo = {
+            UserId: 'as34fsdf*i#sad454',
+            UserName: 'shahjada',
+            IsAdmin: true
+        };
+        WebSqlDbService.createDbAndTables();
+        //WebSqlDbService.storeUserInfo($scope.userInfo);
+    });
 
     // Inicializador
     $scope.loginData = {};

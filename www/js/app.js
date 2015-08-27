@@ -21,10 +21,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
 
         // Variables globales
         $monedaSymbol = '¢';
-        //$rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
-        //$rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
-        $rutaPagesWs = 'http://www.brittespresso.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
-        $rutaAccountWs = 'http://www.brittespresso.com/app/ws/account.cfc?returnformat=json&callback=&method=';
+        $rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
+        //$rutaPagesWs = 'http://www.brittespresso.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
+        //$rutaAccountWs = 'http://www.brittespresso.com/app/ws/account.cfc?returnformat=json&callback=&method=';
         $rutaImagenes = 'http://www.brittespresso.com/siteimg/';
 
         // Maximo de productos permitidos
@@ -115,6 +115,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages'])
                 nombre: "Diciembre"
             }
         ];
+
 
     });
 
