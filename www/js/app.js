@@ -22,6 +22,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         // Inicializa la base de datos
         WebSql.createDbAndTables();
 
+        /*$cliente = {
+            codigo_cliente: 1,
+            first_name: 'steve',
+            last_name: 'vado',
+            email: 'stevadro@gmail.com'
+        };
+
+        WebSql.addCliente($cliente);*/
+
+
+        $item = {
+            linea: 1,
+            codigo_articulo: '12345',
+            descripcion: 'Espresso Clasico'
+        };
+        WebSql.addProduct($item);
+
+        $item = {
+            linea: 2,
+            codigo_articulo: '8888',
+            descripcion: 'Espresso Descafeinado'
+        };
+        WebSql.addProduct($item);
+
+        /*$basket_items = WebSql.getBasket();
+        console.log($basket_items);*/
+
         // Variables globales
         $monedaSymbol = '¢';
         $rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
@@ -267,6 +294,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         views: {
             'menuContent': {
                 templateUrl: 'templates/invalid-access.html'
+            }
+        }
+    })
+
+    //Basket
+    .state('app.basket', {
+        url: '/basket',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/basket.html'
             }
         }
     })

@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['app.services'])
+angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Controlador general
 .controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state) {
@@ -9,16 +9,6 @@ angular.module('starter.controllers', ['app.services'])
     // listen for the $ionicView.enter event:
     //$scope.$on('$ionicView.enter', function(e) {
     //});
-
-    /*$ionicPlatform.ready(function () {
-        $scope.userInfo = {
-            UserId: 'as34fsdf*i#sad454',
-            UserName: 'shahjada',
-            IsAdmin: true
-        };
-        WebSqlDbService.createDbAndTables();
-        //WebSqlDbService.storeUserInfo($scope.userInfo);
-    });*/
 
     // Inicializador
     $scope.loginData = {};
@@ -94,7 +84,7 @@ angular.module('starter.controllers', ['app.services'])
 })
 
 // Manejo de clientes
-.controller('ContactCtrl', function ($scope, $http, $stateParams, $state) {
+.controller('ContactCtrl', function ($scope, $http, $stateParams, $state, WebSql) {
 
     // Trata de loguearse en la web.
     $scope.doLogin = function () {
@@ -116,6 +106,9 @@ angular.module('starter.controllers', ['app.services'])
                     window.localStorage.setItem('cliente', JSON.stringify($cliente));
                     console.log('Logueado', $cliente);
                     if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
+
+                    //WebSql.addCliente($cliente);
+
                     $scope.closeLogin();
                     $state.go("app.contactinfo");
                 } else
@@ -282,6 +275,7 @@ angular.module('starter.controllers', ['app.services'])
         $scope.error = true;
         console.log(status);
     });
+
 })
 
 // Informacion de un contacto
@@ -384,4 +378,15 @@ angular.module('starter.controllers', ['app.services'])
             console.log(status);
         });
     };
-});
+})
+
+// Informacion de un producto
+.controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
+
+    $scope.items = [];
+
+    WebSql.getBasket().then(function (result) {
+        $scope.items = result;
+        console.log($scope.items);
+    });
+})

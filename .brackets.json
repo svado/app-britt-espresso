@@ -1,6 +1,7 @@
 {
     "jscodehints.detectedExclusions": [
         "C:/webs/apps/britt-espresso/www/js/controllers.js",
-        "C:/webs/apps/britt-espresso/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-console/www/console-via-logger.js"
+        "C:/webs/apps/britt-espresso/platforms/android/build/intermediates/assets/debug/www/plugins/cordova-plugin-console/www/console-via-logger.js",
+        "C:/webs/apps/britt-espresso/www/js/services.js"
     ]
 }
