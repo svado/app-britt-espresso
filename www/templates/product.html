@@ -17,28 +17,29 @@
 
                     <div class="list">
                         <label class="item item-radio" ng-repeat="product in items">
-                            <input type="radio" name="codigo_articulo_incluir" ng-value="{{product.CODIGO_ARTICULO}}" ng-checked="product.PRINCIPAL == 1">
-                            <div class="item-content">
-                                {{product.PRESENTATION_NAME}}
-                                <span class="padding-horizontal">-</span>
+                            <input type="radio" name="codigo_articulo_incluir" ng-model="productData.codigo_articulo_incluir" value="{{product.CODIGO_ARTICULO}} " required>
+                            <!-- ng-checked="product.PRINCIPAL==1 " -->
+                            <div class="item-content ">
+                                <span>{{product.PRESENTATION_NAME}}</span>
+                                <span class="padding-horizontal ">-</span>
                                 <span>{{monedaSymbol}} {{product.PRECIO}}</span>
                             </div>
-                            <i class="radio-icon ion-checkmark"></i>
+                            <i class="radio-icon ion-checkmark "></i>
                         </label>
                     </div>
 
-                    <label class="item item-input item-select">
-                        <div class="input-label">Cantidad</div>
-                        <div ng-messages="fProduct.cantidad_incluir.$error" ng-messages-include="messages.html"></div>
-                        <select ng-model="productData.cantidad_incluir" name="cantidad_incluir" ng-minlength="1" ng-maxlength="99" required>
-                            <option ng-repeat="i in totalitems" value="{{i}}">{{i}}</option>
+                    <label class="item item-input item-select ">
+                        <div class="input-label ">Cantidad</div>
+                        <div ng-messages="fProduct.cantidad_incluir.$error" ng-messages-include="messages.html "></div>
+                        <select ng-model="productData.cantidad_incluir " name="cantidad_incluir " ng-minlength="1 " ng-maxlength="99 " required>
+                            <option ng-repeat="i in totalitems " value="{{i}} ">{{i}}</option>
                         </select>
                     </label>
 
                 </div>
 
-                <label class="item item-input">
-                    <button class="button button-block button-positive" type="submit" ng-disabled="fProduct.$invalid">Agregar al carrito</button>
+                <label class="item item-input ">
+                    <button class="button button-block button-positive " type="submit " ng-disabled="fProduct.$invalid ">Agregar al carrito</button>
                 </label>
 
             </div>

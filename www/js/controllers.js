@@ -84,7 +84,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Manejo de clientes
-.controller('ContactCtrl', function ($scope, $http, $stateParams, $state, WebSql) {
+.controller('ContactCtrl', function ($scope, $http, $stateParams, $state) {
 
     // Trata de loguearse en la web.
     $scope.doLogin = function () {
@@ -106,9 +106,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                     window.localStorage.setItem('cliente', JSON.stringify($cliente));
                     console.log('Logueado', $cliente);
                     if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
-
-                    //WebSql.addCliente($cliente);
-
                     $scope.closeLogin();
                     $state.go("app.contactinfo");
                 } else
@@ -250,13 +247,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Informacion de un producto
-.controller('ProductInfoCtrl', function ($scope, $http, $stateParams) {
+.controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
 
-    $scope.totalitems = $totalitems;
-    $scope.productData = {};
-    $scope.productData.cantidad_incluir = "1";
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
+    $scope.totalitems = $totalitems;
+    $scope.productData = {};
+    $scope.productData.cantidad_incluir = '1';
+    $scope.productData.codigo_articulo_incluir = '';
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
@@ -276,6 +274,16 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         console.log(status);
     });
 
+    // Agrega un producto
+    $scope.addProduct = function () {
+        $item = {
+            codigo_articulo: $scope.productData.codigo_articulo_incluir,
+            cantidad: $scope.productData.cantidad_incluir,
+            descripcion: 'test'
+        }
+        WebSql.addProduct($item);
+        $scope.showPopup('Mi carrito', 'El producto fue agregado');
+    }
 })
 
 // Informacion de un contacto
@@ -387,6 +395,5 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     WebSql.getBasket().then(function (result) {
         $scope.items = result;
-        console.log($scope.items);
     });
 })
