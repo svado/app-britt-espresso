@@ -277,10 +277,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         console.log(status);
     });
 
-    // Agrega un producto
+    // Agrega el producto al carrito
     $scope.addProduct = function () {
-        WebSql.addProduct($scope.productData);
-        $scope.showPopup('Mi carrito', 'El producto fue agregado');
+        WebSql.addProduct($scope.productData).then(function (alerta) {
+            $scope.showPopup('Mi carrito', alerta);
+        }, function (err) {
+            $scope.showPopup('Mi carrito', err);
+        });
     }
 })
 
@@ -396,10 +399,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         showDelete: false
     };
 
-    // Borra un producto
+    // Borra un producto al carrito
     $scope.delBasketItem = function (item) {
-        $scope.items.splice($scope.items.indexOf(item), 1);
-    };
+        WebSql.delProduct(item).then(function (alerta) {
+            $scope.items.splice($scope.items.indexOf(item), 1);
+        }, function (err) {
+            $scope.showPopup('Mi carrito', err);
+        });
+    }
 
     //Obtiene el basket
     WebSql.getBasket().then(function (result) {

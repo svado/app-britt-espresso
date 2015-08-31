@@ -37,24 +37,41 @@ angular.module('app.services', [])
     };
 
     // Inserta un producto
-    // TODO: si da error validar el mensaje y el return.
     this.addProduct = function (data) {
+        var deferred = $q.defer();
         db.transaction(function (tx) {
             console.log(data);
             tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, descripcion, cantidad, image, precio) VALUES (?,?,?,?,?)', [data.codigo_articulo_incluir, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio]);
-        }, errorDB, successDB);
+        }, function () {
+            deferred.reject('No se pudo agregar el producto');
+        }, function () {
+            deferred.resolve('Producto agregado');
+        });
+
+        return deferred.promise;
     };
 
-    function querySuccess(tx, results) {
-        console.log("Returned rows = " + results.rows.length);
-    }
+    // Borra un producto
+    this.delProduct = function (data) {
+        var deferred = $q.defer();
+        db.transaction(function (tx) {
+            console.log(data);
+            tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_articulo = ?', [data.codigo_articulo]);
+        }, function () {
+            deferred.reject('No se pudo borrar el producto');
+        }, function () {
+            deferred.resolve('');
+        });
+
+        return deferred.promise;
+    };
 
     // Obtiene el basket
     this.getBasket = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
             tx.executeSql('SELECT * FROM DETALLE_FACTURA', [], function (tx, results) {
-                var res = [];
+                var res = []
                 for (var i = 0; i < results.rows.length; i++) {
                     res[i] = results.rows.item(i);
                 }

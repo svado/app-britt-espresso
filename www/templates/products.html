@@ -1,4 +1,14 @@
 <ion-view view-title="{{page_url}}" ng-controller="ProductListCtrl">
+
+    <!-- Mini basket -->
+    <ion-nav-buttons side="right">
+        <div>
+            <a class="button button-clear button-balanced" href="#/app/basket">
+                <i class="icon ion-bag"></i>
+            </a>
+        </div>
+    </ion-nav-buttons>
+
     <ion-content>
         <ion-list>
             <ion-item ng-repeat="product in products" href="#/app/product/{{product.PAGE_ID}}" class="item-thumbnail-left">
