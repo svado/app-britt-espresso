@@ -1,0 +1,22 @@
+<div class="item item-body">
+    <div class="item row">
+        <div class="col col-67">Items</div>
+        <div class="col text-right">{{totales.items}}</div>
+    </div>
+    <div class="item row">
+        <div class="col col-67">Subtotal</div>
+        <div class="col text-right">{{monedaSymbol}} {{totales.sub_total}}</div>
+    </div>
+    <div class="item row">
+        <div class="col col-20">Envio</div>
+        <div class="col text-right item-note">Se calcula en los pr&oacute;ximos pasos</div>
+    </div>
+    <div class="item row">
+        <div class="col col-67">Impuesto</div>
+        <div class="col text-right">{{monedaSymbol}} {{totales.impuesto}}</div>
+    </div>
+    <div class="item row item-divider">
+        <div class="col col-67">Total Estimado</div>
+        <div class="col text-right">{{monedaSymbol}} {{totales.total}}</div>
+    </div>
+</div>

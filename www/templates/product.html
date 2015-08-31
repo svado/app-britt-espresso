@@ -1,19 +1,20 @@
 <ion-view view-title="{{title}}" ng-controller="ProductInfoCtrl">
 
-<!-- Mini basket -->
-<ion-nav-buttons side="right">
-    <div>
-        <a class="button button-clear button-balanced" href="#/app/basket">
-            <i class="icon ion-bag"></i>
-        </a>
-    </div>
-</ion-nav-buttons>
+    <!-- Mini basket -->
+    <ion-nav-buttons side="right">
+        <div>
+            <a class="button button-clear button-balanced" href="#/app/basket">
+                <i class="icon ion-bag"></i>
+            </a>
+        </div>
+    </ion-nav-buttons>
     <ion-content>
         <form name="fProduct" ng-submit="addProduct()">
 
             <input type="hidden" name="presentation_name" ng-model="productData.presentation_name">
             <input type="hidden" name="presentation_img" ng-model="productData.presentation_img">
-            <input type="hidden" name="precio" ng-model="productData.precio">
+            <input type="text" name="precio" ng-model="productData.precio">
+            <input type="text" name="impuesto" ng-model="productData.impuesto">
 
             <div class="list card">
 
@@ -34,7 +35,8 @@
                             <input type="radio" name="codigo_articulo_incluir" ng-model="productData.codigo_articulo_incluir" value="{{product.CODIGO_ARTICULO}} " required ng-click="
                             productData.presentation_name=title+' '+product.PRESENTATION_NAME;
                             productData.presentation_img=product.PRESENTATION_IMG;
-                            productData.precio = product.PRECIO">
+                            productData.precio = product.PRECIO;
+                            productData.impuesto = product.IMPUESTO">
                             <!-- ng-checked="product.PRINCIPAL==1 " -->
                             <div class="item-content ">
                                 <span>{{product.PRESENTATION_NAME}}</span>
@@ -55,10 +57,11 @@
 
                 </div>
 
-                <label class="item item-input ">
-                    <button class="button button-block button-positive " type="submit " ng-disabled="fProduct.$invalid ">Agregar al carrito</button>
-                </label>
-
+                <div class="item-body">
+                    <label class="item item-input ">
+                        <button class="button button-block button-positive " type="submit " ng-disabled="fProduct.$invalid ">Agregar al carrito</button>
+                    </label>
+                </div>
             </div>
         </form>
     </ion-content>

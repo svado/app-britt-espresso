@@ -17,10 +17,8 @@ angular.module('app.services', [])
 
     // Crea las tablas principales
     function populateDB(tx) {
-        //tx.executeSql('DROP TABLE CLIENTE');
         //tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
-        //tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTE (codigo_cliente integer primary key, first_name text, last_name text, email text)');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo unique, descripcion, cantidad, image, precio)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo unique, descripcion, cantidad integer, image, precio float, impuesto float)');
     };
 
     // Inicializa la base de datos
@@ -29,19 +27,12 @@ angular.module('app.services', [])
         db.transaction(populateDB, errorDB, successDB);
     };
 
-    // Inserta un cliente
-    this.addCliente = function (data) {
-        db.transaction(function (tx) {
-            tx.executeSql('INSERT INTO CLIENTE (codigo_cliente, first_name, last_name, email) VALUES (?,?,?,?)', [data.codigo_cliente, data.first_name, data.last_name, data.email]);
-        }, errorDB, successDB);
-    };
-
     // Inserta un producto
     this.addProduct = function (data) {
         var deferred = $q.defer();
         db.transaction(function (tx) {
             console.log(data);
-            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, descripcion, cantidad, image, precio) VALUES (?,?,?,?,?)', [data.codigo_articulo_incluir, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio]);
+            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, descripcion, cantidad, image, precio, impuesto) VALUES (?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.impuesto]);
         }, function () {
             deferred.reject('No se pudo agregar el producto');
         }, function () {
@@ -75,6 +66,19 @@ angular.module('app.services', [])
                 for (var i = 0; i < results.rows.length; i++) {
                     res[i] = results.rows.item(i);
                 }
+                deferred.resolve(res);
+            });
+        });
+        return deferred.promise;
+    };
+
+    // Obtiene el resumen del basket
+    this.getTotals = function () {
+        var deferred = $q.defer();
+        db.transaction(function (tx) {
+            tx.executeSql('SELECT sum(precio*cantidad) as total, sum(cantidad) as items, sum(impuesto*cantidad) as impuesto, (sum(precio*cantidad)-sum(impuesto*cantidad)) as sub_total FROM DETALLE_FACTURA', [], function (tx, results) {
+                var res = [];
+                res = results.rows[0];
                 deferred.resolve(res);
             });
         });

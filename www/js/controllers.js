@@ -258,6 +258,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.productData.presentation_name = '';
     $scope.productData.presentation_img = '';
     $scope.productData.precio = '0';
+    $scope.productData.impuesto = '0';
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
@@ -393,6 +394,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
 
     $scope.items = [];
+    $scope.totales = [];
     $scope.$rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
     $scope.data = {
@@ -411,5 +413,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     //Obtiene el basket
     WebSql.getBasket().then(function (result) {
         $scope.items = result;
+    });
+
+    //Obtiene los totales
+    WebSql.getTotals().then(function (result) {
+        $scope.totales = result;
     });
 })
