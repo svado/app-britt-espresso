@@ -102,6 +102,10 @@ Github:
 
 Ionic <a href="http://ionicframework.com/">http://ionicframework.com/</a>
 
+	* login: <a href="https://apps.ionic.io/account">https://apps.ionic.io/account</a>
+	* u: svado@cafebritt.com
+	* p: Cafe2Britt1
+
 Angular messages <a href="https://github.com/paullang/ionicNgMessagesExample">https://github.com/paullang/ionicNgMessagesExample </a>
 
 	* npm install angular-messages 

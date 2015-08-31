@@ -1,8 +1,19 @@
 <ion-view view-title="Mi carrito" ng-controller="BasketInfoCtrl">
+
+    <ion-nav-buttons side="right">
+        <button class="button button-clear button-assertive" ng-click="data.showDelete=!data.showDelete;">
+            <i class="icon ion-trash-b"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="item in items">
-                <p>{{item.descripcion}}</p>
+        <ion-list show-delete="data.showDelete">
+            <ion-item ng-repeat="item in items" class="item item-avatar" item="item">
+                <img ng-src="{{$rutaImagenes}}{{item.image}}">
+                <h2>{{item.descripcion}}</h2>
+                <p>Cantidad: {{item.cantidad}}</p>
+                <p>Precio: {{monedaSymbol}} {{item.precio}}</p>
+                <ion-delete-button class="ion-minus-circled" ng-click="delBasketItem(item)"></ion-delete-button>
             </ion-item>
         </ion-list>
     </ion-content>

@@ -274,6 +274,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
     //Basket
     .state('app.basket', {
         url: '/basket',
+        cache: false,
         views: {
             'menuContent': {
                 templateUrl: 'templates/basket.html'

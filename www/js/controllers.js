@@ -255,6 +255,9 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.productData = {};
     $scope.productData.cantidad_incluir = '1';
     $scope.productData.codigo_articulo_incluir = '';
+    $scope.productData.presentation_name = '';
+    $scope.productData.presentation_img = '';
+    $scope.productData.precio = '0';
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
@@ -276,12 +279,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Agrega un producto
     $scope.addProduct = function () {
-        $item = {
-            codigo_articulo: $scope.productData.codigo_articulo_incluir,
-            cantidad: $scope.productData.cantidad_incluir,
-            descripcion: 'test'
-        }
-        WebSql.addProduct($item);
+        WebSql.addProduct($scope.productData);
         $scope.showPopup('Mi carrito', 'El producto fue agregado');
     }
 })
@@ -392,7 +390,18 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
 
     $scope.items = [];
+    $scope.$rutaImagenes = $rutaImagenes;
+    $scope.monedaSymbol = $monedaSymbol;
+    $scope.data = {
+        showDelete: false
+    };
 
+    // Borra un producto
+    $scope.delBasketItem = function (item) {
+        $scope.items.splice($scope.items.indexOf(item), 1);
+    };
+
+    //Obtiene el basket
     WebSql.getBasket().then(function (result) {
         $scope.items = result;
     });
