@@ -150,8 +150,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Actualiza un contacto
     $scope.updContact = function () {
 
-        // TODO: actualizar perfil en local storage.
-
         $scope.error = true;
         $params = '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&phone=' + $scope.phone + '&password=' + $scope.password + '&password2=' + $scope.password2 + '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_email=' + $scope.codigo_email + '&codigo_phone=' + $scope.codigo_phone;
         $method = 'updContact';
@@ -178,7 +176,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.updContactAddress = function () {
 
         $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&principal=' + $scope.principal;
         $method = 'updContactAddress';
 
         $http.post($rutaAccountWs + $method + $params).
@@ -203,7 +201,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.updContactCreditcard = function () {
 
         $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card + '&credit_card_number=' + $scope.credit_card_number + '&validation_number=' + $scope.validation_number + '&exp_month=' + $scope.exp_month + '&exp_year=' + $scope.exp_year + '&card_holder_name=' + $scope.card_holder_name;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card + '&credit_card_number=' + $scope.credit_card_number + '&validation_number=' + $scope.validation_number + '&exp_month=' + $scope.exp_month + '&exp_year=' + $scope.exp_year + '&card_holder_name=' + $scope.card_holder_name + '&principal=' + $scope.principal_cc;
         $method = 'updContactPayment';
 
         $http.post($rutaAccountWs + $method + $params).
@@ -328,6 +326,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.exp_year = data.EXP_YEAR;
         $scope.number_display = data.NUMBER_DISPLAY;
         $scope.validation_number = data.VALIDATION_NUMBER;
+        $scope.principal = data.PRINCIPAL;
+        $scope.principal_cc = data.PRINCIPAL_CC;
         $scope.credit_card_number = '';
         $scope.password = '';
         $scope.password2 = '';
@@ -405,6 +405,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.delBasketItem = function (item) {
         WebSql.delProduct(item).then(function (alerta) {
             $scope.items.splice($scope.items.indexOf(item), 1);
+            $scope.refreshPage();
         }, function (err) {
             $scope.showPopup('Mi carrito', err);
         });

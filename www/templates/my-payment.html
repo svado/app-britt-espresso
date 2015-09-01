@@ -64,6 +64,16 @@
                         <input type="number" ng-model="validation_number" name="validation_number" required ng-minlength="3" ng-maxlength="5">
                     </label>
 
+                    <li class="item item-toggle">
+                        Principal
+                        <label class="toggle toggle-balanced">
+                            <input type="checkbox" ng-model="principal_cc" name="principal_cc" ng-checked="principal_cc==1">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </li>
+
                     <label class="item ">
                         <button class="button button-block button-positive " type="submit" ng-disabled="fCreditcard.$invalid ">
                             <span ng-if="codigo_credit_card==0">Crear</span>

@@ -60,9 +60,20 @@
                         <div ng-messages="fAddress.phone.$error" ng-messages-include="messages.html"></div>
                         <input type="tel" ng-model="phone" name="phone" required>
                     </label>
-                    <label class="item">
-                        <button class="button button-block button-positive" type="submit" ng-disabled="fAddress.$invalid">
-                            <span ng-if="codigo_address==0">Crear</span>
+
+                    <li class="item item-toggle">
+                        Principal
+                        <label class="toggle toggle-balanced">
+                            <input type="checkbox" ng-model="principal" name="principal" ng-checked="principal==1">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </li>
+
+                    <label class="item ">
+                        <button class="button button-block button-positive " type="submit " ng-disabled="fAddress.$invalid ">
+                            <span ng-if="codigo_address==0 ">Crear</span>
                             <span ng-if="codigo_address>0">Actualizar</span>
                         </button>
                     </label>
