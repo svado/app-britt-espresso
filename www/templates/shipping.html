@@ -1,0 +1,40 @@
+<ion-view view-title="Dirección de envío" ng-controller="ContactInfoCtrl">
+
+    <ion-nav-buttons side="right">
+        <div>
+            <button class="button button-clear button-balanced" ng-click="doAddress()">
+                <i class="icon ion-plus-circled"></i>
+            </button>
+        </div>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <form name="fBasket" action="#/app/confirmation">
+            <div class="list card">
+
+                <!-- Direcciones -->
+                <div class="list">
+                    <div class="item item-divider">
+                        Seleccione una dirección
+                    </div>
+                    <label class="item item-radio" ng-repeat="address in addresses">
+                        <input type="radio" name="codigo_address" ng-model="basketData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required>
+                        <div class="item-content ">
+                            <span>#{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</span>
+                        </div>
+                        <i class="radio-icon ion-checkmark "></i>
+                    </label>
+                </div>
+
+                <!-- Resumen de la orden -->
+                <div ng-controller="BasketInfoCtrl" ng-include="'templates/order-summary.html'"></div>
+
+                <div class="item-body">
+                    <label class="item item-input">
+                        <button class="button button-block button-positive " type="submit" ng-disabled="fBasket.$invalid ">Continuar</button>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

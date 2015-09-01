@@ -7,25 +7,27 @@
     </ion-nav-buttons>
 
     <ion-content>
-        <div class="list card">
-            <ion-list show-delete="data.showDelete">
-                <ion-item ng-repeat="item in items" class="item item-avatar" item="item">
-                    <img ng-src="{{$rutaImagenes}}{{item.image}}">
-                    <h2>{{item.descripcion}}</h2>
-                    <p>Cantidad: {{item.cantidad}}</p>
-                    <p>Precio: {{monedaSymbol}} {{item.precio}}</p>
-                    <ion-delete-button class="ion-minus-circled" ng-click="delBasketItem(item)"></ion-delete-button>
-                </ion-item>
-            </ion-list>
+        <form name="fBasket" action="#/app/shipping">
+            <div class="list card">
+                <ion-list show-delete="data.showDelete">
+                    <ion-item ng-repeat="item in items" class="item item-avatar" item="item">
+                        <img ng-src="{{$rutaImagenes}}{{item.image}}">
+                        <h2>{{item.descripcion}}</h2>
+                        <p>Cantidad: {{item.cantidad}}</p>
+                        <p>Precio: {{monedaSymbol}} {{item.precio}}</p>
+                        <ion-delete-button class="ion-minus-circled" ng-click="delBasketItem(item)"></ion-delete-button>
+                    </ion-item>
+                </ion-list>
 
-            <!-- Resumen de la orden -->
-            <div ng-include="'templates/order-summary.html'"></div>
+                <!-- Resumen de la orden -->
+                <div ng-include="'templates/order-summary.html'"></div>
 
-            <div class="item-body">
-                <label class="item item-input">
-                    <button class="button button-block button-positive " type="submit ">Continuar</button>
-                </label>
+                <div class="item-body">
+                    <label class="item item-input">
+                        <button class="button button-block button-positive " type="submit ">Continuar</button>
+                    </label>
+                </div>
             </div>
-        </div>
+        </form>
     </ion-content>
 </ion-view>

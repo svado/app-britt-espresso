@@ -1,0 +1,57 @@
+<input type="text" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+<input type="text" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
+
+<label class="item item-input">
+    <span class="input-label">Dirección</span>
+    <div ng-messages="fAddress.address_1.$error" ng-messages-include="messages.html"></div>
+    <input type="text" ng-model="$parent.address_1" name="address_1" required ng-minlength="3">
+</label>
+
+<label class="item item-input">
+    <span class="input-label">Distrito</span>
+    <div ng-messages="fAddress.address_2.$error" ng-messages-include="messages.html"></div>
+    <input type="text" ng-model="$parent.address_2" name="address_2" required ng-minlength="3">
+</label>
+
+<label class="item item-input">
+    <span class="input-label">Cantón</span>
+    <div ng-messages="fAddress.city.$error" ng-messages-include="messages.html"></div>
+    <input type="text" ng-model="$parent.city" name="city" required ng-minlength="3">
+</label>
+
+<div class="item item-input item-select">
+    <div class="input-label">
+        Provincia
+    </div>
+    <select ng-model="$parent.codigo_state">
+        <option ng-repeat="state in stateslst" value="{{state.codigo_state}}" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
+    </select>
+</div>
+
+<label class="item item-input">
+    <span class="input-label">Código postal</span>
+    <input type="text" ng-model="$parent.zipcode" name="zipcode">
+</label>
+
+<label class="item item-input">
+    <span class="input-label">Teléfono</span>
+    <div ng-messages="fAddress.phone.$error" ng-messages-include="messages.html"></div>
+    <input type="tel" ng-model="$parent.phone" name="phone" required>
+</label>
+
+<li class="item item-toggle">
+    Principal
+    <label class="toggle toggle-balanced">
+        <input type="checkbox" ng-model="$parent.principal" name="principal" ng-checked="principal==1">
+        <div class="track">
+            <div class="handle"></div>
+        </div>
+    </label>
+</li>
+
+<label class="item ">
+    <button class="button button-block button-positive " type="submit " ng-disabled="fAddress.$invalid ">
+        <span ng-if="codigo_address==0 ">Crear</span>
+        <span ng-if="codigo_address>0">Actualizar</span>
+    </button>
+</label>

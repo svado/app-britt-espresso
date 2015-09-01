@@ -282,6 +282,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
+    //Shipping
+    .state('app.shipping', {
+        url: '/shipping',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/shipping.html'
+            }
+        }
+    })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/products/espresso');
 

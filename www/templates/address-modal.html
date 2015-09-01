@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title ">Ingresar</h1>
+        <div class="buttons ">
+            <button class="button button-clear " ng-click="closeAddress() ">Cerrar</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form name="fAddress" ng-submit="updContactAddress()" ng-controller="ShippingCtrl">
+
+            <!-- Direccion -->
+            <div ng-include=" 'templates/address.html' "></div>
+        </form>
+    </ion-content>
+</ion-modal-view>

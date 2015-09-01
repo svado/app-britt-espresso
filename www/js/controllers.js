@@ -40,6 +40,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalSignUp = modal;
     });
 
+    // Create the address  modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/address-modal.html', {
+        scope: $scope,
+        focusFirstInput: true
+    }).then(function (modal) {
+        $scope.modalAddress = modal;
+    });
+
     // Triggered in the login modal to close it
     $scope.closeLogin = function () {
         $scope.modalLogin.hide();
@@ -50,6 +58,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalSignUp.hide();
     };
 
+    // Triggered in the address modal to close it
+    $scope.closeAddress = function () {
+        $scope.modalAddress.hide();
+    };
+
     // Open the login modal
     $scope.login = function () {
         $scope.modalLogin.show();
@@ -58,6 +71,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Open the signup modal
     $scope.signup = function () {
         $scope.modalSignUp.show();
+    };
+
+    // Open the address modal
+    $scope.doAddress = function () {
+        $scope.modalAddress.show();
     };
 
     // Logout
@@ -84,7 +102,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Manejo de clientes
-.controller('ContactCtrl', function ($scope, $http, $stateParams, $state) {
+.controller('ContactCtrl', function ($scope, $http, $stateParams, $state, $ionicHistory) {
 
     // Trata de loguearse en la web.
     $scope.doLogin = function () {
@@ -390,7 +408,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     };
 })
 
-// Informacion de un producto
+// Basket
 .controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
 
     $scope.items = [];
@@ -400,6 +418,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.data = {
         showDelete: false
     };
+    $scope.basketData = {};
+    $scope.basketData.codigo_address = '0';
 
     // Borra un producto al carrito
     $scope.delBasketItem = function (item) {
@@ -420,4 +440,25 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     WebSql.getTotals().then(function (result) {
         $scope.totales = result;
     });
+
+})
+
+// Shipping
+.controller('ShippingCtrl', function ($scope, $http, $stateParams) {
+
+    // Lista de provincias
+    $scope.stateslst = $states;
+
+    $cliente = $scope.getLocalData('cliente');
+    $scope.codigo_cliente = $cliente.codigo_cliente;
+    $scope.codigo_address = 0;
+
+    // Actualiza la direccion de un contacto
+    $scope.updContactAddress = function () {
+
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&principal=' + $scope.principal;
+        $method = 'updContactAddress';
+
+    };
 })

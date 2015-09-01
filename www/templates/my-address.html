@@ -16,79 +16,22 @@
 
     <ion-content>
         <div ng-if="isLoggedIn()">
+
             <form name="fAddress" ng-submit="updContactAddress()" ng-controller="ContactCtrl">
 
-                <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
-                <input type="hidden" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
+                <!-- Direccion -->
+                <div ng-include="'templates/address.html'"></div>
 
                 <div class="list">
-
-                    <label class="item item-input">
-                        <span class="input-label">Dirección</span>
-                        <div ng-messages="fAddress.address_1.$error" ng-messages-include="messages.html"></div>
-                        <input type="text" ng-model="address_1" name="address_1" required ng-minlength="3">
-                    </label>
-
-                    <label class="item item-input">
-                        <span class="input-label">Distrito</span>
-                        <div ng-messages="fAddress.address_2.$error" ng-messages-include="messages.html"></div>
-                        <input type="text" ng-model="address_2" name="address_2" required ng-minlength="3">
-                    </label>
-
-                    <label class="item item-input">
-                        <span class="input-label">Cantón</span>
-                        <div ng-messages="fAddress.city.$error" ng-messages-include="messages.html"></div>
-                        <input type="text" ng-model="city" name="city" required ng-minlength="3">
-                    </label>
-
-                    <div class="item item-input item-select">
-                        <div class="input-label">
-                            Provincia
-                        </div>
-                        <select ng-model="codigo_state">
-                            <option ng-repeat="state in stateslst" value="{{state.codigo_state}}" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
-                        </select>
+                    <div class="item item-divider">
+                        Otras direcciones
                     </div>
-
-                    <label class="item item-input">
-                        <span class="input-label">Código postal</span>
-                        <input type="text" ng-model="zipcode" name="zipcode">
-                    </label>
-
-                    <label class="item item-input">
-                        <span class="input-label">Teléfono</span>
-                        <div ng-messages="fAddress.phone.$error" ng-messages-include="messages.html"></div>
-                        <input type="tel" ng-model="phone" name="phone" required>
-                    </label>
-
-                    <li class="item item-toggle">
-                        Principal
-                        <label class="toggle toggle-balanced">
-                            <input type="checkbox" ng-model="principal" name="principal" ng-checked="principal==1">
-                            <div class="track">
-                                <div class="handle"></div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <label class="item ">
-                        <button class="button button-block button-positive " type="submit " ng-disabled="fAddress.$invalid ">
-                            <span ng-if="codigo_address==0 ">Crear</span>
-                            <span ng-if="codigo_address>0">Actualizar</span>
-                        </button>
-                    </label>
+                    <a ng-repeat="address in addresses" class="item item-icon-left item-icon-right" href="#/app/my-address/{{address.CODIGO_ADDRESS}}">
+                        <i class="icon ion-home"></i> #{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}
+                        <i class="icon ion-arrow-right-c"></i>
+                    </a>
                 </div>
             </form>
-
-            <div class="list">
-                <div class="item item-divider">
-                    Otras direcciones
-                </div>
-                <a ng-repeat="address in addresses" class="item item-icon-left item-icon-right" href="#/app/my-address/{{address.CODIGO_ADDRESS}}">
-                    <i class="icon ion-home"></i> #{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}
-                    <i class="icon ion-arrow-right-c"></i>
-                </a>
-            </div>
         </div>
     </ion-content>
 
