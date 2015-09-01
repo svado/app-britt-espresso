@@ -453,12 +453,43 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.codigo_cliente = $cliente.codigo_cliente;
     $scope.codigo_address = 0;
 
+    $scope.shippingData = {};
+    $scope.shippingData.codigo_address = '';
+
     // Actualiza la direccion de un contacto
     $scope.updContactAddress = function () {
 
-        $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&principal=' + $scope.principal;
-        $method = 'updContactAddress';
+        $scope.productData = {};
+        $scope.productData.cantidad_incluir = '1';
 
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&principal=' + $scope.principal;
+        $method = 'updContactAddress';
+        console.log($params);
+
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $scope.codigo_address = data.CODIGO_ADDRESS;
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Envio', data.ALERTA);
+                    $scope.closeAddress();
+                    $scope.refreshPage();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Envio', data.ALERTA);
+            } else {
+                $scope.showPopup('Envio', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
     };
+
+    // Guarda el envio
+    $scope.addShipping = function () {
+        console.log('shipping');
+    }
+
 })
