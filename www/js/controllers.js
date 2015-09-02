@@ -421,21 +421,20 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         });
     }
 
-    //Obtiene el basket
+    // Obtiene el basket
     WebSql.getBasket().then(function (result) {
         $scope.items = result;
     });
 
-    //Obtiene los totales
+    // Obtiene los totales
     WebSql.getTotals().then(function (result) {
         $scope.totales = result;
-        console.log(result);
     });
 
 })
 
 // Shipping
-.controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state) {
+.controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
 
     // Lista de provincias
     $scope.stateslst = $states;
@@ -455,6 +454,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.shippingData.codigo_state = '';
     $scope.shippingData.codigo_service_type = '';
     $scope.shippingData.monto_envio = 0;
+    $scope.shippingData.peso = 0;
+
+    // Obtiene los totales
+    WebSql.getTotals().then(function (result) {
+        console.log(result);
+        $scope.shippingData.peso = result.peso;
+        $scope.shippingData.monto_envio = result.envio;
+    });
 
     // Actualiza la direccion de un contacto
     $scope.updContactAddress = function () {
@@ -489,15 +496,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Guarda el envio
     $scope.addShipping = function () {
-        console.log('shipping');
-    }
-
-    // Agrega el producto al carrito
-    $scope.addProduct = function () {
-        WebSql.addProduct($scope.productData).then(function (alerta) {
-            $scope.showPopup('Mi carrito', alerta);
+        WebSql.addShipping($scope.shippingData).then(function (alerta) {
+            $scope.showPopup('Envio', alerta);
         }, function (err) {
-            $scope.showPopup('Mi carrito', err);
+            $scope.showPopup('Envio', err);
         });
     }
 

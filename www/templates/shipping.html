@@ -15,6 +15,7 @@
             <input type="hidden" name="codigo_address" ng-model="shippingData.codigo_address">
             <input type="hidden" name="monto_envio" ng-model="shippingData.monto_envio">
             <input type="hidden" name="codigo_state" ng-model="shippingData.codigo_state">
+            <input type="hidden" name="peso" ng-model="shippingData.peso">
 
             <div class="list ">
 
@@ -24,7 +25,7 @@
                         Seleccione una dirección
                     </div>
                     <label class="item item-radio" ng-repeat="address in addresses">
-                        <input type="radio" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; getShipping(1.66,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type);">
+                        <input type="radio" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; getShipping(shippingData.peso,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type);">
                         <div class="item-content ">
                             <span>#{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</span>
                         </div>
@@ -43,7 +44,6 @@
                             <span>{{shipping.WEB_DISPLAY}} ({{shipping.DAYS}} dias)</span>
                             <span class="padding-horizontal ">-</span>
                             <span>{{monedaSymbol}} {{shipping.MONTO}}</span>
-                            <span>{{shippingData.codigo_state}}</span>
                         </div>
                         <i class="radio-icon ion-checkmark "></i>
                     </label>

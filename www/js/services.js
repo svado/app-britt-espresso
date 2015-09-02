@@ -19,6 +19,10 @@ angular.module('app.services', [])
     function populateDB(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
         tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo unique, descripcion, cantidad integer, image, precio float, impuesto float, peso float)');
+
+        //tx.executeSql('DROP TABLE IF EXISTS POS_SHIPPING');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS POS_SHIPPING (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float)');
+
     };
 
     // Inicializa la base de datos
@@ -72,17 +76,37 @@ angular.module('app.services', [])
         return deferred.promise;
     };
 
+    // Inserta el shipping
+    this.addShipping = function (data) {
+        var deferred = $q.defer();
+        db.transaction(function (tx) {
+            console.log(data);
+            tx.executeSql('INSERT INTO POS_SHIPPING (codigo_address, codigo_state, codigo_service_type, monto_envio) VALUES (?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString()]);
+        }, function () {
+            deferred.reject('No se pudo agregar el envio');
+        }, function () {
+            deferred.resolve('Envio agregado');
+        });
+
+        return deferred.promise;
+    };
+
     // Obtiene el resumen del basket
     this.getTotals = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT sum(precio*cantidad) as total, sum(cantidad) as items, sum(impuesto*cantidad) as impuesto, (sum(precio*cantidad)-sum(impuesto*cantidad)) as sub_total, (((peso*sum(cantidad)*2.2)+0.89)) as peso, 0 as envio FROM DETALLE_FACTURA', [], function (tx, results) {
+            tx.executeSql('SELECT sum(A.precio*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
                 var res = [];
-                res = results.rows[0];
+                res.total_sin_envio = results.rows[0].total;
+                res.total = (results.rows[0].total + results.rows[0].envio);
+                res.items = results.rows[0].items;
+                res.impuesto = results.rows[0].impuesto;
+                res.sub_total = results.rows[0].sub_total;
+                res.peso = results.rows[0].peso;
+                res.envio = results.rows[0].envio;
                 deferred.resolve(res);
             });
         });
         return deferred.promise;
     };
-
 });
