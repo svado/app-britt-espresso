@@ -1,9 +1,11 @@
+<!-- TODO: resumen de la orden -->
+
 <ion-view view-title="Datos de compra" ng-controller="ContactInfoCtrl">
 
     <ion-nav-buttons side="right">
         <div>
-            <a class="button button-clear button-positive " href="#/app/basket">
-                <i class="icon ion-bag"></i>
+            <a class="button button-clear button-positive " href="#/app/shipping">
+                <i class="icon ion-home"></i>
             </a>
             <button class="button button-clear button-balanced" ng-click="doPayment()">
                 <i class="icon ion-plus-circled"></i>
@@ -12,7 +14,7 @@
     </ion-nav-buttons>
 
     <ion-content>
-        <form name="fConfirmation" ng-controller="ConfirmationCtrl" ng-submit="addPayment()">
+        <form name="fConfirmation" ng-controller="ConfirmationCtrl" ng-submit="addOrder()">
 
             <input type="hidden" name="codigo_credit_card" ng-model="paymentData.codigo_credit_card">
 

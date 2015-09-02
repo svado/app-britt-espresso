@@ -583,4 +583,9 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         });
     };
 
+    // Crea la orden
+    $scope.addOrder = function () {
+        $scope.showPopup('Confirmacion', 'Procesar orden');
+    }
+
 })
