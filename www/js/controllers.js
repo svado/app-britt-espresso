@@ -441,15 +441,18 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.stateslst = $states;
     $scope.monedaSymbol = $monedaSymbol;
 
+    // Obtiene las funciones del state en el cual estoy
     $scope.$state = $state;
 
+    // Datos del cliente en sesion
     $cliente = $scope.getLocalData('cliente');
     $scope.codigo_cliente = $cliente.codigo_cliente;
     $scope.codigo_address = 0;
 
+    // Datos para el envio
     $scope.shippingData = {};
     $scope.shippingData.codigo_address = '';
-    $scope.shippingData.state = '';
+    $scope.shippingData.codigo_state = '';
     $scope.shippingData.codigo_service_type = '';
     $scope.shippingData.monto_envio = 0;
 
@@ -499,12 +502,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     // Tipos de envio
-    $scope.getShipping = function (peso, state) {
-        $params = '&rango_peso=' + peso + '&state=' + state;
+    $scope.getShipping = function (peso, state, codigo_service_type) {
+        $params = '&rango_peso=' + peso + '&state=' + state + '&codigo_service_type=' + codigo_service_type;
         $method = 'getShipping';
         $http.post($rutaOrderWs + $method + $params).
         success(function (data, status, headers) {
             $scope.shippings = data;
+            $scope.shippingData.monto_envio = data[0].MONTO;
             $scope.error = false;
         }).
         error(function (data, status) {
