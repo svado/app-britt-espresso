@@ -16,6 +16,7 @@
             <input type="hidden" name="presentation_img" ng-model="productData.presentation_img">
             <input type="hidden" name="precio" ng-model="productData.precio">
             <input type="hidden" name="impuesto" ng-model="productData.impuesto">
+            <input type="hidden" name="peso" ng-model="productData.peso">
 
             <div class="list card">
 
@@ -37,7 +38,8 @@
                             productData.presentation_name=title+' '+product.PRESENTATION_NAME;
                             productData.presentation_img=product.PRESENTATION_IMG;
                             productData.precio = product.PRECIO;
-                            productData.impuesto = product.IMPUESTO">
+                            productData.impuesto = product.IMPUESTO;
+                            productData.peso = product.PESO">
                             <!-- ng-checked="product.PRINCIPAL==1 " -->
                             <div class="item-content ">
                                 <span>{{product.PRESENTATION_NAME}}</span>

@@ -110,7 +110,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.error = true;
         $params = '&username=' + $scope.loginData.email + '&password=' + $scope.loginData.password;
         $method = 'getUser';
-
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
             if (data.length != 0) {
@@ -143,7 +142,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.error = true;
         $params = '&first_name=' + $scope.signData.first_name + '&last_name=' + $scope.signData.last_name + '&email=' + $scope.signData.email + '&phone=' + $scope.signData.phone + '&password=' + $scope.signData.password + '&password2=' + $scope.signData.password2;
         $method = 'createUser';
-
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
             if (data.length != 0) {
@@ -171,7 +169,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.error = true;
         $params = '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&phone=' + $scope.phone + '&password=' + $scope.password + '&password2=' + $scope.password2 + '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_email=' + $scope.codigo_email + '&codigo_phone=' + $scope.codigo_phone;
         $method = 'updContact';
-
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
             if (data.length != 0) {
@@ -196,7 +193,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&principal=' + $scope.principal;
         $method = 'updContactAddress';
-
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
             if (data.length != 0) {
@@ -217,7 +213,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Actualiza la tarjeta de un contacto
     $scope.updContactCreditcard = function () {
-
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card + '&credit_card_number=' + $scope.credit_card_number + '&validation_number=' + $scope.validation_number + '&exp_month=' + $scope.exp_month + '&exp_year=' + $scope.exp_year + '&card_holder_name=' + $scope.card_holder_name + '&principal=' + $scope.principal_cc;
         $method = 'updContactPayment';
@@ -249,7 +244,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     $params = '&url=' + $stateParams.page_url;
     $method = 'getProducts';
-
     $http.post($rutaPagesWs + $method + $params).
     success(function (data, status, headers) {
         $scope.products = data;
@@ -278,7 +272,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
-
     $http.post($rutaPagesWs + $method + $params).
     success(function (data, status, headers) {
         $scope.url = data.URL;
@@ -322,7 +315,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $params = $params + '&codigo_credit_card=' + $stateParams.payment_id;
 
     $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
-
         $scope.codigo_cliente = data.CODIGO_CLIENTE;
         $scope.first_name = data.FIRST_NAME;
         $scope.last_name = data.LAST_NAME;
@@ -363,7 +355,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address;
         $method = 'removeAddress';
-
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
             if (data.length != 0) {
@@ -388,7 +379,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card;
         $method = 'removeCreditCard';
-
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
             if (data.length != 0) {
@@ -439,15 +429,19 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     //Obtiene los totales
     WebSql.getTotals().then(function (result) {
         $scope.totales = result;
+        console.log(result);
     });
 
 })
 
 // Shipping
-.controller('ShippingCtrl', function ($scope, $http, $stateParams) {
+.controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state) {
 
     // Lista de provincias
     $scope.stateslst = $states;
+    $scope.monedaSymbol = $monedaSymbol;
+
+    $scope.$state = $state;
 
     $cliente = $scope.getLocalData('cliente');
     $scope.codigo_cliente = $cliente.codigo_cliente;
@@ -455,6 +449,9 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     $scope.shippingData = {};
     $scope.shippingData.codigo_address = '';
+    $scope.shippingData.state = '';
+    $scope.shippingData.codigo_service_type = '';
+    $scope.shippingData.monto_envio = 0;
 
     // Actualiza la direccion de un contacto
     $scope.updContactAddress = function () {
@@ -490,6 +487,30 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Guarda el envio
     $scope.addShipping = function () {
         console.log('shipping');
+    }
+
+    // Agrega el producto al carrito
+    $scope.addProduct = function () {
+        WebSql.addProduct($scope.productData).then(function (alerta) {
+            $scope.showPopup('Mi carrito', alerta);
+        }, function (err) {
+            $scope.showPopup('Mi carrito', err);
+        });
+    }
+
+    // Tipos de envio
+    $scope.getShipping = function (peso, state) {
+        $params = '&rango_peso=' + peso + '&state=' + state;
+        $method = 'getShipping';
+        $http.post($rutaOrderWs + $method + $params).
+        success(function (data, status, headers) {
+            $scope.shippings = data;
+            $scope.error = false;
+        }).
+        error(function (data, status) {
+            $scope.error = true;
+            console.log(status);
+        });
     }
 
 })

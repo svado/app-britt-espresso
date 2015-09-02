@@ -1,7 +1,7 @@
 <!-- TODO: refrescar controller al borrar -->
 <div class="item item-body">
     <div class="item row">
-        <div class="col col-67">Items</div>
+        <div class="col col-67">Total de productos</div>
         <div class="col text-right">{{totales.items}}</div>
     </div>
     <div class="item row">
@@ -10,7 +10,8 @@
     </div>
     <div class="item row">
         <div class="col col-20">Envio</div>
-        <div class="col text-right item-note">Se calcula en los pr&oacute;ximos pasos</div>
+        <div class="col text-right item-note" ng-if="$state.includes('app.shipping')">{{shippingData.monto_envio}}</div>
+        <div class="col text-right item-note" ng-if="!$state.includes('app.shipping')">{{totales.envio}}</div>
     </div>
     <div class="item row">
         <div class="col col-67">Impuesto</div>
