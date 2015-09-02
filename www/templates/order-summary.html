@@ -18,7 +18,8 @@
         <div class="col text-right">{{monedaSymbol}} {{totales.impuesto}}</div>
     </div>
     <div class="item row item-divider">
-        <div class="col col-67">Total Estimado</div>
+        <div class="col col-67" ng-if="$state.includes('app.basket')">Total Estimado</div>
+        <div class="col col-67" ng-if="!$state.includes('app.basket')">Total</div>
         <div class="col text-right" ng-if="!$state.includes('app.shipping')">{{monedaSymbol}} {{totales.total}}</div>
         <div class="col text-right" ng-if="$state.includes('app.shipping')">{{monedaSymbol}} {{totales.total_sin_envio+shippingData.monto_envio}}</div>
     </div>

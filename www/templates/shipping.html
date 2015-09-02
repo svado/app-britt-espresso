@@ -2,6 +2,9 @@
 
     <ion-nav-buttons side="right">
         <div>
+            <a class="button button-clear button-positive " href="#/app/basket">
+                <i class="icon ion-bag"></i>
+            </a>
             <button class="button button-clear button-balanced" ng-click="doAddress()">
                 <i class="icon ion-plus-circled"></i>
             </button>
@@ -27,7 +30,7 @@
                     <label class="item item-radio" ng-repeat="address in addresses">
                         <input type="radio" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; getShipping(shippingData.peso,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type);">
                         <div class="item-content ">
-                            <span>#{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</span>
+                            <span>{{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</span>
                         </div>
                         <i class="radio-icon ion-checkmark "></i>
                     </label>

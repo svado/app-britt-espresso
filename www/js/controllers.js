@@ -40,12 +40,18 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalSignUp = modal;
     });
 
-    // Create the address  modal that we will use later
+    // Create the address modal that we will use later
     $ionicModal.fromTemplateUrl('templates/address-modal.html', {
-        scope: $scope,
-        focusFirstInput: true
+        scope: $scope
     }).then(function (modal) {
         $scope.modalAddress = modal;
+    });
+
+    // Create the payment modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/payment-modal.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modalPayment = modal;
     });
 
     // Triggered in the login modal to close it
@@ -63,6 +69,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalAddress.hide();
     };
 
+    // Triggered in the payment modal to close it
+    $scope.closePayment = function () {
+        $scope.modalPayment.hide();
+    };
+
     // Open the login modal
     $scope.login = function () {
         $scope.modalLogin.show();
@@ -76,6 +87,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Open the address modal
     $scope.doAddress = function () {
         $scope.modalAddress.show();
+    };
+
+    // Open the payment modal
+    $scope.doPayment = function () {
+        $scope.modalPayment.show();
     };
 
     // Logout
@@ -399,7 +415,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Basket
-.controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
+.controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql, $state) {
 
     $scope.items = [];
     $scope.totales = [];
@@ -458,7 +474,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Obtiene los totales
     WebSql.getTotals().then(function (result) {
-        console.log(result);
         $scope.shippingData.peso = result.peso;
         $scope.shippingData.monto_envio = result.envio;
     });
@@ -472,7 +487,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&principal=' + $scope.principal;
         $method = 'updContactAddress';
-        console.log($params);
 
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
@@ -497,7 +511,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Guarda el envio
     $scope.addShipping = function () {
         WebSql.addShipping($scope.shippingData).then(function (alerta) {
-            $scope.showPopup('Envio', alerta);
+            //$scope.showPopup('Envio', alerta);
+            $state.go("app.confirmation");
         }, function (err) {
             $scope.showPopup('Envio', err);
         });
@@ -518,5 +533,54 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log(status);
         });
     }
+
+})
+
+// Confirmation
+.controller('ConfirmationCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
+
+    // Lista de meses
+    $scope.meseslst = $meses;
+    $scope.anoslist = $anostarjeta;
+    $scope.monedaSymbol = $monedaSymbol;
+
+    // Obtiene las funciones del state en el cual estoy
+    $scope.$state = $state;
+
+    // Datos del cliente en sesion
+    $cliente = $scope.getLocalData('cliente');
+    $scope.codigo_cliente = $cliente.codigo_cliente;
+    $scope.codigo_credit_card = 0;
+
+    // Datos para el pago
+    $scope.paymentData = {};
+    $scope.paymentData.codigo_credit_card = '';
+
+    // Actualiza la tarjeta de un contacto
+    $scope.updContactCreditcard = function () {
+
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card + '&credit_card_number=' + $scope.credit_card_number + '&validation_number=' + $scope.validation_number + '&exp_month=' + $scope.exp_month + '&exp_year=' + $scope.exp_year + '&card_holder_name=' + $scope.card_holder_name + '&principal=' + $scope.principal_cc;
+
+        $method = 'updContactPayment';
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $scope.codigo_credit_card = data.CODIGO_CREDIT_CARD;
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Confirmacion', data.ALERTA);
+                    $scope.closePayment();
+                    $scope.refreshPage();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Confirmacion', data.ALERTA);
+            } else {
+                $scope.showPopup('Confirmacion', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
+    };
 
 })

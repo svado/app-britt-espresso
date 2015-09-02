@@ -1,0 +1,63 @@
+<input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+<input type="hidden" ng-model="codigo_credit_card" name="codigo_credit_card" ng-value="{{codigo_credit_card}}">
+
+<div class="list">
+
+    <label class="item item-input">
+        <span class="input-label">Nombre</span>
+        <div ng-messages="fCreditcard.card_holder_name.$error" ng-messages-include="messages.html"></div>
+        <input type="text" ng-model="$parent.card_holder_name" name="card_holder_name" required ng-minlength="3">
+    </label>
+
+    <label class="item item-input">
+        <span class="input-label">
+                        Numero<br>
+                        <small>{{number_display}}</small>
+                    </span>
+        <div ng-messages="fCreditcard.credit_card_number.$error" ng-messages-include="messages.html"></div>
+        <input type="number" ng-model="$parent.credit_card_number" name="credit_card_number" required ng-minlength="15" ng-maxlength="18">
+    </label>
+
+    <div class="item item-input item-select">
+        <div class="input-label">
+            Mes
+        </div>
+        <div ng-messages="fCreditcard.exp_month.$error" ng-messages-include="messages.html"></div>
+        <select ng-model="$parent.exp_month" name="exp_month" required>
+            <option ng-repeat="mes in meseslst" value="{{mes.mes}}" ng-selected="mes.mes == exp_month">{{mes.nombre}}</option>
+        </select>
+    </div>
+
+    <div class="item item-input item-select">
+        <div class="input-label">
+            Año
+        </div>
+        <div ng-messages="fCreditcard.exp_year.$error" ng-messages-include="messages.html"></div>
+        <select ng-model="$parent.exp_year" name="exp_year" required>
+            <option ng-repeat="anno in anoslist" value="{{anno}}" ng-selected="anno == exp_year">{{anno}}</option>
+        </select>
+    </div>
+
+    <label class="item item-input">
+        <span class="input-label">CCV</span>
+        <div ng-messages="fCreditcard.validation_number.$error" ng-messages-include="messages.html"></div>
+        <input type="number" ng-model="$parent.validation_number" name="validation_number" required ng-minlength="3" ng-maxlength="5">
+    </label>
+
+    <li class="item item-toggle">
+        Principal
+        <label class="toggle toggle-balanced">
+            <input type="checkbox" ng-model="$parent.principal_cc" name="principal_cc" ng-checked="principal_cc==1">
+            <div class="track">
+                <div class="handle"></div>
+            </div>
+        </label>
+    </li>
+
+    <label class="item ">
+        <button class="button button-block button-positive " type="submit" ng-disabled="fCreditcard.$invalid ">
+            <span ng-if="codigo_credit_card==0">Crear</span>
+            <span ng-if="codigo_credit_card>0">Actualizar</span>
+        </button>
+    </label>
+</div>

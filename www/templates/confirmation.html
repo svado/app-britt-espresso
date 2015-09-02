@@ -1,0 +1,45 @@
+<ion-view view-title="Datos de compra" ng-controller="ContactInfoCtrl">
+
+    <ion-nav-buttons side="right">
+        <div>
+            <a class="button button-clear button-positive " href="#/app/basket">
+                <i class="icon ion-bag"></i>
+            </a>
+            <button class="button button-clear button-balanced" ng-click="doPayment()">
+                <i class="icon ion-plus-circled"></i>
+            </button>
+        </div>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <form name="fConfirmation" ng-controller="ConfirmationCtrl" ng-submit="addPayment()">
+
+            <input type="hidden" name="codigo_credit_card" ng-model="paymentData.codigo_credit_card">
+
+            <div class="list ">
+
+                <!-- Tarjetas -->
+                <div class="list">
+                    <div class="item item-divider">
+                        Seleccione una tarjeta
+                    </div>
+
+                    <label class="item item-radio" ng-repeat="card in cards">
+                        <input type="radio" name="codigo_credit_card" ng-model="paymentData.codigo_credit_card" value="{{card.CODIGO_CREDIT_CARD}}" required>
+                        <div class="item-content ">
+                            <span>{{card.CARD_TYPE}}, {{card.NUMBER_DISPLAY}}, finaliza {{card.EXP_MONTH}}/{{card.EXP_YEAR}}</span>
+                        </div>
+                        <i class="radio-icon ion-checkmark "></i>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Resumen de la orden -->
+            <div ng-controller="BasketInfoCtrl" ng-include="'templates/order-summary.html'"></div>
+
+            <label class="item">
+                <button class="button button-block button-positive " type="submit" ng-disabled="fConfirmation.$invalid ">Confirmar compra</button>
+            </label>
+        </form>
+    </ion-content>
+</ion-view>

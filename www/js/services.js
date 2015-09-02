@@ -35,7 +35,7 @@ angular.module('app.services', [])
     this.addProduct = function (data) {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            console.log(data);
+            tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_articulo = ?', [data.codigo_articulo_incluir]);
             tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, descripcion, cantidad, image, precio, impuesto, peso) VALUES (?,?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.impuesto.toString(), data.peso.toString()]);
         }, function () {
             deferred.reject('No se pudo agregar el producto');
@@ -80,7 +80,7 @@ angular.module('app.services', [])
     this.addShipping = function (data) {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            console.log(data);
+            tx.executeSql('DELETE FROM POS_SHIPPING');
             tx.executeSql('INSERT INTO POS_SHIPPING (codigo_address, codigo_state, codigo_service_type, monto_envio) VALUES (?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString()]);
         }, function () {
             deferred.reject('No se pudo agregar el envio');

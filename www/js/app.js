@@ -295,6 +295,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
+    //Confirmacion
+    .state('app.confirmation', {
+        url: '/confirmation',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/confirmation.html'
+            }
+        }
+    })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/products/espresso');
 
