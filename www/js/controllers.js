@@ -563,6 +563,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Datos para el pago
     $scope.paymentData = {};
     $scope.paymentData.codigo_credit_card = '';
+    $scope.paymentData.codigo_card_type = '';
+    $scope.paymentData.number = '';
+    $scope.paymentData.exp_month = '';
+    $scope.paymentData.exp_year = '';
+    $scope.paymentData.validation_number = '';
+    $scope.paymentData.card_holder_name = '';
 
     // Datos del envio
     $scope.shippingData = {};
@@ -601,6 +607,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Crea la orden
     $scope.addOrder = function () {
+        console.log($scope.paymentData);
         $scope.showPopup('Confirmacion', 'Procesar orden');
     }
 
