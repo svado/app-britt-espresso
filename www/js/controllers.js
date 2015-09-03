@@ -467,10 +467,18 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Datos para el envio
     $scope.shippingData = {};
     $scope.shippingData.codigo_address = '';
-    $scope.shippingData.codigo_state = '';
     $scope.shippingData.codigo_service_type = '';
     $scope.shippingData.monto_envio = 0;
     $scope.shippingData.peso = 0;
+    $scope.shippingData.address_1 = '';
+    $scope.shippingData.address_2 = '';
+    $scope.shippingData.city = '';
+    $scope.shippingData.codigo_state = '';
+    $scope.shippingData.codigo_pais = 0;
+    $scope.shippingData.zipcode = '';
+    $scope.shippingData.phone = '';
+    $scope.shippingData.courier = '';
+    $scope.shippingData.courier_display = '';
 
     // Obtiene los totales
     WebSql.getTotals().then(function (result) {
@@ -556,6 +564,9 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.paymentData = {};
     $scope.paymentData.codigo_credit_card = '';
 
+    // Datos del envio
+    $scope.shippingData = {};
+
     // Actualiza la tarjeta de un contacto
     $scope.updContactCreditcard = function () {
 
@@ -582,6 +593,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log(status);
         });
     };
+
+    // Obtiene el shipping
+    WebSql.getShipping().then(function (result) {
+        $scope.shippingData = result;
+    });
 
     // Crea la orden
     $scope.addOrder = function () {

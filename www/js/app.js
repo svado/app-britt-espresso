@@ -4,9 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'ngCordova'])
 
-.run(function ($ionicPlatform, WebSql) {
+.run(function ($ionicPlatform, WebSql, $cordovaSQLite) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)

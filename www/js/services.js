@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
 // Funciones para la base de datos
-.service('WebSql', function ($q) {
+.service('WebSql', function ($q, $cordovaSQLite) {
 
     var db = [];
 
@@ -21,7 +21,7 @@ angular.module('app.services', [])
         tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo unique, descripcion, cantidad integer, image, precio float, impuesto float, peso float)');
 
         //tx.executeSql('DROP TABLE IF EXISTS POS_SHIPPING');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS POS_SHIPPING (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS POS_SHIPPING (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float, address_1, address_2, city, codigo_pais integer, zipcode, phone, courier, courier_display)');
 
     };
 
@@ -81,7 +81,7 @@ angular.module('app.services', [])
         var deferred = $q.defer();
         db.transaction(function (tx) {
             tx.executeSql('DELETE FROM POS_SHIPPING');
-            tx.executeSql('INSERT INTO POS_SHIPPING (codigo_address, codigo_state, codigo_service_type, monto_envio) VALUES (?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString()]);
+            tx.executeSql('INSERT INTO POS_SHIPPING (codigo_address, codigo_state, codigo_service_type, monto_envio, address_1, address_2, city, codigo_pais, zipcode, phone, courier, courier_display) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString(), data.address_1, data.address_2, data.city, data.codigo_pais, data.zipcode, data.phone, data.courier, data.courier_display]);
         }, function () {
             deferred.reject('No se pudo agregar el envio');
         }, function () {
@@ -97,13 +97,29 @@ angular.module('app.services', [])
         db.transaction(function (tx) {
             tx.executeSql('SELECT sum(A.precio*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
                 var res = [];
-                res.total_sin_envio = results.rows[0].total;
-                res.total = (results.rows[0].total + results.rows[0].envio);
-                res.items = results.rows[0].items;
-                res.impuesto = results.rows[0].impuesto;
-                res.sub_total = results.rows[0].sub_total;
-                res.peso = results.rows[0].peso;
-                res.envio = results.rows[0].envio;
+                if (results.rows.length > 0) {
+                    res.total_sin_envio = results.rows[0].total;
+                    res.total = (results.rows[0].total + results.rows[0].envio);
+                    res.items = results.rows[0].items;
+                    res.impuesto = results.rows[0].impuesto;
+                    res.sub_total = results.rows[0].sub_total;
+                    res.peso = results.rows[0].peso;
+                    res.envio = results.rows[0].envio;
+                }
+                deferred.resolve(res);
+            });
+        });
+        return deferred.promise;
+    };
+
+    // Obtiene el envio
+    this.getShipping = function () {
+        var deferred = $q.defer();
+        db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM POS_SHIPPING', [], function (tx, results) {
+                var res = [];
+                if (results.rows.length > 0)
+                    res = results.rows[0];
                 deferred.resolve(res);
             });
         });

@@ -14,11 +14,19 @@
     <ion-content>
         <form name="fShipping" ng-controller="ShippingCtrl" ng-submit="addShipping()">
 
-            <input type="hidden" name="codigo_service_type" ng-model="shippingData.codigo_service_type">
-            <input type="hidden" name="codigo_address" ng-model="shippingData.codigo_address">
-            <input type="hidden" name="monto_envio" ng-model="shippingData.monto_envio">
-            <input type="hidden" name="codigo_state" ng-model="shippingData.codigo_state">
-            <input type="hidden" name="peso" ng-model="shippingData.peso">
+            <!--<input type="hidden" name="codigo_service_type" ng-model="shippingData.codigo_service_type">
+<input type="hidden" name="codigo_address" ng-model="shippingData.codigo_address">
+<input type="hidden" name="monto_envio" ng-model="shippingData.monto_envio">
+<input type="hidden" name="peso" ng-model="shippingData.peso">
+<input type="hidden" name="address_1" ng-model="shippingData.address_1">
+<input type="hidden" name="address_2" ng-model="shippingData.address_2">
+<input type="hidden" name="city" ng-model="shippingData.city">
+<input type="hidden" name="codigo_state" ng-model="shippingData.codigo_state">
+<input type="hidden" name="codigo_pais" ng-model="shippingData.codigo_pais">
+<input type="hidden" name="zipcode" ng-model="shippingData.zipcode">
+<input type="hidden" name="phone" ng-model="shippingData.phone">
+<input type="hidden" name="courier" ng-model="shippingData.courier">
+<input type="hidden" name="courier_display" ng-model="shippingData.courier_display">-->
 
             <div class="list ">
 
@@ -28,7 +36,7 @@
                         Seleccione una dirección
                     </div>
                     <label class="item item-radio" ng-repeat="address in addresses">
-                        <input type="radio" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; getShipping(shippingData.peso,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type);">
+                        <input type="radio" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; shippingData.address_1='{{address.ADDRESS_1}}'; shippingData.address_2='{{address.ADDRESS_2}}'; shippingData.city='{{address.CITY}}'; shippingData.codigo_pais='{{address.CODIGO_PAIS}}'; shippingData.zipcode='{{address.ZIPCODE}}'; shippingData.phone='{{address.PHONE}}'; getShipping(shippingData.peso,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type);">
                         <div class="item-content ">
                             <span>{{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</span>
                         </div>
@@ -42,7 +50,7 @@
                         Selecciona un método de envío
                     </div>
                     <label class="item item-radio" ng-repeat="shipping in shippings">
-                        <input type="radio" name="codigo_service_type" ng-model="shippingData.codigo_service_type" value="{{shipping.CODIGO_SERVICE_TYPE}}" required ng-click="shippingData.codigo_service_type={{shipping.CODIGO_SERVICE_TYPE}}; shippingData.monto_envio={{shipping.MONTO}};">
+                        <input type="radio" name="codigo_service_type" ng-model="shippingData.codigo_service_type" value="{{shipping.CODIGO_SERVICE_TYPE}}" required ng-click="shippingData.codigo_service_type={{shipping.CODIGO_SERVICE_TYPE}}; shippingData.monto_envio={{shipping.MONTO}}; shippingData.courier='{{shipping.COURIER}}'; shippingData.courier_display='{{shipping.WEB_DISPLAY}}';">
                         <div class="item-content ">
                             <span>{{shipping.WEB_DISPLAY}} ({{shipping.DAYS}} dias)</span>
                             <span class="padding-horizontal ">-</span>
