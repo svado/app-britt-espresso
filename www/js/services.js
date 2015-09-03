@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
 // Funciones para la base de datos
-.service('WebSql', function ($q, $cordovaSQLite) {
+.service('WebSql', function ($q) {
 
     var db = [];
 
@@ -123,6 +123,31 @@ angular.module('app.services', [])
                 deferred.resolve(res);
             });
         });
+        return deferred.promise;
+    };
+
+    // Valida los pasos de la compra
+    this.validView = function (page) {
+        var deferred = $q.defer();
+        db.transaction(function (tx) {
+            /*tx.executeSql('SELECT * FROM DETALLE_FACTURA LEFT OUTER JOIN POS_SHIPPING', [], function (tx, results) {
+                var res = [];
+                res.access = true;
+                if (page == 'basket' && results.rows.length == 0)
+                    res.access = false;
+                else if (page == 'shipping' && (results.rows.length = 0 || !isLoggedIn()))
+                    res.access = false;
+                else if (page == 'confirmation' && (results.rows.length = 0 || !isLoggedIn()))
+                    res.access = false;
+                else if (page == 'confirmation' && results.rows.length > 0 && isLoggedIn() && (results.rows[0].codigo_address = 0 || results.rows[0].codigo_service_type == 0))
+                    res.access = false;
+                deferred.resolve(res);
+            });*/
+            var res = [];
+            res.access = true;
+            deferred.resolve(res);
+        });
+
         return deferred.promise;
     };
 });

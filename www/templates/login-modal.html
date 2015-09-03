@@ -1,0 +1,13 @@
+<ion-modal-view ng-controller="ContactCtrl">
+    <ion-header-bar>
+        <h1 class="title">Ingresar</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeLogin()">Cerrar</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form name="fLogin" ng-submit="doLogin()">
+            <div ng-include=" 'templates/login.html' "></div>
+        </form>
+    </ion-content>
+</ion-modal-view>

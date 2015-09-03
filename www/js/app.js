@@ -4,9 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'ngCordova'])
+angular.module('starter', ['ionic',  'starter.controllers', 'ngMessages', 'app.services'])
 
-.run(function ($ionicPlatform, WebSql, $cordovaSQLite) {
+.run(function ($ionicPlatform, WebSql) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -306,7 +306,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
+    //Home
+    .state('app.home', {
+        url: '/home',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/home.html'
+            }
+        }
+    })
+
+    //Shipping login
+    .state('app.loginshipping', {
+        url: '/login-shipping',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/login-shipping.html'
+            }
+        }
+    })
+
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/products/espresso');
+    $urlRouterProvider.otherwise('/app/home');
 
 });

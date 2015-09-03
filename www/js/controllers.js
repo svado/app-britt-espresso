@@ -27,7 +27,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.loginData = $scope.getLocalData('cliente');
 
     // Create the login modal that we will use later
-    $ionicModal.fromTemplateUrl('templates/login.html', {
+    $ionicModal.fromTemplateUrl('templates/login-modal.html', {
         scope: $scope
     }).then(function (modal) {
         $scope.modalLogin = modal;
@@ -97,6 +97,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Logout
     $scope.logout = function () {
         window.localStorage.removeItem("cliente");
+        $state.go("app.home");
     };
 
     // Alertas
@@ -116,6 +117,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
 })
+
+.controller('HomeCtrl', function ($scope, $http) {})
 
 // Manejo de clientes
 .controller('ContactCtrl', function ($scope, $http, $stateParams, $state, $ionicHistory) {
@@ -256,17 +259,21 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Lista de productos
 .controller('ProductListCtrl', function ($scope, $http, $stateParams) {
 
+    //alert('Cargardo lista');
+
     $scope.$rutaImagenes = $rutaImagenes;
 
     $params = '&url=' + $stateParams.page_url;
     $method = 'getProducts';
     $http.post($rutaPagesWs + $method + $params).
     success(function (data, status, headers) {
+        //alert('Lista cargada');
         $scope.products = data;
         $scope.page_url = $stateParams.page_url;
         $scope.error = false;
     }).
     error(function (data, status) {
+        //alert('No se puede iniciar la consulta');
         $scope.error = true;
         console.log(status);
     });
@@ -415,7 +422,17 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Basket
-.controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql, $state) {
+.controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql, $state, $ionicHistory) {
+
+    // Validaciones
+    WebSql.validView('basket').then(function (result) {
+        if (result.access == false) {
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go("app.home");
+        }
+    });
 
     $scope.items = [];
     $scope.totales = [];
@@ -451,6 +468,16 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Shipping
 .controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
+
+    // Validaciones
+    WebSql.validView('shipping').then(function (result) {
+        if (result.access == false) {
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go("app.loginshipping")
+        }
+    });
 
     // Lista de provincias
     $scope.stateslst = $states;
@@ -546,6 +573,16 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Confirmation
 .controller('ConfirmationCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
+
+    // Validaciones
+    WebSql.validView('confirmation').then(function (result) {
+        if (result.access == false) {
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go("app.shipping");
+        }
+    });
 
     // Lista de meses
     $scope.meseslst = $meses;

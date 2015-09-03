@@ -110,6 +110,12 @@ Angular messages <a href="https://github.com/paullang/ionicNgMessagesExample">ht
 
 	* npm install angular-messages 
 
+Ionic dashboard <a href="https://apps.ionic.io/apps ">https://apps.ionic.io/apps </a>
+
+	* ionic add ionic-service-core
+	* ionic io init
+
+
 <h4>Referencias</h4>
 
 Ionic creator <a href="https://creator.ionic.io ">https://creator.ionic.io </a>
