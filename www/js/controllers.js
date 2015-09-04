@@ -116,9 +116,19 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         });
     }
 
+    // TODO: Validaciones
+    /*WebSql.validView($ionicHistory.currentView().stateName).then(function (result) {
+        if (result.access == false) {
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go("app.loginshipping");
+        }
+    });*/
 })
 
-.controller('HomeCtrl', function ($scope, $http) {})
+// Pagina principal
+.controller('HomeCtrl', function ($scope, $http, WebSql) {})
 
 // Manejo de clientes
 .controller('ContactCtrl', function ($scope, $http, $stateParams, $state, $ionicHistory) {
@@ -424,16 +434,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Basket
 .controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql, $state, $ionicHistory) {
 
-    // Validaciones
-    WebSql.validView('basket').then(function (result) {
-        if (result.access == false) {
-            $ionicHistory.nextViewOptions({
-                disableBack: true
-            });
-            $state.go("app.home");
-        }
-    });
-
     $scope.items = [];
     $scope.totales = [];
     $scope.$rutaImagenes = $rutaImagenes;
@@ -468,16 +468,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Shipping
 .controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
-
-    // Validaciones
-    WebSql.validView('shipping').then(function (result) {
-        if (result.access == false) {
-            $ionicHistory.nextViewOptions({
-                disableBack: true
-            });
-            $state.go("app.loginshipping")
-        }
-    });
 
     // Lista de provincias
     $scope.stateslst = $states;
@@ -573,16 +563,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Confirmation
 .controller('ConfirmationCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
-
-    // Validaciones
-    WebSql.validView('confirmation').then(function (result) {
-        if (result.access == false) {
-            $ionicHistory.nextViewOptions({
-                disableBack: true
-            });
-            $state.go("app.shipping");
-        }
-    });
 
     // Lista de meses y variables
     $scope.items = [];

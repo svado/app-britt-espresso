@@ -13,6 +13,12 @@
 
             <div class="list ">
 
+                <!-- Resumen del envio -->
+                <div ng-controller="ConfirmationCtrl" ng-include="'templates/shipping-summary.html'"></div>
+
+                <!-- Lista de productos -->
+                <div ng-controller="ConfirmationCtrl" ng-include="'templates/basket-items.html'"></div>
+
                 <!-- Tarjetas -->
                 <div class="item item-divider">
                     Seleccione una tarjeta
@@ -26,13 +32,11 @@
                     <i class="radio-icon ion-checkmark "></i>
                 </label>
 
-                <!-- Resumen del envio -->
-                <div ng-controller="ConfirmationCtrl" ng-include="'templates/shipping-summary.html'"></div>
-
-                <!-- Lista de productos -->
-                <div ng-controller="ConfirmationCtrl" ng-include="'templates/basket-items.html'"></div>
 
                 <!-- Resumen de la orden -->
+                <div class="item item-divider">
+                    Resumen de la compra
+                </div>
                 <div ng-controller="BasketInfoCtrl" ng-include="'templates/order-summary.html'"></div>
 
                 <label class="item">
