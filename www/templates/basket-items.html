@@ -1,0 +1,13 @@
+<div class="list ">
+    <div class="item item-divider item-icon-right">
+        Detalle de productos
+        <a href="#/app/basket"><i class="icon ion-edit button-small dark"></i></a>
+    </div>
+    <ion-list>
+        <ion-item ng-repeat="item in items" class="item item-avatar" item="item">
+            <img ng-src="{{$rutaImagenes}}{{item.image}}">
+            <h2>{{item.descripcion}}</h2>
+            <p>Cantidad: {{item.cantidad}}</p>
+        </ion-item>
+    </ion-list>
+</div>

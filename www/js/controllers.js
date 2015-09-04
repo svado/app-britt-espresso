@@ -584,10 +584,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         }
     });
 
-    // Lista de meses
+    // Lista de meses y variables
+    $scope.items = [];
     $scope.meseslst = $meses;
     $scope.anoslist = $anostarjeta;
     $scope.monedaSymbol = $monedaSymbol;
+    $scope.$rutaImagenes = $rutaImagenes;
 
     // Obtiene las funciones del state en el cual estoy
     $scope.$state = $state;
@@ -599,7 +601,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Datos para el pago
     $scope.paymentData = {};
-    $scope.paymentData.codigo_credit_card = '';
+    $scope.paymentData.codigo_credit_card = 0;
     $scope.paymentData.codigo_card_type = '';
     $scope.paymentData.number = '';
     $scope.paymentData.exp_month = '';
@@ -640,6 +642,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Obtiene el shipping
     WebSql.getShipping().then(function (result) {
         $scope.shippingData = result;
+    });
+
+    // Obtiene el basket
+    WebSql.getBasket().then(function (result) {
+        $scope.items = result;
     });
 
     // Crea la orden

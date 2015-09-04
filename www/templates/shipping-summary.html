@@ -1,11 +1,15 @@
 <div class="list">
-    <div class="item item-divider">
-        Datos de envío
+    <div class="item item-divider item-icon-right">
+        Detalle del envío
+        <a href="#/app/shipping"><i class="icon ion-edit button-small dark"></i></a>
     </div>
-    <label class="item">
-        <p>{{shippingData.address_1}}</p>
-        <p>{{shippingData.address_2}}, {{shippingData.city}},{{shippingData.state}}, {{shippingData.zipcode}}</p>
-        <p>{{shippingData.phone}}</p>
-        <p>{{shippingData.courier_display}}</p>
-    </label>
+
+    <ion-list>
+        <ion-item class="item">
+            <p>{{shippingData.address_1}}</p>
+            <p>{{shippingData.address_2}}, {{shippingData.city}},{{shippingData.state}}, {{shippingData.zipcode}}</p>
+            <p>{{shippingData.phone}}</p>
+            <p>{{shippingData.courier_display}}</p>
+        </ion-item>
+    </ion-list>
 </div>
