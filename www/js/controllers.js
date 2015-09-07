@@ -269,15 +269,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Lista de productos
 .controller('ProductListCtrl', function ($scope, $http, $stateParams) {
 
-    //alert('Cargardo lista');
-
     $scope.$rutaImagenes = $rutaImagenes;
 
     $params = '&url=' + $stateParams.page_url;
     $method = 'getProducts';
     $http.post($rutaPagesWs + $method + $params).
     success(function (data, status, headers) {
-        //alert('Lista cargada');
+        console.log(data);
         $scope.products = data;
         $scope.page_url = $stateParams.page_url;
         $scope.error = false;
@@ -295,6 +293,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
     $scope.totalitems = $totalitems;
+
+    // Producto
     $scope.productData = {};
     $scope.productData.cantidad_incluir = '1';
     $scope.productData.codigo_articulo_incluir = '';
@@ -302,6 +302,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.productData.presentation_img = '';
     $scope.productData.precio = '0';
     $scope.productData.impuesto = '0';
+    $scope.productData.combo = '0';
+    $scope.productData.codigo_combo = '0';
+    $scope.productData.freebie = '0';
+
+    //Combo
+    $scope.comboData = {};
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
@@ -312,6 +318,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.mini_description = data.MINI_DESCRIPTION;
         $scope.description = data.DESCRIPTION;
         $scope.imagen = $rutaImagenes + data.IMAGEN;
+        $scope.combo = data.COMBO;
         $scope.items = data.ITEMS;
         $scope.error = false;
     }).
@@ -327,6 +334,18 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         }, function (err) {
             $scope.showPopup('Mi carrito', err);
         });
+    }
+
+    // Agrega el combo al carrito
+    $scope.addCombo = function () {
+        console.log($scope.comboData);
+    }
+
+    // Actualiza los datos del combo
+    $scope.refreshCombo = function (index, linea, cantidad, codigo_item) {
+        $scope.comboData.lineas[index].linea = linea;
+        $scope.comboData.lineas[index].cantidad = cantidad;
+        console.log($scope.comboData);
     }
 })
 

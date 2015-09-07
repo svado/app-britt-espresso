@@ -17,7 +17,7 @@
                         <img ng-src="{{$rutaImagenes}}{{item.image}}">
                         <h2>{{item.descripcion}}</h2>
                         <p>Cantidad: {{item.cantidad}}</p>
-                        <p>Precio: {{monedaSymbol}} {{item.precio}}</p>
+                        <p>Precio: {{monedaSymbol}} {{item.precio | number}}</p>
                         <ion-delete-button class="ion-minus-circled" ng-click="delBasketItem(item)"></ion-delete-button>
                     </ion-item>
                 </ion-list>

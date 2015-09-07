@@ -62,6 +62,8 @@ NGCordova: <a href="http://ngcordova.com/docs/install/ ">http://ngcordova.com/do
     * bower install ngCordova
     * cordova plugin add https://github.com/litehelpers/Cordova-sqlite-storage.git
 
+Angular filter: <a href="https://github.com/a8m/angular-filter#get-started">https://github.com/a8m/angular-filter#get-started</a>
+
 <h4>Referencias</h4>
 
 Adobe PhoneGap <a href="https://build.phonegap.com/apps">https://build.phonegap.com/apps</a>

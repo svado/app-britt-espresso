@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic',  'starter.controllers', 'ngMessages', 'app.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter'])
 
 .run(function ($ionicPlatform, WebSql) {
     $ionicPlatform.ready(function () {
@@ -27,9 +27,9 @@ angular.module('starter', ['ionic',  'starter.controllers', 'ngMessages', 'app.s
         $rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
         $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
         $rutaOrderWs = 'http://pruebacr.cafebritt.com/app/ws/order.cfc?returnformat=json&callback=&method='
-            //$rutaPagesWs = 'http://www.brittespresso.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
-            //$rutaAccountWs = 'http://www.brittespresso.com/app/ws/account.cfc?returnformat=json&callback=&method=';
-            //$rutaOrderWs = 'http://www.brittespresso.com/app/ws/order.cfc?returnformat=json&callback=&method=';
+            //$rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
+            //$rutaAccountWs = 'http://www.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
+            //$rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
         $rutaImagenes = 'http://www.brittespresso.com/siteimg/';
 
         // Maximo de productos permitidos
@@ -176,6 +176,7 @@ angular.module('starter', ['ionic',  'starter.controllers', 'ngMessages', 'app.s
     };
 })
 
+// Rutas
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
     // Intercepta un evento http cuando es invocado
@@ -217,6 +218,16 @@ angular.module('starter', ['ionic',  'starter.controllers', 'ngMessages', 'app.s
         views: {
             'menuContent': {
                 templateUrl: 'templates/product.html'
+            }
+        }
+    })
+
+    //Informacion de un combo
+    .state('app.comboinfo', {
+        url: '/combo/:page_id',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/combo.html'
             }
         }
     })

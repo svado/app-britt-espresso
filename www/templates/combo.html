@@ -1,0 +1,52 @@
+<ion-view view-title="{{title}}" ng-controller="ProductInfoCtrl">
+
+    <!-- Mini basket -->
+    <ion-nav-buttons side="right">
+        <div>
+            <a class="button button-clear button-positive " href="#/app/basket">
+                <i class="icon ion-bag"></i>
+            </a>
+        </div>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <form name="fProduct" ng-submit="addCombo()">
+            <div class="list card">
+
+                <div class="item item-avatar">
+                    <img ng-src="{{imagen}}">
+                    <h2>{{title}}</h2>
+                    <p>{{mini_description}}</p>
+                </div>
+
+                <div class="item item-body">
+                    <img class="full-image" ng-src="{{imagen}}">
+
+                    <ul>
+                        <li ng-repeat="(linea, lineas) in items | groupBy: 'LINEA_DESC'" ng-init="parentIndex = $index">
+                            <div class="item item-divider">
+                                {{linea}}
+                            </div>
+                            <ul>
+                                <li class="row" ng-repeat="product in lineas">
+                                    <div class="col col-80">{{product.ITEM_HEADER}} {{product.TAG_NAME}} - {{product.LINEA_COMBO}}</div>
+                                    <div class="col">
+                                        <select ng-model="comboData.lineas[parentIndex].items[product.CODIGO_ITEM]" ng-change="refreshCombo($index, product.LINEA_COMBO, product.CANTIDAD, product.CODIGO_ITEM); ">
+                                            <option ng-repeat="n in [] | range:product.CANTIDAD" value="{{$index+1}}">{{$index+1}}</option>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="item-body">
+                    <label class="item item-input ">
+                        <button class="button button-block button-positive " type="submit " ng-disabled="fProduct.$invalid ">Agregar al carrito</button>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>
