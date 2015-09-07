@@ -308,6 +308,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     //Combo
     $scope.comboData = {};
+    $scope.comboData.valid = false;
+    $scope.comboData.codigo_combo = 0;
+    $scope.comboData.total_items = 0;
+    $scope.comboData.total_lineas = 0;
     $scope.comboData.lineas = [];
 
     $params = '&page_id=' + $stateParams.page_id;
@@ -319,6 +323,9 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.mini_description = data.MINI_DESCRIPTION;
         $scope.description = data.DESCRIPTION;
         $scope.imagen = $rutaImagenes + data.IMAGEN;
+        $scope.codigo_articulo = data.CODIGO_ARTICULO;
+        $scope.total_items = data.TOTAL_ITEMS;
+        $scope.total_lineas = data.TOTAL_LINEAS;
         $scope.combo = data.COMBO;
         $scope.items = data.ITEMS;
         $scope.error = false;
@@ -344,10 +351,26 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Actualiza los datos del combo
     $scope.refreshCombo = function (index, linea, cantidad, codigo_item) {
-        $scope.comboData.lineas[index].linea = linea;
-        $scope.comboData.lineas[index].cantidad = cantidad;
-        console.log($scope.comboData);
+
+        //Total seleccionado de la linea.
+        $scope.comboData.total_items = $scope.total_items;
+        $scope.comboData.total_lineas = $scope.total_lineas;
+        $scope.comboData.codigo_combo = $scope.codigo_articulo;
+        $scope.comboData.valid = false;
+        var items_linea = 0;
+
+        for (var i = 0; i <= $scope.comboData.total_lineas - 1; i++) {
+            if ($scope.comboData.lineas[i] !== undefined) {
+                angular.forEach($scope.comboData.lineas[i].items, function (item) {
+                    items_linea += parseInt(item);
+                });
+            }
+        }
+
+        if (items_linea == $scope.comboData.total_items)
+            $scope.comboData.valid = true;
     }
+
 })
 
 // Informacion de un contacto

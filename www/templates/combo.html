@@ -10,7 +10,7 @@
     </ion-nav-buttons>
 
     <ion-content>
-        <form name="fProduct" ng-submit="addCombo()">
+        <form name="fCombo" ng-submit="addCombo()">
             <div class="list card">
 
                 <div class="item item-avatar">
@@ -29,8 +29,9 @@
                             </div>
                             <ul>
                                 <li class="row" ng-repeat="product in lineas">
-                                    <div class="col col-80">{{product.ITEM_HEADER}} {{product.TAG_NAME}} - {{product.LINEA_COMBO}}</div>
+                                    <div class="col col-80">{{product.ITEM_HEADER}} {{product.TAG_NAME}}</div>
                                     <div class="col">
+                                        <div ng-messages="fCombo.cantidad_incluir.$error " ng-messages-include="messages.html "></div>
                                         <select ng-model="comboData.lineas[parentIndex].items[product.CODIGO_ITEM]" ng-change="refreshCombo(parentIndex, product.LINEA_COMBO, product.CANTIDAD, product.CODIGO_ITEM); ">
                                             <option ng-repeat="n in [] | range:product.CANTIDAD" value="{{$index+1}}">{{$index+1}}</option>
                                         </select>
@@ -43,7 +44,7 @@
 
                 <div class="item-body">
                     <label class="item item-input ">
-                        <button class="button button-block button-positive " type="submit " ng-disabled="fProduct.$invalid ">Agregar al carrito</button>
+                        <button class="button button-block button-positive " type="submit " ng-disabled="comboData.valid==false">Agregar al carrito</button>
                     </label>
                 </div>
             </div>
