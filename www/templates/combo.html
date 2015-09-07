@@ -31,7 +31,7 @@
                                 <li class="row" ng-repeat="product in lineas">
                                     <div class="col col-80">{{product.ITEM_HEADER}} {{product.TAG_NAME}} - {{product.LINEA_COMBO}}</div>
                                     <div class="col">
-                                        <select ng-model="comboData.lineas[parentIndex].items[product.CODIGO_ITEM]" ng-change="refreshCombo($index, product.LINEA_COMBO, product.CANTIDAD, product.CODIGO_ITEM); ">
+                                        <select ng-model="comboData.lineas[parentIndex].items[product.CODIGO_ITEM]" ng-change="refreshCombo(parentIndex, product.LINEA_COMBO, product.CANTIDAD, product.CODIGO_ITEM); ">
                                             <option ng-repeat="n in [] | range:product.CANTIDAD" value="{{$index+1}}">{{$index+1}}</option>
                                         </select>
                                     </div>

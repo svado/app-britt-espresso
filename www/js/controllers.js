@@ -308,6 +308,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     //Combo
     $scope.comboData = {};
+    $scope.comboData.lineas = [];
 
     $params = '&page_id=' + $stateParams.page_id;
     $method = 'getProductInfo';
