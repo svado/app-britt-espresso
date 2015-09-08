@@ -16,24 +16,31 @@
                 <div class="item item-avatar">
                     <img ng-src="{{imagen}}">
                     <h2>{{title}}</h2>
-                    <p>{{mini_description}}</p>
+                    <p>Precio: {{monedaSymbol}} {{precio | number}}</p>
                 </div>
 
                 <div class="item item-body">
                     <img class="full-image" ng-src="{{imagen}}">
+                    <p>{{mini_description}}</p>
+                    <p class="text-right">Precio: {{monedaSymbol}} {{precio | number}}</p>
 
                     <ul>
                         <li ng-repeat="(linea, lineas) in items | groupBy: 'LINEA_DESC'" ng-init="parentIndex = $index">
+
                             <div class="item item-divider">
-                                {{linea}}
+                                <span class="item-icon-right">
+                                    Seleccione
+                                    <span class="badge badge-assertive" ng-repeat="linea in lineas">{{linea.CANTIDAD}}</span>
+                                </span>
+                                <p>{{linea}}</p>
                             </div>
+
                             <ul>
                                 <li class="row" ng-repeat="product in lineas">
                                     <div class="col col-80">{{product.ITEM_HEADER}} {{product.TAG_NAME}}</div>
                                     <div class="col">
-                                        <div ng-messages="fCombo.cantidad_incluir.$error " ng-messages-include="messages.html "></div>
-                                        <select ng-model="comboData.lineas[parentIndex].items[product.CODIGO_ITEM]" ng-change="refreshCombo(parentIndex, product.LINEA_COMBO, product.CANTIDAD, product.CODIGO_ITEM); ">
-                                            <option ng-repeat="n in [] | range:product.CANTIDAD" value="{{$index+1}}">{{$index+1}}</option>
+                                        <select ng-model="comboData.lineas[parentIndex].items[product.CODIGO_ITEM]" ng-change="refreshCombo(parentIndex, product.LINEA_COMBO, product.CANTIDAD, product.CODIGO_ITEM);">
+                                            <option ng-repeat="n in [] | range:product.CANTIDAD+1" value="{{$index}}">{{$index}}</option>
                                         </select>
                                     </div>
                                 </li>

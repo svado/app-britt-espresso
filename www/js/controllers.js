@@ -290,6 +290,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Informacion de un producto
 .controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
 
+    /* TODO: mostrar precio y agregar al basket */
+    /* TODO: impuesto en combos */
+    /* TODO: radio y checks deben verse con borde */
+
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
     $scope.totalitems = $totalitems;
@@ -326,6 +330,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.codigo_articulo = data.CODIGO_ARTICULO;
         $scope.total_items = data.TOTAL_ITEMS;
         $scope.total_lineas = data.TOTAL_LINEAS;
+        $scope.precio = data.PRECIO;
         $scope.combo = data.COMBO;
         $scope.items = data.ITEMS;
         $scope.error = false;
@@ -347,27 +352,51 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Agrega el combo al carrito
     $scope.addCombo = function () {
         console.log($scope.comboData);
+        for (var i = 0; i < $scope.comboData.lineas.length; i++) {
+
+            // Linea
+            //console.log($scope.comboData.lineas[i]);
+
+            //console.log($scope.comboData.lineas[i].items);
+            angular.forEach($scope.comboData.lineas[i].items, function (value, key) {
+                console.log(key + '= ' + value);
+            });
+        }
     }
 
     // Actualiza los datos del combo
     $scope.refreshCombo = function (index, linea, cantidad, codigo_item) {
 
-        //Total seleccionado de la linea.
         $scope.comboData.total_items = $scope.total_items;
         $scope.comboData.total_lineas = $scope.total_lineas;
         $scope.comboData.codigo_combo = $scope.codigo_articulo;
+        $scope.comboData.lineas[index].cantidad = cantidad;
         $scope.comboData.valid = false;
-        var items_linea = 0;
 
+        var items_lineas = 0;
+        var lineas_valid = true;
+
+        // Verifica que el total seleccionado sea el total del combo
         for (var i = 0; i <= $scope.comboData.total_lineas - 1; i++) {
             if ($scope.comboData.lineas[i] !== undefined) {
+
+                // Total de items seleccionado
+                var items_linea = 0;
                 angular.forEach($scope.comboData.lineas[i].items, function (item) {
+                    items_lineas += parseInt(item);
                     items_linea += parseInt(item);
                 });
+
+                // Verifica que se haya seleccionado el total de elementos de cada linea
+                if ($scope.comboData.lineas[i].cantidad == undefined)
+                    lineas_valid = false;
+                else if (items_linea != $scope.comboData.lineas[i].cantidad)
+                    lineas_valid = false;
             }
         }
 
-        if (items_linea == $scope.comboData.total_items)
+        // Valida el combo
+        if (items_lineas == $scope.comboData.total_items && lineas_valid)
             $scope.comboData.valid = true;
     }
 
