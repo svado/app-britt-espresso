@@ -66,7 +66,7 @@ angular.module('app.services', [])
     this.getBasket = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT * FROM DETALLE_FACTURA', [], function (tx, results) {
+            tx.executeSql('SELECT * FROM DETALLE_FACTURA ORDER BY codigo_combo', [], function (tx, results) {
                 var res = []
                 for (var i = 0; i < results.rows.length; i++) {
                     res[i] = results.rows.item(i);

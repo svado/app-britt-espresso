@@ -288,10 +288,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Informacion de un producto
-.controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql) {
+.controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql, $filter) {
 
     /* TODO: mostrar precio y agregar al basket */
-    /* TODO: impuesto en combos */
+    /* TODO: impuesto y peso en combos */
     /* TODO: radio y checks deben verse con borde */
 
     $scope.rutaImagenes = $rutaImagenes;
@@ -327,6 +327,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.mini_description = data.MINI_DESCRIPTION;
         $scope.description = data.DESCRIPTION;
         $scope.imagen = $rutaImagenes + data.IMAGEN;
+        $scope.imagen_sin_ruta = data.IMAGEN;
         $scope.codigo_articulo = data.CODIGO_ARTICULO;
         $scope.total_items = data.TOTAL_ITEMS;
         $scope.total_lineas = data.TOTAL_LINEAS;
@@ -351,15 +352,38 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Agrega el combo al carrito
     $scope.addCombo = function () {
-        console.log($scope.comboData);
+
         for (var i = 0; i < $scope.comboData.lineas.length; i++) {
-
-            // Linea
-            //console.log($scope.comboData.lineas[i]);
-
-            //console.log($scope.comboData.lineas[i].items);
             angular.forEach($scope.comboData.lineas[i].items, function (value, key) {
-                console.log(key + '= ' + value);
+
+                // Busca los datos del producto
+                var item_found = $filter('filter')($scope.items, {
+                    CODIGO_ITEM: key
+                });
+
+                if (item_found.length == 1) {
+
+                    // Crea el objeto para enviarlo al carrito
+                    var item = {
+                        codigo_articulo_incluir: key,
+                        codigo_combo: $scope.comboData.codigo_combo,
+                        cantidad_incluir: value,
+                        presentation_name: item_found[0].ITEM_HEADER,
+                        presentation_img: $scope.imagen_sin_ruta,
+                        precio: item_found[0].PRECIO,
+                        impuesto: item_found[0].IMPUESTO,
+                        peso: item_found[0].PESO,
+                        freebie: 0
+                    }
+
+                    console.log(item);
+                }
+
+                /*WebSql.addProduct(item).then(function (alerta) {
+
+                }, function (err) {
+
+                });*/
             });
         }
     }
