@@ -14,7 +14,7 @@
             <ion-item ng-repeat="product in products" href="#/app/{{product.TEMPLATE}}/{{product.PAGE_ID}}" class="item-thumbnail-left">
                 <img ng-src="{{$rutaImagenes}}{{product.IMAGEN}}">
                 <h2>{{product.HEADER}}</h2>
-                <p>{{product.ARTICLE_TEXT}}</p>
+                <p ng-bind-html="product.ARTICLE_TEXT"></p>
             </ion-item>
         </ion-list>
     </ion-content>

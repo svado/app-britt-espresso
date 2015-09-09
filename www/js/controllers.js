@@ -291,7 +291,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql, $filter) {
 
     /* TODO: mostrar precio y agregar al basket */
-    /* TODO: impuesto y peso en combos */
+    /* TODO: arreglar impuesto y peso en combos */
     /* TODO: radio y checks deben verse con borde */
 
     $scope.rutaImagenes = $rutaImagenes;
@@ -305,6 +305,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.productData.presentation_name = '';
     $scope.productData.presentation_img = '';
     $scope.productData.precio = '0';
+    $scope.productData.precio_venta_bruto = '0';
     $scope.productData.impuesto = '0';
     $scope.productData.combo = '0';
     $scope.productData.codigo_combo = '0';
@@ -343,6 +344,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Agrega el producto al carrito
     $scope.addProduct = function () {
+        $scope.productData.precio_venta_bruto = $scope.productData.precio;
         WebSql.addProduct($scope.productData).then(function (alerta) {
             $scope.showPopup('Mi carrito', alerta);
         }, function (err) {
@@ -353,39 +355,69 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Agrega el combo al carrito
     $scope.addCombo = function () {
 
+        var error = '';
+
+        // Borra el combo
+        WebSql.delProduct($scope.comboData).then(function (alerta) {}, function (err) {
+            error = err;
+        });
+
+        // Obtiene el total del monto de los items del combo
+        var sum_total_items = 0;
         for (var i = 0; i < $scope.comboData.lineas.length; i++) {
             angular.forEach($scope.comboData.lineas[i].items, function (value, key) {
 
                 // Busca los datos del producto
-                var item_found = $filter('filter')($scope.items, {
-                    CODIGO_ITEM: key
-                });
+                if (parseInt(value) > 0) {
+                    var item_found = $filter('filter')($scope.items, {
+                        CODIGO_ITEM: key
+                    });
 
-                if (item_found.length == 1) {
-
-                    // Crea el objeto para enviarlo al carrito
-                    var item = {
-                        codigo_articulo_incluir: key,
-                        codigo_combo: $scope.comboData.codigo_combo,
-                        cantidad_incluir: value,
-                        presentation_name: item_found[0].ITEM_HEADER,
-                        presentation_img: $scope.imagen_sin_ruta,
-                        precio: item_found[0].PRECIO,
-                        impuesto: item_found[0].IMPUESTO,
-                        peso: item_found[0].PESO,
-                        freebie: 0
+                    if (item_found.length == 1) {
+                        sum_total_items += (item_found[0].PRECIO * value);
                     }
-
-                    console.log(item);
                 }
-
-                /*WebSql.addProduct(item).then(function (alerta) {
-
-                }, function (err) {
-
-                });*/
             });
         }
+
+        for (var i = 0; i < $scope.comboData.lineas.length; i++) {
+            angular.forEach($scope.comboData.lineas[i].items, function (value, key) {
+
+                // Busca los datos del producto
+                if (parseInt(value) > 0) {
+                    var item_found = $filter('filter')($scope.items, {
+                        CODIGO_ITEM: key
+                    });
+
+                    if (item_found.length == 1) {
+
+                        var precio_venta_bruto = (item_found[0].PRECIO / (sum_total_items / $scope.precio));
+
+                        // Crea el objeto para enviarlo al carrito
+                        var item = {
+                            codigo_articulo_incluir: key,
+                            codigo_combo: $scope.comboData.codigo_combo,
+                            cantidad_incluir: value,
+                            presentation_name: $scope.title,
+                            presentation_img: $scope.imagen_sin_ruta,
+                            precio: item_found[0].PRECIO,
+                            precio_venta_bruto: precio_venta_bruto,
+                            impuesto: item_found[0].IMPUESTO,
+                            peso: item_found[0].PESO,
+                            freebie: 0,
+                            item_descripcion: item_found[0].ITEM_HEADER
+                        }
+
+                        WebSql.addProduct(item).then(function (alerta) {}, function (err) {
+                            error = err;
+                        });
+                    }
+                }
+            });
+        }
+
+        if (error == '') $scope.showPopup('Mi carrito', 'El especial fue agregado');
+        else $scope.showPopup('Mi carrito', error);
     }
 
     // Actualiza los datos del combo

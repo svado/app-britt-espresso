@@ -21,7 +21,7 @@
 
                 <div class="item item-body">
                     <img class="full-image" ng-src="{{imagen}}">
-                    <p>{{mini_description}}</p>
+                    <p ng-bind-html="mini_description"></p>
                     <p class="text-right">Precio: {{monedaSymbol}} {{precio | number}}</p>
 
                     <ul>

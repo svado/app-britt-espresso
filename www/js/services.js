@@ -18,7 +18,7 @@ angular.module('app.services', [])
     // Crea las tablas principales
     function populateDB(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, impuesto float, peso float, freebie, primary key (codigo_articulo, codigo_combo))');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, precio_venta_bruto float, impuesto float, peso float, freebie, item_descripcion, primary key (codigo_articulo, codigo_combo))');
 
         //tx.executeSql('DROP TABLE IF EXISTS POS_SHIPPING');
         tx.executeSql('CREATE TABLE IF NOT EXISTS POS_SHIPPING (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float, address_1, address_2, city, codigo_pais integer, zipcode, phone, courier, courier_display)');
@@ -37,7 +37,7 @@ angular.module('app.services', [])
         console.log(data);
         db.transaction(function (tx) {
             tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_articulo = ? AND codigo_combo = ?', [data.codigo_articulo_incluir, data.codigo_combo]);
-            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, codigo_combo, descripcion, cantidad, image, precio, impuesto, peso, freebie) VALUES (?,?,?,?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.codigo_combo, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.impuesto.toString(), data.peso.toString(), data.freebie]);
+            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, codigo_combo, descripcion, cantidad, image, precio, precio_venta_bruto, impuesto, peso, freebie, item_descripcion) VALUES (?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.codigo_combo, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.precio_venta_bruto.toString(), data.impuesto.toString(), data.peso.toString(), data.freebie, data.item_descripcion]);
         }, function () {
             deferred.reject('No se pudo agregar el producto');
         }, function () {
@@ -52,7 +52,11 @@ angular.module('app.services', [])
         var deferred = $q.defer();
         db.transaction(function (tx) {
             console.log(data);
-            tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_articulo = ? AND codigo_combo = ?', [data.codigo_articulo, data.codigo_combo]);
+            if (parseInt(data.codigo_combo) > 0) {
+                tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_combo = ?', [data.codigo_combo]);
+            } else {
+                tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_articulo = ? AND codigo_combo = 0', [data.codigo_articulo]);
+            }
         }, function () {
             deferred.reject('No se pudo borrar el producto');
         }, function () {
@@ -66,7 +70,7 @@ angular.module('app.services', [])
     this.getBasket = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT * FROM DETALLE_FACTURA ORDER BY codigo_combo', [], function (tx, results) {
+            tx.executeSql('SELECT * FROM DETALLE_FACTURA', [], function (tx, results) {
                 var res = []
                 for (var i = 0; i < results.rows.length; i++) {
                     res[i] = results.rows.item(i);
@@ -96,7 +100,21 @@ angular.module('app.services', [])
     this.getTotals = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT sum(A.precio*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
+            /*tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
+                var res = [];
+                if (results.rows.length > 0) {
+                    res.total_sin_envio = results.rows[0].total;
+                    res.total = (results.rows[0].total + results.rows[0].envio);
+                    res.items = results.rows[0].items;
+                    res.impuesto = results.rows[0].impuesto;
+                    res.sub_total = results.rows[0].sub_total;
+                    res.peso = results.rows[0].peso;
+                    res.envio = results.rows[0].envio;
+                }
+                deferred.resolve(res);
+            });*/
+
+            tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
                 var res = [];
                 if (results.rows.length > 0) {
                     res.total_sin_envio = results.rows[0].total;

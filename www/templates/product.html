@@ -16,14 +16,12 @@
                 <div class="item item-avatar">
                     <img ng-src="{{imagen}}">
                     <h2>{{title}}</h2>
-                    <p>{{mini_description}}</p>
+                    <p ng-bind-html="mini_description"></p>
                 </div>
 
                 <div class="item item-body">
                     <img class="full-image" ng-src="{{imagen}}">
-                    <p>
-                        {{description}}}
-                    </p>
+                    <p ng-bind-html="description"></p>
 
                     <div class="list">
 
@@ -32,11 +30,12 @@
                         </div>
                         <label class="item item-radio" ng-repeat="product in items">
                             <input type="radio" name="codigo_articulo_incluir" ng-model="productData.codigo_articulo_incluir" value="{{product.CODIGO_ARTICULO}} " required ng-click="
-                            productData.presentation_name=title+' '+product.PRESENTATION_NAME;
+                            productData.presentation_name=title;
                             productData.presentation_img=product.PRESENTATION_IMG;
                             productData.precio = product.PRECIO;
                             productData.impuesto = product.IMPUESTO;
-                            productData.peso = product.PESO">
+                            productData.peso = product.PESO;
+                            productData.item_descripcion = product.PRESENTATION_NAME">
                             <!-- ng-checked="product.PRINCIPAL==1 " -->
                             <div class="item-content ">
                                 <span>{{product.PRESENTATION_NAME}}</span>

@@ -1,98 +1,0 @@
-10
-
-dir
-0
-http://subversion.grupocafebritt.com:80/Sistemas/app-britt-espresso/www/lib/angular
-http://subversion.grupocafebritt.com:80/Sistemas
-add
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7fbfb38e-5f93-4992-b219-878775e548b1
-
-angular.min.js.map
-file
-
-
-
-add
-
-angular-csp.css
-file
-
-
-
-add
-
-package.json
-file
-
-
-
-add
-
-.bower.json
-file
-
-
-
-add
-
-angular.js
-file
-
-
-
-add
-
-angular.min.js
-file
-
-
-
-add
-
-bower.json
-file
-
-
-
-add
-
-README.md
-file
-
-
-
-add
-
-angular.min.js.gzip
-file
-
-
-
-add
-
-
-
-
-
-has-props
-has-prop-mods
-
