@@ -100,20 +100,6 @@ angular.module('app.services', [])
     this.getTotals = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            /*tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
-                var res = [];
-                if (results.rows.length > 0) {
-                    res.total_sin_envio = results.rows[0].total;
-                    res.total = (results.rows[0].total + results.rows[0].envio);
-                    res.items = results.rows[0].items;
-                    res.impuesto = results.rows[0].impuesto;
-                    res.sub_total = results.rows[0].sub_total;
-                    res.peso = results.rows[0].peso;
-                    res.envio = results.rows[0].envio;
-                }
-                deferred.resolve(res);
-            });*/
-
             tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
                 var res = [];
                 if (results.rows.length > 0) {

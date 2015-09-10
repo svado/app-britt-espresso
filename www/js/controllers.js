@@ -297,6 +297,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
     $scope.totalitems = $totalitems;
+    $scope.tiendaImpuesto = $tiendaImpuesto;
 
     // Producto
     $scope.productData = {};
@@ -391,7 +392,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
                     if (item_found.length == 1) {
 
+                        // Precio de venta
                         var precio_venta_bruto = (item_found[0].PRECIO / (sum_total_items / $scope.precio));
+
+                        // Impuesto
+                        if (item_found[0].IMPUESTO > 0)
+                            var impuesto = (precio_venta_bruto - (precio_venta_bruto / (1 + ($scope.tiendaImpuesto / 100))));
+                        else
+                            var impuesto = 0;
 
                         // Crea el objeto para enviarlo al carrito
                         var item = {
@@ -402,7 +410,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                             presentation_img: $scope.imagen_sin_ruta,
                             precio: item_found[0].PRECIO,
                             precio_venta_bruto: precio_venta_bruto,
-                            impuesto: item_found[0].IMPUESTO,
+                            impuesto: impuesto,
                             peso: item_found[0].PESO,
                             freebie: 0,
                             item_descripcion: item_found[0].ITEM_HEADER
