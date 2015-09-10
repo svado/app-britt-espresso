@@ -1,5 +1,7 @@
 angular.module('starter.controllers', ['app.services', 'app.services'])
 
+/* TODO: Defaults en los radios */
+
 // Controlador general
 .controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state) {
 
@@ -584,7 +586,20 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.delBasketItem = function (item) {
         WebSql.delProduct(item).then(function (alerta) {
             $scope.items.splice($scope.items.indexOf(item), 1);
-            $scope.refreshPage();
+
+            // Si el basket esta vacio elimina el shipping y redirecciona
+            WebSql.getTotals().then(function (result) {
+                if (result.total == 0) {
+
+                    WebSql.delShipping().then(function (alerta) {
+                        $state.go("app.home");
+                    }, function (err) {
+                        $scope.showPopup('Mi carrito', err);
+                    });
+                } else
+                    $scope.refreshPage();
+            });
+
         }, function (err) {
             $scope.showPopup('Mi carrito', err);
         });
@@ -621,6 +636,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.shippingData = {};
     $scope.shippingData.codigo_address = '';
     $scope.shippingData.codigo_service_type = '';
+    $scope.shippingData.codigo_address_selected = '';
+    $scope.shippingData.codigo_service_type_selected = '';
     $scope.shippingData.monto_envio = 0;
     $scope.shippingData.peso = 0;
     $scope.shippingData.address_1 = '';
@@ -637,6 +654,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     WebSql.getTotals().then(function (result) {
         $scope.shippingData.peso = result.peso;
         $scope.shippingData.monto_envio = result.envio;
+        $scope.shippingData.codigo_address_selected = result.codigo_address;
+        $scope.shippingData.codigo_service_type_selected = result.codigo_service_type;
+
+        // Calcula el envio ya seleccionado previamente
+        $scope.getShipping(result.peso, result.codigo_state, result.codigo_service_type);
     });
 
     // Actualiza la direccion de un contacto
@@ -685,11 +707,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $method = 'getShipping';
         $http.post($rutaOrderWs + $method + $params).
         success(function (data, status, headers) {
-            $scope.shippings = data;
-            $scope.shippingData.monto_envio = data[0].MONTO;
-            $scope.error = false;
-        }).
-        error(function (data, status) {
+            if (data.length > 0) {
+                $scope.shippings = data;
+                $scope.shippingData.monto_envio = data[0].MONTO;
+                $scope.error = false;
+            }
+        }).error(function (data, status) {
             $scope.error = true;
             console.log(status);
         });
@@ -770,5 +793,26 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         console.log($scope.paymentData);
         $scope.showPopup('Confirmacion', 'Procesar orden');
     }
+
+})
+
+// Mis pedidos
+.controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, WebSql) {
+
+    $scope.monedaSymbol = $monedaSymbol;
+    $scope.$rutaImagenes = $rutaImagenes;
+
+    $cliente = $scope.getLocalData('cliente');
+    $params = '&codigo_cliente=' + $cliente.codigo_cliente;
+    $method = 'getOrders';
+
+    $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
+        console.log(data);
+        $scope.orders = data;
+        $scope.error = false;
+    }).error(function (data, status) {
+        $scope.error = true;
+        console.log(status);
+    });
 
 })

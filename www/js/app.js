@@ -340,6 +340,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
+    //Mis ordenes
+    .state('app.myorders', {
+        url: '/my-orders',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/my-orders.html'
+            }
+        }
+    })
+
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/home');
 

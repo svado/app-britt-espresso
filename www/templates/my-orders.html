@@ -1,0 +1,17 @@
+<ion-view view-title="Mis pedidos" ng-controller="OrderListCtrl">
+    <ion-content>
+        <div class="list">
+            <div ng-repeat="(orden, orders) in orders | groupBy: 'ORDEN'" ng-init="parentIndex = orders">
+                <div class="item item-divider">
+                    <span class="item-note">{{monedaSymbol}} {{parentIndex[0].TOTAL_DECLARADO_DOL | number}}</span>
+                    <p> Orden: {{orden}}
+                        <br> Fecha: {{parentIndex[0].SHIPPING_DATE}}</p>
+                </div>
+
+                <div class="item" ng-repeat="item in orders">
+                    <p><span class="item-note">{{monedaSymbol}} {{item.PRECIO | number}}</span> {{item.CANTIDAD}} {{item.HEADER}} {{item.PRESENTATION_NAME}}</p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

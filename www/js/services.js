@@ -100,7 +100,7 @@ angular.module('app.services', [])
     this.getTotals = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
+            tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio, B.codigo_address, B.codigo_service_type, B.codigo_state FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
                 var res = [];
                 if (results.rows.length > 0) {
                     res.total_sin_envio = results.rows[0].total;
@@ -110,6 +110,9 @@ angular.module('app.services', [])
                     res.sub_total = results.rows[0].sub_total;
                     res.peso = results.rows[0].peso;
                     res.envio = results.rows[0].envio;
+                    res.codigo_address = results.rows[0].codigo_address;
+                    res.codigo_service_type = results.rows[0].codigo_service_type;
+                    res.codigo_state = results.rows[0].codigo_state;
                 }
                 deferred.resolve(res);
             });
@@ -128,6 +131,20 @@ angular.module('app.services', [])
                 deferred.resolve(res);
             });
         });
+        return deferred.promise;
+    };
+
+    // Borra el envio
+    this.delShipping = function () {
+        var deferred = $q.defer();
+        db.transaction(function (tx) {
+            tx.executeSql('DELETE FROM POS_SHIPPING', []);
+        }, function () {
+            deferred.reject('No se pudo borrar el envio');
+        }, function () {
+            deferred.resolve('');
+        });
+
         return deferred.promise;
     };
 
