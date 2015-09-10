@@ -3,11 +3,15 @@
         Detalle de productos
         <a href="#/app/basket"><i class="icon ion-edit button-small dark"></i></a>
     </div>
+
     <ion-list>
-        <ion-item ng-repeat="item in items" class="item item-avatar" item="item">
-            <img ng-src="{{$rutaImagenes}}{{item.image}}">
-            <h2>{{item.descripcion}}</h2>
-            <p>Cantidad: {{item.cantidad}}</p>
+        <ion-item ng-repeat="(descripcion, items) in items | groupBy: 'descripcion'" ng-init="parentIndex = items" class="item item-avatar item-icon-right" item="item">
+            <img ng-src="{{$rutaImagenes}}{{image}}" ng-repeat="(image, items) in items | groupBy: 'image'">
+            <h2>{{descripcion}}</h2>
+            <span class="item-note">{{monedaSymbol}} {{parentIndex[0].precio_venta_total | number}}</span>
+            <p ng-repeat="item in items">
+                {{item.cantidad}} {{item.item_descripcion}}
+            </p>
         </ion-item>
     </ion-list>
 </div>

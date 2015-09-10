@@ -13,14 +13,14 @@
             <div class="list ">
 
                 <ion-list show-delete="data.showDelete">
-                    <ion-item ng-repeat="(descripcion, items) in items | groupBy: 'descripcion'" class="item item-avatar item-icon-right" item="item">
+                    <ion-item ng-repeat="(descripcion, items) in items | groupBy: 'descripcion'" ng-init="parentIndex = items" class="item item-avatar item-icon-right" item="item">
                         <img ng-src="{{$rutaImagenes}}{{image}}" ng-repeat="(image, items) in items | groupBy: 'image'">
                         <h2>{{descripcion}}</h2>
-                        <span class="item-note" ng-repeat="(precio, items) in items | groupBy: 'precio'"></span>
+                        <span class="item-note">{{monedaSymbol}} {{parentIndex[0].precio_venta_total | number}}</span>
                         <p ng-repeat="item in items">
                             {{item.cantidad}} {{item.item_descripcion}}
                         </p>
-                        <ion-delete-button class="ion-minus-circled" ng-click="delBasketItem(item)"></ion-delete-button>
+                        <ion-delete-button class="ion-minus-circled" ng-click="delBasketItem(parentIndex[0])"></ion-delete-button>
                     </ion-item>
                 </ion-list>
 

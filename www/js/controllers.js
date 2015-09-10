@@ -290,8 +290,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Informacion de un producto
 .controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql, $filter) {
 
-    /* TODO: mostrar precio y agregar al basket */
-    /* TODO: arreglar impuesto y peso en combos */
     /* TODO: radio y checks deben verse con borde */
 
     $scope.rutaImagenes = $rutaImagenes;
@@ -346,6 +344,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Agrega el producto al carrito
     $scope.addProduct = function () {
         $scope.productData.precio_venta_bruto = $scope.productData.precio;
+        $scope.productData.precio_venta_total = $scope.productData.precio;
         WebSql.addProduct($scope.productData).then(function (alerta) {
             $scope.showPopup('Mi carrito', alerta);
         }, function (err) {
@@ -410,6 +409,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                             presentation_img: $scope.imagen_sin_ruta,
                             precio: item_found[0].PRECIO,
                             precio_venta_bruto: precio_venta_bruto,
+                            precio_venta_total: $scope.precio,
                             impuesto: impuesto,
                             peso: item_found[0].PESO,
                             freebie: 0,
