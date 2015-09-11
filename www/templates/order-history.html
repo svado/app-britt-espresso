@@ -2,7 +2,7 @@
 
     <div class="my-orders">
         <div ng-repeat="(orden, orders) in orders | groupBy: 'ORDEN'" ng-init="parentIndex = orders">
-            <ion-item class="item-stable" ng-click="toggleGroup(parentIndex)" ng-class="{active: isGroupShown(parentIndex)}">
+            <ion-item class="item" ng-click="toggleGroup(parentIndex)" ng-class="{active: isGroupShown(parentIndex)}">
                 <span class="item-note">{{parentIndex[0].SHIPPING_DATE}}</span>
                 <i class="icon" ng-class="isGroupShown(parentIndex) ? 'ion-minus' : 'ion-plus'"></i> &nbsp; {{orden}}
             </ion-item>

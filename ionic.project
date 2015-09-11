@@ -1,4 +1,8 @@
 {
   "name": "britt-espresso",
-  "app_id": "356cbc2f"
+  "app_id": "356cbc2f",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ]
 }
