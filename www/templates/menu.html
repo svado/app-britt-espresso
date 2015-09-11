@@ -14,26 +14,31 @@
 
     <ion-side-menu side="left">
         <ion-header-bar class="bar-stable">
-            <h1 class="title" ng-if="isLoggedIn()">Bienvenido {{getLocalData('cliente').first_name}}</h1>
-            <h1 class="title" ng-if="!isLoggedIn()">Menu</h1>
+            <h1 class="title">Men&uacute;</h1>
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item menu-close ng-click="login()" ng-if="!isLoggedIn()">
-                    Ingresar
+                <ion-item menu-close href="#/app/home" class="item-icon-left">
+                    <i class="icon ion-home"></i> Inicio
                 </ion-item>
-                <ion-item menu-close href="#/app/my-account" ng-if="isLoggedIn()">
+                <div class="item item-divider">
                     Mi cuenta
+                </div>
+                <ion-item menu-close ng-click="login()" ng-if="!isLoggedIn()" class="item-icon-left">
+                    <i class="icon ion-person"></i> Ingresar
                 </ion-item>
-                <ion-item menu-close ng-click="signup()" ng-if="!isLoggedIn()">
-                    Crear cuenta
+                <ion-item menu-close href="#/app/my-account" ng-if="isLoggedIn()" class="item-icon-left">
+                    <i class="icon ion-person"></i> Mi perfil
                 </ion-item>
-                <ion-item menu-close ng-click="logout()" ng-if="isLoggedIn()">
-                    Salir
+                <ion-item menu-close ng-click="signup()" ng-if="!isLoggedIn()" class="item-icon-left">
+                    <i class="icon ion-person-add"></i> Crear cuenta
                 </ion-item>
-                <ion-item menu-close href="#/app/home">
-                    Inicio
+                <ion-item menu-close ng-click="logout()" ng-if="isLoggedIn()" class="item-icon-left">
+                    <i class="icon ion-android-exit"></i> Salir
                 </ion-item>
+                <div class="item item-divider">
+                    Categor&iacute;as
+                </div>
                 <ion-item menu-close href="#/app/products/Espresso">
                     Espresso
                 </ion-item>
