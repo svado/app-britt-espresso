@@ -1,0 +1,15 @@
+<ion-list ng-controller="OrderListCtrl">
+
+    <div class="my-orders">
+        <div ng-repeat="(orden, orders) in orders | groupBy: 'ORDEN'" ng-init="parentIndex = orders">
+            <ion-item class="item-stable" ng-click="toggleGroup(parentIndex)" ng-class="{active: isGroupShown(parentIndex)}">
+                <span class="item-note">{{parentIndex[0].SHIPPING_DATE}}</span>
+                <i class="icon" ng-class="isGroupShown(parentIndex) ? 'ion-minus' : 'ion-plus'"></i> &nbsp; {{orden}}
+            </ion-item>
+            <ion-item class="item-accordion item-avatar" ng-repeat="item in orders" ng-show="isGroupShown(parentIndex)">
+                <img ng-src="{{$rutaImagenes}}{{item.IMAGEN}}"> {{item.HEADER}} {{item.PRESENTATION_NAME}}
+                <br> {{monedaSymbol}} {{item.PRECIO | number}}
+            </ion-item>
+        </div>
+    </div>
+</ion-list>

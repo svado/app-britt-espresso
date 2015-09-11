@@ -130,7 +130,21 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Pagina principal
-.controller('HomeCtrl', function ($scope, $http, WebSql) {})
+.controller('HomeCtrl', function ($scope, $http, WebSql) {
+
+    $params = '&template_id=54&article_types=70';
+    $method = 'getPageArticles';
+    $http.post($rutaPagesWs + $method + $params).
+    success(function (data, status, headers) {
+        console.log(data);
+        $scope.banners = data;
+        $scope.error = false;
+    }).
+    error(function (data, status) {
+        $scope.error = true;
+        console.log(status);
+    });
+})
 
 // Manejo de clientes
 .controller('ContactCtrl', function ($scope, $http, $stateParams, $state, $ionicHistory) {
@@ -801,18 +815,33 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     $scope.monedaSymbol = $monedaSymbol;
     $scope.$rutaImagenes = $rutaImagenes;
+    $scope.isLoggedIn = isLoggedIn;
 
-    $cliente = $scope.getLocalData('cliente');
-    $params = '&codigo_cliente=' + $cliente.codigo_cliente;
-    $method = 'getOrders';
+    if (isLoggedIn()) {
+        $cliente = $scope.getLocalData('cliente');
+        $params = '&codigo_cliente=' + $cliente.codigo_cliente;
+        $method = 'getOrders';
 
-    $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
-        console.log(data);
-        $scope.orders = data;
-        $scope.error = false;
-    }).error(function (data, status) {
-        $scope.error = true;
-        console.log(status);
-    });
+        $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
+            console.log(data);
+            $scope.orders = data;
+            $scope.error = false;
+        }).error(function (data, status) {
+            $scope.error = true;
+            console.log(status);
+        });
+
+        // Accordeon
+        $scope.toggleGroup = function (item) {
+            if ($scope.isGroupShown(item)) {
+                $scope.shownGroup = null;
+            } else {
+                $scope.shownGroup = item;
+            }
+        };
+        $scope.isGroupShown = function (item) {
+            return $scope.shownGroup === item;
+        };
+    }
 
 })

@@ -1,4 +1,4 @@
-<ion-view view-title="Britt Espresso" ng-controller="HomeCtrl">
+<ion-view view-title="Inicio" ng-controller="HomeCtrl">
 
     <!-- Mini basket -->
     <ion-nav-buttons side="right">
@@ -9,11 +9,28 @@
         </div>
     </ion-nav-buttons>
 
-    <ion-content>
-        <ion-list>
-            <ion-item>
-                <p>Banner principal</p>
-            </ion-item>
-        </ion-list>
+    <ion-content class="home-page">
+
+        <!-- Banners -->
+        <div class="list home-banner">
+            <div class="item" ng-repeat="banner in banners">
+                <h3>{{banner.TITLE | uppercase}}</h3>
+                <p class="full-image" ng-bind-html="banner.TEXT"></p>
+            </div>
+        </div>
+
+        <div ng-show="isLoggedIn()">
+
+            <h3>MIS PEDIDOS</h3>
+
+            <!-- Pedidos -->
+            <div ng-include="'templates/order-history.html'"></div>
+        </div>
     </ion-content>
+
+    <div class="bar bar-footer bar-positive">
+        <div class="title">
+            <button class="button button-clear" ng-click="login()">Ingresar</button>
+        </div>
+    </div>
 </ion-view>
