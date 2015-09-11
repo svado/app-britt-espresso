@@ -17,10 +17,10 @@ angular.module('app.services', [])
 
     // Crea las tablas principales
     function populateDB(tx) {
-        tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
+        //tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
         tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, precio_venta_bruto float, precio_venta_total float, impuesto float, peso float, freebie, item_descripcion, primary key (codigo_articulo, codigo_combo))');
 
-        tx.executeSql('DROP TABLE IF EXISTS POS_SHIPPING');
+        //tx.executeSql('DROP TABLE IF EXISTS POS_SHIPPING');
         tx.executeSql('CREATE TABLE IF NOT EXISTS POS_SHIPPING (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float, address_1, address_2, city, codigo_pais integer, zipcode, phone, courier, courier_display)');
 
     };
