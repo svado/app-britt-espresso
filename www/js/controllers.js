@@ -1,6 +1,7 @@
 angular.module('starter.controllers', ['app.services', 'app.services'])
 
 /* TODO: Defaults en los radios */
+/* TODO: el sass se trabaja en el archivo principal como esta en el video */
 
 // Controlador general
 .controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state) {
