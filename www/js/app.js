@@ -25,12 +25,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         // Variables globales
         $tiendaImpuesto = 13;
         $monedaSymbol = '¢';
-        /*$rutaPagesWs = 'http://pruebacr.cafebritt.com/app/ws/pages.cfc?returnformat=json&callback=&method=';
-        $rutaAccountWs = 'http://pruebacr.cafebritt.com/app/ws/account.cfc?returnformat=json&callback=&method=';
-        $rutaOrderWs = 'http://pruebacr.cafebritt.com/app/ws/order.cfc?returnformat=json&callback=&method=';*/
-        $rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaPagesWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaAccountWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
+        $rutaOrderWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
+        /*$rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
         $rutaAccountWs = 'http://www.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
-        $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
+        $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';*/
         $rutaImagenes = 'http://www.brittespresso.com/siteimg/';
 
         // Maximo de productos permitidos
@@ -141,8 +141,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
 
 })
 
-// Muestra un mensaje mientras carga datos en la vista
-.run(function ($rootScope, $ionicLoading) {
+.run(function ($rootScope, $ionicLoading, $state) {
+
+    // Muestra un mensaje mientras carga datos en la vista
     $rootScope.$on('loading:show', function () {
         $ionicLoading.show({
             template: 'Un momento por favor'
@@ -152,6 +153,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
     $rootScope.$on('loading:hide', function () {
         $ionicLoading.hide()
     })
+
+    // Manejo de accesos
+    $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
+
+        console.log(error);
+
+        if (error === "No logged") {
+            $state.go("app.loginpage");
+        } else if (error === 'Invalid access') {
+            $state.go("app.invalidaccess");
+        }
+    })
+
 })
 
 // Directiva: solo digitar numeros
@@ -177,7 +191,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
     };
 })
 
-// Rutas
+// Manejo de paginas
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
     // Intercepta un evento http cuando es invocado
@@ -194,13 +208,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
+    // Seguridad
+    $stateProvider.decorator('data', function (state, parent) {
+        var stateData = parent(state);
+        state.resolve = state.resolve || {};
+        state.resolve.security = ['$q', function ($q) {
+
+            // Necesita estar logueado
+            if (stateData.needLogged && !isLoggedIn()) {
+                return $q.reject("No logged");
+            }
+           }];
+
+        return stateData;
+    })
+
     // Manejo de paginas
     $stateProvider
         .state('app', {
             url: '/app',
             abstract: true,
             templateUrl: 'templates/menu.html',
-            controller: 'AppCtrl'
+            controller: 'AppCtrl',
+            data: {
+                needLogged: false
+            }
         })
 
     //Devuelve la lista de productos.
@@ -210,6 +242,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/products.html'
             }
+        },
+        data: {
+            needLogged: false
         }
     })
 
@@ -220,6 +255,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/product.html'
             }
+        },
+        data: {
+            needLogged: false
         }
     })
 
@@ -230,6 +268,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/combo.html'
             }
+        },
+        data: {
+            needLogged: false
         }
     })
 
@@ -240,6 +281,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/my-account.html'
             }
+        },
+        data: {
+            needLogged: true
         }
     })
 
@@ -250,6 +294,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/profile.html'
             }
+        },
+        data: {
+            needLogged: true
         }
     })
 
@@ -261,6 +308,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/my-address.html'
             }
+        },
+        data: {
+            needLogged: true
         }
     })
 
@@ -272,6 +322,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/my-payment.html'
             }
+        },
+        data: {
+            needLogged: true
         }
     })
 
@@ -282,6 +335,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/invalid-access.html'
             }
+        },
+        data: {
+            needLogged: false
         }
     })
 
@@ -293,6 +349,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/basket.html'
             }
+        },
+        data: {
+            needLogged: false
         }
     })
 
@@ -304,6 +363,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/shipping.html'
             }
+        },
+        data: {
+            needLogged: true
         }
     })
 
@@ -315,6 +377,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/confirmation.html'
             }
+        },
+        data: {
+            needLogged: true
         }
     })
 
@@ -326,6 +391,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/home.html'
             }
+        },
+        data: {
+            needLogged: false
         }
     })
 
@@ -337,6 +405,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/login-shipping.html'
             }
+        },
+        data: {
+            needLogged: false
+        }
+    })
+
+    //Shipping page
+    .state('app.loginpage', {
+        url: '/login-page',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/login-page.html'
+            }
+        },
+        data: {
+            needLogged: false
         }
     })
 
@@ -348,6 +433,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             'menuContent': {
                 templateUrl: 'templates/my-orders.html'
             }
+        },
+        data: {
+            needLogged: true
         }
     })
 

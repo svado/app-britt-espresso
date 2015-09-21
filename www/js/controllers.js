@@ -846,3 +846,45 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
 })
+
+/*.controller('PushCtrl', function ($scope, $rootScope, $ionicUser, $ionicPush) {
+
+    $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
+        console.log('Got token: ', data.token, data.platform);
+        $scope.token = data.token;
+    })
+
+    $scope.identifyUser = function () {
+        var user = $ionicUser.get();
+
+        if (!user.user_id) {
+            user.user_id = $ionicUser.generateGUID();
+        }
+
+        angular.extend(user, {
+            name: 'steve-test',
+            bio: 'developer'
+        });
+
+        $ionicUser.identify(user).then(function () {
+            $scope.identified = true;
+            console.log('name: ', user.name, 'id: ' + user.user_id);
+        });
+    }
+
+    $scope.pushRegister = function () {
+        $ionicPush.register({
+            canShowAlert: true,
+            canSetBadge: true,
+            canPlaySound: true,
+            canRunActionOnWake: true,
+            onNotification: function (notification) {
+                // handle your stuff
+                return true
+            }
+        })
+    };
+
+    //$scope.identifyUser();
+    //$scope.pushRegister();
+});*/

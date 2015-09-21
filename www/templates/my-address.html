@@ -1,38 +1,32 @@
 <ion-view view-title="Mi Dirección" ng-controller="ContactInfoCtrl">
 
-    <div ng-include="'templates/invalid-access.html'" ng-if="!isLoggedIn()"></div>
-
     <ion-nav-buttons side="right">
-        <div ng-if="isLoggedIn()">
-            <a class="button button-clear button-light " href="#/app/my-address/0">
-                <i class="icon ion-plus-circled"></i>
-            </a>
+        <a class="button button-clear button-light " href="#/app/my-address/0">
+            <i class="icon ion-plus-circled"></i>
+        </a>
 
-            <button class="button button-clear button-light" ng-click="delContactAddress()">
-                <i class="icon ion-trash-b"></i>
-            </button>
-        </div>
+        <button class="button button-clear button-light" ng-click="delContactAddress()">
+            <i class="icon ion-trash-b"></i>
+        </button>
     </ion-nav-buttons>
 
     <ion-content>
-        <div ng-if="isLoggedIn()">
 
-            <form name="fAddress" ng-submit="updContactAddress()" ng-controller="ContactCtrl">
+        <form name="fAddress" ng-submit="updContactAddress()" ng-controller="ContactCtrl">
 
-                <!-- Direccion -->
-                <div ng-include="'templates/address.html'"></div>
+            <!-- Direccion -->
+            <div ng-include="'templates/address.html'"></div>
 
-                <div class="list">
-                    <div class="item item-divider">
-                        Otras direcciones
-                    </div>
-                    <a ng-repeat="address in addresses" class="item item-icon-left item-icon-right" href="#/app/my-address/{{address.CODIGO_ADDRESS}}">
-                        <i class="icon ion-home"></i> #{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}
-                        <i class="icon ion-arrow-right-c"></i>
-                    </a>
+            <div class="list">
+                <div class="item item-divider">
+                    Otras direcciones
                 </div>
-            </form>
-        </div>
+                <a ng-repeat="address in addresses" class="item item-icon-left item-icon-right" href="#/app/my-address/{{address.CODIGO_ADDRESS}}">
+                    <i class="icon ion-home"></i> #{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}
+                    <i class="icon ion-arrow-right-c"></i>
+                </a>
+            </div>
+        </form>
     </ion-content>
 
 </ion-view>
