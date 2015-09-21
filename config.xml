@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     <widget id="com.ionicframework.brittespresso622245" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-        <name>britt-espresso</name>
+        <name>Britt Espresso</name>
         <description>
             Britt Espresso Costa Rica
         </description>
-        <author email="hi@ionicframework" href="http://ionicframework.com/">
-            Cafe Britt
+        <author email="info@brittespresso.com " href="http://www.brittespresso.com/">
+            Britt Espresso, Cafe Britt
         </author>
         <content src="index.html" />
         <access origin="*" />

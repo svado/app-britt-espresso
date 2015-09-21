@@ -19,9 +19,8 @@ angular.module('app.services', [])
     function populateDB(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
         tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, precio_venta_bruto float, precio_venta_total float, impuesto float, peso float, freebie, item_descripcion, primary key (codigo_articulo, codigo_combo))');
-
-        //tx.executeSql('DROP TABLE IF EXISTS POS_SHIPPING');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS POS_SHIPPING (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float, address_1, address_2, city, codigo_pais integer, zipcode, phone, courier, courier_display)');
+        //tx.executeSql('DROP TABLE IF EXISTS ENCABEZADO_FACTURA');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ENCABEZADO_FACTURA (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float, address_1, address_2, city, codigo_pais integer, zipcode, phone, courier, courier_display, codigo_credit_card integer, codigo_punto_venta integer, secuencia_factura integer)');
 
     };
 
@@ -85,8 +84,8 @@ angular.module('app.services', [])
     this.addShipping = function (data) {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('DELETE FROM POS_SHIPPING');
-            tx.executeSql('INSERT INTO POS_SHIPPING (codigo_address, codigo_state, codigo_service_type, monto_envio, address_1, address_2, city, codigo_pais, zipcode, phone, courier, courier_display) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString(), data.address_1, data.address_2, data.city, data.codigo_pais, data.zipcode, data.phone, data.courier, data.courier_display]);
+            tx.executeSql('DELETE FROM ENCABEZADO_FACTURA');
+            tx.executeSql('INSERT INTO ENCABEZADO_FACTURA (codigo_address, codigo_state, codigo_service_type, monto_envio, address_1, address_2, city, codigo_pais, zipcode, phone, courier, courier_display) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString(), data.address_1, data.address_2, data.city, data.codigo_pais, data.zipcode, data.phone, data.courier, data.courier_display]);
         }, function () {
             deferred.reject('No se pudo agregar el envio');
         }, function () {
@@ -100,7 +99,7 @@ angular.module('app.services', [])
     this.getTotals = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio, B.codigo_address, B.codigo_service_type, B.codigo_state FROM DETALLE_FACTURA A LEFT OUTER JOIN POS_SHIPPING B', [], function (tx, results) {
+            tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio, B.codigo_address, B.codigo_service_type, B.codigo_state, B.codigo_credit_card FROM DETALLE_FACTURA A LEFT OUTER JOIN ENCABEZADO_FACTURA B', [], function (tx, results) {
                 var res = [];
                 if (results.rows.length > 0) {
                     res.total_sin_envio = results.rows[0].total;
@@ -113,6 +112,7 @@ angular.module('app.services', [])
                     res.codigo_address = results.rows[0].codigo_address;
                     res.codigo_service_type = results.rows[0].codigo_service_type;
                     res.codigo_state = results.rows[0].codigo_state;
+                    res.codigo_credit_card = results.rows[0].codigo_credit_card;
                 }
                 deferred.resolve(res);
             });
@@ -124,7 +124,7 @@ angular.module('app.services', [])
     this.getShipping = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT * FROM POS_SHIPPING', [], function (tx, results) {
+            tx.executeSql('SELECT * FROM ENCABEZADO_FACTURA', [], function (tx, results) {
                 var res = [];
                 if (results.rows.length > 0)
                     res = results.rows[0];
@@ -138,7 +138,7 @@ angular.module('app.services', [])
     this.delShipping = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('DELETE FROM POS_SHIPPING', []);
+            tx.executeSql('DELETE FROM ENCABEZADO_FACTURA', []);
         }, function () {
             deferred.reject('No se pudo borrar el envio');
         }, function () {
@@ -148,24 +148,15 @@ angular.module('app.services', [])
         return deferred.promise;
     };
 
-    // Valida los pasos de la compra
-    this.validView = function (page) {
+    // Inserta el pago
+    this.addPayment = function (data) {
         var deferred = $q.defer();
-        console.log(page);
         db.transaction(function (tx) {
-            tx.executeSql('SELECT * FROM DETALLE_FACTURA LEFT OUTER JOIN POS_SHIPPING', [], function (tx, results) {
-                var res = [];
-                res.access = true;
-                if (page == 'app.basket' && results.rows.length == 0)
-                    res.access = false;
-                else if (page == 'app.shipping' && (results.rows.length = 0 || !isLoggedIn()))
-                    res.access = false;
-                else if (page == 'app.confirmation' && (results.rows.length = 0 || !isLoggedIn()))
-                    res.access = false;
-                else if (page == 'app.confirmation' && results.rows.length > 0 && isLoggedIn() && (results.rows[0].codigo_address = 0 || results.rows[0].codigo_service_type == 0))
-                    res.access = false;
-                deferred.resolve(res);
-            });
+            tx.executeSql('UPDATE ENCABEZADO_FACTURA SET codigo_credit_card = ? ', [data.codigo_credit_card]);
+        }, function () {
+            deferred.reject('No se pudo agregar el pago');
+        }, function () {
+            deferred.resolve('Pago agregado');
         });
 
         return deferred.promise;

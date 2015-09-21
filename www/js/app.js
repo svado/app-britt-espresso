@@ -4,7 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter'])
+// angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
 
 .run(function ($ionicPlatform, WebSql) {
     $ionicPlatform.ready(function () {
@@ -29,8 +30,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         $rutaAccountWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
         $rutaOrderWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
         /*$rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
-        $rutaAccountWs = 'http://www.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
-        $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';*/
+$rutaAccountWs = 'http://www.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
+$rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';*/
         $rutaImagenes = 'http://www.brittespresso.com/siteimg/';
 
         // Maximo de productos permitidos

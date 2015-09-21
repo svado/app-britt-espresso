@@ -779,6 +779,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.paymentData.exp_year = '';
     $scope.paymentData.validation_number = '';
     $scope.paymentData.card_holder_name = '';
+    $scope.paymentData.codigo_credit_card_selected = '';
 
     // Datos del envio
     $scope.shippingData = {};
@@ -820,10 +821,34 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.items = result;
     });
 
+    // Obtiene los totales
+    WebSql.getTotals().then(function (result) {
+        $scope.paymentData.codigo_credit_card_selected = result.codigo_credit_card;
+    });
+
     // Crea la orden
     $scope.addOrder = function () {
-        console.log($scope.paymentData);
-        $scope.showPopup('Confirmacion', 'Procesar orden');
+
+        // Agrega la forma de pago
+        WebSql.addPayment($scope.paymentData).then(function (alerta) {
+
+            // Tiene una tarjeta asignada
+            var $orden = $scope.getLocalData('orden') || {};
+            $orden.hasPayment = true;
+            window.localStorage.setItem('orden', JSON.stringify($orden));
+
+            console.log($scope.shippingData);
+            console.log($scope.items);
+
+            /* INICIO: Creacion real de la orden */
+
+            $scope.showPopup('Confirmacion', 'Procesar orden');
+
+            /* FINAL: Creacion real de la orden */
+
+        }, function (err) {
+            $scope.showPopup('Envio', err);
+        });
     }
 
 })
@@ -864,7 +889,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 })
 
-/*.controller('PushCtrl', function ($scope, $rootScope, $ionicUser, $ionicPush) {
+.controller('PushCtrl', function ($scope, $rootScope, $ionicUser, $ionicPush) {
 
     $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
         console.log('Got token: ', data.token, data.platform);
@@ -890,6 +915,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     $scope.pushRegister = function () {
+        console.log('push');
         $ionicPush.register({
             canShowAlert: true,
             canSetBadge: true,
@@ -902,6 +928,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         })
     };
 
-    //$scope.identifyUser();
+    $scope.identifyUser();
     //$scope.pushRegister();
-});*/
+});
