@@ -1,23 +1,91 @@
-/*
-To customize the look and feel of Ionic, you can override the variables
-in ionic's _variables.scss file.
+/* Colores */
 
-For example, you might change some of the default colors:
+$light: #fff !default;
+$stable: #000 !default;
+$positive: #000 !default;
+$calm: #f9f3e6 !default;
+$balanced: #33cd5f !default;
+$energized: #ecdfc2 !default;
+$assertive: #ef473a !default;
+$royal: #a87b54 !default;
+$dark: #444 !default;
 
-$light:                           #fff !default;
-$stable:                          #f8f8f8 !default;
-$positive:                        #387ef5 !default;
-$calm:                            #11c1f3 !default;
-$balanced:                        #33cd5f !default;
-$energized:                       #ffc900 !default;
-$assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
-$dark:                            #444 !default;
-*/
+/* Base */
 
-// The path for our ionicons font files, relative to the built CSS in www/css
+$base-background-color: #f9f3e6 !default;
+
+/* Botones */
+
+$button-stable-text: #fff !default;
+
+/* Items */
+
+$item-divider-bg: #ecdfc2 !default;
+
+/* Validaciones */
+
+.ng-invalid {
+    border-color: #a87b54;
+    outline-color: a87b54;
+}
+
+.ng-valid {
+    border-color: green;
+    outline-color: green;
+}
+
+.messages {
+    font-size: smaller;
+    color: #a87b54;
+    width: 1px;
+    opacity: 0.7;
+    div {
+        left: 60px;
+        position: relative;
+    }
+}
+
+/* Home page */
+
+.home-page h3 {
+    text-align: center;
+    font-size: 14px;
+}
+
+.home-banner {
+    .full-image img {
+        width: 100%;
+    }
+    .item {
+        border: 0;
+        padding: 5px 16px;
+        p {
+            text-align: center;
+            color: #000;
+            a {
+                color: #000;
+                text-transform: uppercase;
+                text-decoration: none;
+                border-bottom: 1px solid;
+            }
+        }
+    }
+}
+
+/* Badges */
+
+.badge-left {
+    float: left;
+    left: 0;
+    margin-right: 10px;
+    position: relative !important;
+    top: 0 !important;
+}
+
+/* The path for our ionicons font files, relative to the built CSS in www/css */
+
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
-// Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
+/* Include all of Ionic */
 
+@import "www/lib/ionic/scss/ionic";
