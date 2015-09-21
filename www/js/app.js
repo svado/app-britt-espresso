@@ -139,6 +139,34 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     };
 
+    // Tiene items en el basket
+    hasBasket = function () {
+        if (window.localStorage.getItem("orden") !== null) {
+            $cliente = JSON.parse(window.localStorage.getItem("orden"));
+            if ($cliente.hasItems) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    };
+
+    // Tiene shipping
+    hasShipping = function () {
+        if (window.localStorage.getItem("orden") !== null) {
+            $cliente = JSON.parse(window.localStorage.getItem("orden"));
+            if ($cliente.hasShipping) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    };
+
 })
 
 .run(function ($rootScope, $ionicLoading, $state) {
@@ -163,6 +191,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             $state.go("app.loginpage");
         } else if (error === 'Invalid access') {
             $state.go("app.invalidaccess");
+        } else if (error === 'No logged shipping') {
+            $state.go("app.loginshipping");
+
         }
     })
 
@@ -212,11 +243,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
     $stateProvider.decorator('data', function (state, parent) {
         var stateData = parent(state);
         state.resolve = state.resolve || {};
+
         state.resolve.security = ['$q', function ($q) {
 
-            // Necesita estar logueado
             if (stateData.needLogged && !isLoggedIn()) {
-                return $q.reject("No logged");
+
+                if (state.self.name == 'app.shipping' || state.self.name == 'app.confirmation') {
+
+                    // Necesita estar logueado para seguir con el shipping
+                    return $q.reject("No logged shipping");
+
+                } else {
+
+                    // Necesita estar logueado
+                    return $q.reject("No logged");
+                }
+
+            } else if (stateData.needItems && !hasBasket()) {
+
+                // Necesita items
+                return $q.reject("Invalid access");
+
+            } else if (stateData.needShipping && !hasShipping()) {
+
+                // Necesita shipping
+                return $q.reject("Invalid access");
             }
            }];
 
@@ -231,7 +282,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             templateUrl: 'templates/menu.html',
             controller: 'AppCtrl',
             data: {
-                needLogged: false
+                needLogged: false,
+                needItems: false,
+                needShipping: false
             }
         })
 
@@ -244,7 +297,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -257,7 +312,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -270,7 +327,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -283,7 +342,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: true
+            needLogged: true,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -296,7 +357,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: true
+            needLogged: true,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -310,7 +373,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: true
+            needLogged: true,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -324,7 +389,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: true
+            needLogged: true,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -337,7 +404,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -351,7 +420,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: true,
+            needShipping: false
         }
     })
 
@@ -365,7 +436,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: true
+            needLogged: true,
+            needItems: true,
+            needShipping: false
         }
     })
 
@@ -379,7 +452,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: true
+            needLogged: true,
+            needItems: true,
+            needShipping: true
         }
     })
 
@@ -393,7 +468,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -407,7 +484,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -421,7 +500,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: false
+            needLogged: false,
+            needItems: false,
+            needShipping: false
         }
     })
 
@@ -435,7 +516,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             }
         },
         data: {
-            needLogged: true
+            needLogged: true,
+            needItems: false,
+            needShipping: false
         }
     })
 

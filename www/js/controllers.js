@@ -100,6 +100,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Logout
     $scope.logout = function () {
         window.localStorage.removeItem("cliente");
+        window.localStorage.removeItem("orden");
         $state.go("app.home");
     };
 
@@ -118,16 +119,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             reload: true
         });
     }
-
-    // TODO: Validaciones
-    /*WebSql.validView($ionicHistory.currentView().stateName).then(function (result) {
-        if (result.access == false) {
-            $ionicHistory.nextViewOptions({
-                disableBack: true
-            });
-            $state.go("app.loginshipping");
-        }
-    });*/
 })
 
 // Pagina principal
@@ -151,7 +142,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ContactCtrl', function ($scope, $http, $stateParams, $state, $ionicHistory) {
 
     // Trata de loguearse en la web.
-    $scope.doLogin = function () {
+    $scope.doLogin = function (page) {
 
         $scope.error = true;
         $params = '&username=' + $scope.loginData.email + '&password=' + $scope.loginData.password;
@@ -170,7 +161,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                     console.log('Logueado', $cliente);
                     if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
                     $scope.closeLogin();
-                    $state.go("app.contactinfo");
+
+                    // Reenvia a la cuenta o continua con el envio
+                    if (page == 'shipping')
+                        $state.go("app.shipping");
+                    else
+                        $state.go("app.contactinfo");
                 } else
                 if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
             } else {
@@ -363,6 +359,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.productData.precio_venta_bruto = $scope.productData.precio;
         $scope.productData.precio_venta_total = $scope.productData.precio;
         WebSql.addProduct($scope.productData).then(function (alerta) {
+
+            var $orden = $scope.getLocalData('orden') || {};
+            $orden.hasItems = true;
+            window.localStorage.setItem('orden', JSON.stringify($orden));
+
             $scope.showPopup('Mi carrito', alerta);
         }, function (err) {
             $scope.showPopup('Mi carrito', err);
@@ -441,8 +442,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             });
         }
 
-        if (error == '') $scope.showPopup('Mi carrito', 'El especial fue agregado');
-        else $scope.showPopup('Mi carrito', error);
+        if (error == '') {
+            var $orden = $scope.getLocalData('orden') || {};
+            $orden.hasItems = true;
+            window.localStorage.setItem('orden', JSON.stringify($orden));
+
+            $scope.showPopup('Mi carrito', 'El especial fue agregado');
+        } else $scope.showPopup('Mi carrito', error);
     }
 
     // Actualiza los datos del combo
@@ -606,6 +612,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             WebSql.getTotals().then(function (result) {
                 if (result.total == 0) {
 
+                    var $orden = $scope.getLocalData('orden') || {};
+                    $orden.hasItems = false;
+                    $orden.hasShipping = false;
+                    window.localStorage.setItem('orden', JSON.stringify($orden));
+
                     WebSql.delShipping().then(function (alerta) {
                         $state.go("app.home");
                     }, function (err) {
@@ -672,8 +683,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.shippingData.codigo_address_selected = result.codigo_address;
         $scope.shippingData.codigo_service_type_selected = result.codigo_service_type;
 
-        // Calcula el envio ya seleccionado previamente
-        $scope.getShipping(result.peso, result.codigo_state, result.codigo_service_type);
+        // Calcula el envio ya seleccionado
+        if (result.total > 0) {
+            $scope.getShipping(result.peso, result.codigo_state, result.codigo_service_type);
+        }
     });
 
     // Actualiza la direccion de un contacto
@@ -709,7 +722,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Guarda el envio
     $scope.addShipping = function () {
         WebSql.addShipping($scope.shippingData).then(function (alerta) {
-            //$scope.showPopup('Envio', alerta);
+
+            var $orden = $scope.getLocalData('orden') || {};
+            $orden.hasShipping = true;
+            window.localStorage.setItem('orden', JSON.stringify($orden));
+
             $state.go("app.confirmation");
         }, function (err) {
             $scope.showPopup('Envio', err);
