@@ -50,3 +50,14 @@
     text-decoration: none;
     border-bottom: 1px solid;
 }
+
+
+/* Badges */
+
+.badge-left {
+    float: left;
+    left: 0;
+    margin-right: 10px;
+    position: relative !important;
+    top: 0 !important;
+}

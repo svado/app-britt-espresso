@@ -14,14 +14,22 @@
             <div class="list ">
 
                 <!-- Resumen del envio -->
+                <div class="item item-divider item-icon-right">
+                    <span class="badge badge-left badge-assertive">1</span> Revise sus datos de envío
+                    <a href="#/app/shipping"><i class="icon ion-edit button-small dark"></i></a>
+                </div>
                 <div ng-controller="ConfirmationCtrl" ng-include="'templates/shipping-summary.html'"></div>
 
                 <!-- Lista de productos -->
+                <div class="item item-divider item-icon-right">
+                    <span class="badge badge-left badge-assertive">2</span> Revise sus productos
+                    <a href="#/app/basket"><i class="icon ion-edit button-small dark"></i></a>
+                </div>
                 <div ng-controller="ConfirmationCtrl" ng-include="'templates/basket-items.html'"></div>
 
                 <!-- Tarjetas -->
                 <div class="item item-divider">
-                    Seleccione una tarjeta
+                    <span class="badge badge-left badge-assertive">3</span> Seleccione una tarjeta
                 </div>
 
                 <label class="item item-radio" ng-repeat="card in cards">
