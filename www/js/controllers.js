@@ -780,6 +780,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.paymentData.validation_number = '';
     $scope.paymentData.card_holder_name = '';
     $scope.paymentData.codigo_credit_card_selected = '';
+    $scope.paymentData.monto_shipping = 0;
 
     // Datos del envio
     $scope.shippingData = {};
@@ -824,6 +825,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Obtiene los totales
     WebSql.getTotals().then(function (result) {
         $scope.paymentData.codigo_credit_card_selected = result.codigo_credit_card;
+        $scope.paymentData.monto_shipping = result.envio;
     });
 
     // Crea la orden
@@ -832,22 +834,42 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         // Agrega la forma de pago
         WebSql.addPayment($scope.paymentData).then(function (alerta) {
 
-            // Tiene una tarjeta asignada
             var $orden = $scope.getLocalData('orden') || {};
-            $orden.hasPayment = true;
-            window.localStorage.setItem('orden', JSON.stringify($orden));
+            var $cliente = $scope.getLocalData('cliente');
 
-            console.log($scope.shippingData);
-            console.log($scope.items);
+            console.log('shipping', $scope.shippingData);
+            console.log('items', $scope.items);
 
-            /* INICIO: Creacion real de la orden */
+            // Crea el encabezado de la orden
+            $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&monto_shipping=' + $scope.paymentData.monto_shipping;
+            $method = 'addOrder';
 
-            $scope.showPopup('Confirmacion', 'Procesar orden');
+            $http.post($rutaOrderWs + $method + $params).
+            success(function (data, status, headers) {
+                if (data.ERROR == false && angular.isNumber(data.SECUENCIA_FACTURA) && data.SECUENCIA_FACTURA > 0) {
 
-            /* FINAL: Creacion real de la orden */
+                    // Guarda el numero de orden en sesion
+                    var $orden = $scope.getLocalData('orden') || {};
+                    $orden.hasPayment = true;
+                    $orden.hasOrder = true;
+                    $orden.codigo_punto_venta = data.CODIGO_PUNTO_VENTA;
+                    $orden.secuencia_factura = data.SECUENCIA_FACTURA;
+                    window.localStorage.setItem('orden', JSON.stringify($orden));
+
+                    if (data.ALERTA.length != 0) $scope.showPopup('Confirmacion', data.ALERTA);
+                    console.log('payment', $scope.paymentData);
+                } else {
+                    console.log(data.ALERTA);
+                    $scope.showPopup('Confirmacion', data.ALERTA);
+                }
+            }).
+            error(function (data, status) {
+                console.log(status);
+                $scope.showPopup('Confirmacion', status);
+            });
 
         }, function (err) {
-            $scope.showPopup('Envio', err);
+            $scope.showPopup('Confirmacion', err);
         });
     }
 
