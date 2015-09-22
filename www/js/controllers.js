@@ -1,8 +1,5 @@
 angular.module('starter.controllers', ['app.services', 'app.services'])
 
-/* TODO: Defaults en los radios */
-/* TODO: el sass se trabaja en el archivo principal como esta en el video */
-
 // Controlador general
 .controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state) {
 
@@ -303,8 +300,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Informacion de un producto
 .controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql, $filter) {
 
-    /* TODO: radio y checks deben verse con borde */
-
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
     $scope.totalitems = $totalitems;
@@ -321,6 +316,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.productData.impuesto = '0';
     $scope.productData.combo = '0';
     $scope.productData.codigo_combo = '0';
+    $scope.productData.linea_combo = '0';
     $scope.productData.freebie = '0';
 
     //Combo
@@ -431,7 +427,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                             impuesto: impuesto,
                             peso: item_found[0].PESO,
                             freebie: 0,
-                            item_descripcion: item_found[0].ITEM_HEADER
+                            item_descripcion: item_found[0].ITEM_HEADER,
+                            linea_combo: item_found[0].LINEA_COMBO
                         }
 
                         WebSql.addProduct(item).then(function (alerta) {}, function (err) {
@@ -675,6 +672,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.shippingData.phone = '';
     $scope.shippingData.courier = '';
     $scope.shippingData.courier_display = '';
+    $scope.shippingData.courier_padre = '';
 
     // Obtiene los totales
     WebSql.getTotals().then(function (result) {
@@ -841,7 +839,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log('items', $scope.items);
 
             // Crea el encabezado de la orden
-            $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&monto_shipping=' + $scope.paymentData.monto_shipping;
+            $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&monto_shipping=' + $scope.paymentData.monto_shipping + '&items=' + JSON.stringify($scope.items);
             $method = 'addOrder';
 
             $http.post($rutaOrderWs + $method + $params).

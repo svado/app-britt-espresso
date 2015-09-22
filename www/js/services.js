@@ -18,9 +18,12 @@ angular.module('app.services', [])
     // Crea las tablas principales
     function populateDB(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, precio_venta_bruto float, precio_venta_total float, impuesto float, peso float, freebie, item_descripcion, primary key (codigo_articulo, codigo_combo))');
+
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, precio_venta_bruto float, precio_venta_total float, impuesto float, peso float, freebie, item_descripcion, linea_combo integer, primary key (codigo_articulo, codigo_combo))');
+
         //tx.executeSql('DROP TABLE IF EXISTS ENCABEZADO_FACTURA');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS ENCABEZADO_FACTURA (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float, address_1, address_2, city, codigo_pais integer, zipcode, phone, courier, courier_display, codigo_credit_card integer, codigo_punto_venta integer, secuencia_factura integer)');
+
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ENCABEZADO_FACTURA (codigo_address unique, codigo_state, codigo_service_type integer, monto_envio float, address_1, address_2, city, codigo_pais integer, zipcode, phone, courier, courier_display, codigo_credit_card integer, codigo_punto_venta integer, secuencia_factura integer, courier_padre)');
 
     };
 
@@ -36,7 +39,7 @@ angular.module('app.services', [])
         console.log(data);
         db.transaction(function (tx) {
             tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_articulo = ? AND codigo_combo = ?', [data.codigo_articulo_incluir, data.codigo_combo]);
-            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, codigo_combo, descripcion, cantidad, image, precio, precio_venta_bruto, precio_venta_total, impuesto, peso, freebie, item_descripcion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.codigo_combo, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.precio_venta_bruto.toString(), data.precio_venta_total.toString(), data.impuesto.toString(), data.peso.toString(), data.freebie, data.item_descripcion]);
+            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, codigo_combo, descripcion, cantidad, image, precio, precio_venta_bruto, precio_venta_total, impuesto, peso, freebie, item_descripcion, linea_combo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.codigo_combo, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.precio_venta_bruto.toString(), data.precio_venta_total.toString(), data.impuesto.toString(), data.peso.toString(), data.freebie, data.item_descripcion, data.linea_combo]);
         }, function () {
             deferred.reject('No se pudo agregar el producto');
         }, function () {
@@ -85,7 +88,7 @@ angular.module('app.services', [])
         var deferred = $q.defer();
         db.transaction(function (tx) {
             tx.executeSql('DELETE FROM ENCABEZADO_FACTURA');
-            tx.executeSql('INSERT INTO ENCABEZADO_FACTURA (codigo_address, codigo_state, codigo_service_type, monto_envio, address_1, address_2, city, codigo_pais, zipcode, phone, courier, courier_display) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString(), data.address_1, data.address_2, data.city, data.codigo_pais, data.zipcode, data.phone, data.courier, data.courier_display]);
+            tx.executeSql('INSERT INTO ENCABEZADO_FACTURA (codigo_address, codigo_state, codigo_service_type, monto_envio, address_1, address_2, city, codigo_pais, zipcode, phone, courier, courier_display, courier_padre) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_address, data.codigo_state, data.codigo_service_type, data.monto_envio.toString(), data.address_1, data.address_2, data.city, data.codigo_pais, data.zipcode, data.phone, data.courier, data.courier_display, data.courier_padre]);
         }, function () {
             deferred.reject('No se pudo agregar el envio');
         }, function () {

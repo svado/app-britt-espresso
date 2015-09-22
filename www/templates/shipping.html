@@ -36,7 +36,7 @@
                         <span class="badge badge-left badge-assertive">2</span> Selecciona un método de envío
                     </div>
                     <label class="item item-radio" ng-repeat="shipping in shippings">
-                        <input type="radio" name="codigo_service_type" ng-model="shippingData.codigo_service_type" value="{{shipping.CODIGO_SERVICE_TYPE}}" required ng-click="shippingData.codigo_service_type={{shipping.CODIGO_SERVICE_TYPE}}; shippingData.monto_envio={{shipping.MONTO}}; shippingData.courier='{{shipping.COURIER}}'; shippingData.courier_display='{{shipping.WEB_DISPLAY}}';" ng-checked="shipping.CODIGO_SERVICE_TYPE == shippingData.codigo_service_type_selected">
+                        <input type="radio" name="codigo_service_type" ng-model="shippingData.codigo_service_type" value="{{shipping.CODIGO_SERVICE_TYPE}}" required ng-click="shippingData.codigo_service_type={{shipping.CODIGO_SERVICE_TYPE}}; shippingData.monto_envio={{shipping.MONTO}}; shippingData.courier='{{shipping.COURIER}}'; shippingData.courier_display='{{shipping.WEB_DISPLAY}}'; shippingData.courier_padre='{{shipping.COURIER_PADRE}}'" ng-checked="shipping.CODIGO_SERVICE_TYPE == shippingData.codigo_service_type_selected">
                         <div class="item-content ">
                             <span>{{shipping.WEB_DISPLAY}} ({{shipping.DAYS}} dias)</span>
                             <span class="padding-horizontal ">-</span>
