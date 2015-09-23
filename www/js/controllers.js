@@ -779,6 +779,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.paymentData.card_holder_name = '';
     $scope.paymentData.codigo_credit_card_selected = '';
     $scope.paymentData.monto_shipping = 0;
+    $scope.paymentData.monto_total = 0;
 
     // Datos del envio
     $scope.shippingData = {};
@@ -824,6 +825,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     WebSql.getTotals().then(function (result) {
         $scope.paymentData.codigo_credit_card_selected = result.codigo_credit_card;
         $scope.paymentData.monto_shipping = result.envio;
+        $scope.paymentData.monto_total = result.total;
     });
 
     // Crea la orden
@@ -839,7 +841,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log('items', $scope.items);
 
             // Crea el encabezado de la orden
-            $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&monto_shipping=' + $scope.paymentData.monto_shipping + '&items=' + JSON.stringify($scope.items);
+            $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&codigo_credit_card=' + $scope.paymentData.codigo_credit_card + '&monto_total=' + $scope.paymentData.monto_total + '&items=' + JSON.stringify($scope.items);
             $method = 'addOrder';
 
             $http.post($rutaOrderWs + $method + $params).
