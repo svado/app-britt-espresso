@@ -151,6 +151,17 @@ angular.module('app.services', [])
         return deferred.promise;
     };
 
+    // Borra el detalle de la orden
+    function removeOrderDB(tx) {
+        tx.executeSql('DELETE FROM DETALLE_FACTURA');
+        tx.executeSql('DELETE FROM ENCABEZADO_FACTURA');
+    };
+
+    // Borra los datos de la orden
+    this.removeOrder = function () {
+        db.transaction(removeOrderDB, errorDB, successDB);
+    };
+
     // Inserta el pago
     this.addPayment = function (data) {
         var deferred = $q.defer();

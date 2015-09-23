@@ -875,6 +875,27 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 })
 
+// Confirmation success
+.controller('ConfirmationSuccessCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
+
+    // Datos de la orden
+    var order_id = $stateParams.order_id;
+
+    // Datos del cliente en sesion
+    $cliente = $scope.getLocalData('cliente');
+    $scope.first_name = $cliente.first_name;
+    $scope.last_name = $cliente.last_name;
+    $scope.email = $cliente.email;
+    $scope.order_id = order_id;
+
+    // Borra los datos de sesion
+    window.localStorage.removeItem("orden");
+
+    // Borra los datos de la orden
+    WebSql.removeOrder();
+
+})
+
 // Mis pedidos
 .controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, WebSql) {
 

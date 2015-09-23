@@ -1,0 +1,38 @@
+<ion-view view-title="Confirmaci&oacute;n de pedido" ng-controller="ConfirmationSuccessCtrl">
+
+    <ion-content>
+
+        <div class="list card">
+
+            <div class="item item-divider iten-icon-right">
+                Orden completa #
+                <span class="badge badge-assertive">{{order_id}}</span>
+            </div>
+            <div class="item">
+                <p>{{first_name}}, gracias por su compra</p>
+            </div>
+
+            <div class="item item-text-wrap">
+                <p>
+                    Le hemos enviado un correo de confirmaci&oacute;n a: {{email}}
+                    <br>
+                    <br> Una vez que enviemos su orden recibir&aacute; una confirmaci&oacute;n con su n&uacute;mero de tracking y la fecha exacta de su entrega.
+                    <br>
+                    <br> Si surge cualquier duda, por favor contactenos a traves de:
+                    <br>
+                    <br>
+                    <a class="item item-icon-left" href="mailto:info@brittespresso.com">
+                        <i class="icon ion-email"></i> info@brittespresso.com
+                    </a>
+                    <a class="item item-icon-left" href="tel: 800462748">
+                        <i class="icon ion-ios-telephone"></i> 800 GO BRITT (800) 46 27488
+                    </a>
+                </p>
+            </div>
+
+            <div class="item">
+                <a class="button button-block button-positive" ng-href="#/app/home">Ir al inicio</a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
