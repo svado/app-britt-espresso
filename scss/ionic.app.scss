@@ -6,7 +6,7 @@ $positive: #000 !default;
 $calm: #f9f3e6 !default;
 $balanced: #33cd5f !default;
 $energized: #ecdfc2 !default;
-$assertive: #ef473a !default;
+$assertive: #A4502A !default; //#A4502A
 $royal: #a87b54 !default;
 $dark: #444 !default;
 
@@ -17,6 +17,14 @@ $base-background-color: #f9f3e6 !default;
 /* Botones */
 
 $button-stable-text: #fff !default;
+.button-bar {
+    a {
+        button-small:before {
+            font-size: 22px !important
+        }
+    }
+}
+
 
 /* Items */
 
@@ -45,6 +53,7 @@ $item-divider-bg: #ecdfc2 !default;
     }
 }
 
+
 /* Home page */
 
 .home-page h3 {
@@ -71,6 +80,7 @@ $item-divider-bg: #ecdfc2 !default;
         }
     }
 }
+
 
 /* Badges */
 

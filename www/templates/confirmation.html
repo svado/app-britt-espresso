@@ -8,6 +8,15 @@
         </div>
     </ion-nav-buttons>
 
+    <!--- Pasos --->
+    <ion-header-bar class="bar bar-subheader bar-assertive">
+        <div class="button-bar">
+            <a class="button icon-left ion-bag button-clear button-small" ng-href="#/app/basket"><small>Carrito</small></a>
+            <a class="button icon-left ion-ios-box-outline button-clear button-small" ng-href="#/app/shipping"><small>Direcci&oacute;n</small></a>
+            <a class="button icon-left ion-card button-clear button-small"><small>Compra</small></a>
+        </div>
+    </ion-header-bar>
+
     <ion-content>
         <form name="fConfirmation" ng-controller="ConfirmationCtrl" ng-submit="addOrder()">
 
@@ -16,14 +25,12 @@
                 <!-- Resumen del envio -->
                 <div class="item item-divider item-icon-right">
                     <span class="badge badge-left badge-assertive">1</span> Revise sus datos de envío
-                    <a href="#/app/shipping"><i class="icon ion-edit button-small dark"></i></a>
                 </div>
                 <div ng-controller="ConfirmationCtrl" ng-include="'templates/shipping-summary.html'"></div>
 
                 <!-- Lista de productos -->
                 <div class="item item-divider item-icon-right">
                     <span class="badge badge-left badge-assertive">2</span> Revise sus productos
-                    <a href="#/app/basket"><i class="icon ion-edit button-small dark"></i></a>
                 </div>
                 <div ng-controller="ConfirmationCtrl" ng-include="'templates/basket-items.html'"></div>
 

@@ -11,7 +11,16 @@
         </div>
     </ion-nav-buttons>
 
-    <ion-content>
+    <!--- Pasos --->
+    <ion-header-bar class="bar bar-subheader bar-assertive">
+        <div class="button-bar">
+            <a class="button icon-left ion-bag button-clear button-small" ng-href="#/app/basket"><small>Carrito</small></a>
+            <a class="button icon-left ion-ios-box-outline button-clear button-small"><small>Direcci&oacute;n</small></a>
+            <a class="button icon-left ion-card button-clear button-small button-stable"><small>Compra</small></a>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
         <form name="fShipping" ng-controller="ShippingCtrl" ng-submit="addShipping()">
 
             <div class="list ">

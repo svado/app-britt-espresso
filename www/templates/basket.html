@@ -6,31 +6,39 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content>
+    <!--- Pasos --->
+    <ion-header-bar class="bar bar-subheader bar-assertive">
+        <div class="button-bar">
+            <a class="button icon-left ion-bag button-clear button-small"><small>Carrito</small></a>
+            <a class="button icon-left ion-ios-box-outline button-clear button-small button-stable"><small>Direcci&oacute;n</small></a>
+            <a class="button icon-left ion-card button-clear button-small button-stable"><small>Compra</small></a>
+        </div>
+    </ion-header-bar>
 
-        <form name="fBasket" action="#/app/shipping">
+    <ion-content class="has-header">
+        <form name="fBasket " action="#/app/shipping ">
 
             <div class="list ">
 
-                <ion-list show-delete="data.showDelete">
-                    <ion-item ng-repeat="(descripcion, items) in items | groupBy: 'descripcion'" ng-init="parentIndex = items" class="item item-avatar item-icon-right" item="item">
-                        <img ng-src="{{$rutaImagenes}}{{image}}" ng-repeat="(image, items) in items | groupBy: 'image'">
+                <ion-list show-delete="data.showDelete ">
+                    <ion-item ng-repeat="(descripcion, items) in items | groupBy: 'descripcion' " ng-init="parentIndex=items " class="item item-avatar item-icon-right " item="item ">
+                        <img ng-src="{{$rutaImagenes}}{{image}} " ng-repeat="(image, items) in items | groupBy: 'image' ">
                         <h2>{{descripcion}}</h2>
-                        <span class="item-note">{{monedaSymbol}} {{parentIndex[0].precio_venta_total | number}}</span>
-                        <p ng-repeat="item in items">
+                        <span class="item-note ">{{monedaSymbol}} {{parentIndex[0].precio_venta_total | number}}</span>
+                        <p ng-repeat="item in items ">
                             {{item.cantidad}} {{item.item_descripcion}}
                         </p>
-                        <ion-delete-button class="ion-minus-circled" ng-click="delBasketItem(parentIndex[0])"></ion-delete-button>
+                        <ion-delete-button class="ion-minus-circled " ng-click="delBasketItem(parentIndex[0]) "></ion-delete-button>
                     </ion-item>
                 </ion-list>
 
                 <!-- Resumen de la orden -->
-                <div class="item item-divider">
+                <div class="item item-divider ">
                     Totales
                 </div>
-                <div ng-include="'templates/order-summary.html'"></div>
+                <div ng-include=" 'templates/order-summary.html' "></div>
 
-                <label class="item">
+                <label class="item ">
                     <button class="button button-block button-positive " type="submit ">Continuar</button>
                 </label>
             </div>
