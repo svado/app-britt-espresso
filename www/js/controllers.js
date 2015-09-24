@@ -14,6 +14,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.loginData = {};
     $scope.signData = [];
     $scope.isLoggedIn = isLoggedIn;
+    $scope.hasBasket = hasBasket;
 
     // Obtiene los datos locales
     $scope.getLocalData = function (elemento) {
@@ -120,6 +121,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Pagina principal
 .controller('HomeCtrl', function ($scope, $http, WebSql) {
+
+    $scope.hasBasket = hasBasket;
 
     $params = '&template_id=54&article_types=70';
     $method = 'getPageArticles';
@@ -280,6 +283,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ProductListCtrl', function ($scope, $http, $stateParams) {
 
     $scope.$rutaImagenes = $rutaImagenes;
+    $scope.hasBasket = hasBasket;
 
     $params = '&url=' + $stateParams.page_url;
     $method = 'getProducts';
@@ -304,6 +308,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.monedaSymbol = $monedaSymbol;
     $scope.totalitems = $totalitems;
     $scope.tiendaImpuesto = $tiendaImpuesto;
+    $scope.hasBasket = hasBasket;
 
     // Producto
     $scope.productData = {};
@@ -590,6 +595,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Basket
 .controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql, $state, $ionicHistory) {
 
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
+
     $scope.items = [];
     $scope.totales = [];
     $scope.$rutaImagenes = $rutaImagenes;
@@ -642,6 +652,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Shipping
 .controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
+
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     // Lista de provincias
     $scope.stateslst = $states;
@@ -752,6 +767,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Confirmation
 .controller('ConfirmationCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
+
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     // Lista de meses y variables
     $scope.items = [];
@@ -887,6 +907,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Confirmation success
 .controller('ConfirmationSuccessCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
 
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
+
     // Datos de la orden
     var order_id = $stateParams.order_id;
 
@@ -941,6 +966,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 })
 
+// Notificaciones
 .controller('PushCtrl', function ($scope, $rootScope, $ionicUser, $ionicPush) {
 
     $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
@@ -982,4 +1008,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     $scope.identifyUser();
     //$scope.pushRegister();
+})
+
+// Genericos
+.controller('GenericCtrl', function ($scope, $rootScope, $ionicHistory) {
+
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 });

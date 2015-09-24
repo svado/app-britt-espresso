@@ -21,6 +21,10 @@
                 <ion-item menu-close href="#/app/home" class="item-icon-left">
                     <i class="icon ion-home"></i> Inicio
                 </ion-item>
+                <ion-item menu-close href="#/app/basket" class="item-icon-left item-icon-right" ng-if="hasBasket()">
+                    <i class="icon ion-bag"></i> Continuar compra
+                    <i class="icon ion-arrow-right-c"></i>
+                </ion-item>
                 <div class="item item-divider">
                     Mi cuenta
                 </div>

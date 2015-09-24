@@ -142,6 +142,7 @@ $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnfo
 
     // Tiene items en el basket
     hasBasket = function () {
+
         if (window.localStorage.getItem("orden") !== null) {
             $cliente = JSON.parse(window.localStorage.getItem("orden"));
             if ($cliente.hasItems) {
