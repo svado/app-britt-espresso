@@ -1,4 +1,4 @@
-<ion-view view-title="Confirmaci&oacute;n de pedido" ng-controller="ConfirmationSuccessCtrl">
+<ion-view view-title="Aviso Importante" ng-controller="ConfirmationSuccessCtrl">
 
     <ion-content>
 
@@ -9,16 +9,10 @@
                 <span class="badge badge-assertive">{{order_id}}</span>
             </div>
             <div class="item item-text-wrap">
-                <p>{{first_name}}, gracias por su compra</p>
-            </div>
-
-            <div class="item item-text-wrap">
                 <p>
-                    Le hemos enviado un correo de confirmaci&oacute;n a: {{email}}
+                    {{first_name}}, hemos tenido problemas procesando su pedido.
                     <br>
-                    <br> Una vez que enviemos su orden recibir&aacute; una confirmaci&oacute;n con su n&uacute;mero de tracking y la fecha exacta de su entrega.
-                    <br>
-                    <br> Si surge cualquier duda, por favor contactenos a traves de:
+                    <br> Favor s&iacute;rvase contactarnos a:
                     <br>
                     <br>
                     <a class="item item-icon-left" href="mailto:info@brittespresso.com">

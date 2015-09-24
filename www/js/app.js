@@ -539,6 +539,21 @@ $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnfo
         }
     })
 
+    //Confirmacion de la orden pendiente
+    .state('app.confirmation-pending', {
+        url: '/confirmation-pending/:order_id',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/confirmation-pending.html'
+            }
+        },
+        data: {
+            needLogged: true,
+            needItems: false,
+            needShipping: false
+        }
+    })
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/home');

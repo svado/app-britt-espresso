@@ -856,7 +856,16 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                     $orden.secuencia_factura = data.SECUENCIA_FACTURA;
                     window.localStorage.setItem('orden', JSON.stringify($orden));
 
-                    if (data.ALERTA.length != 0) $scope.showPopup('Confirmacion', data.ALERTA);
+                    if (data.COBRADA) {
+                        $state.go("app.confirmation-success", {
+                            'order_id': data.CODIGO_PUNTO_VENTA + '-' + data.SECUENCIA_FACTURA
+                        });
+                    } else {
+                        $state.go("app.confirmation-pending", {
+                            'order_id': data.CODIGO_PUNTO_VENTA + '-' + data.SECUENCIA_FACTURA
+                        });
+                    }
+
                     console.log('payment', $scope.paymentData);
                 } else {
                     console.log(data.ALERTA);
