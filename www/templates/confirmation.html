@@ -2,7 +2,10 @@
 
     <ion-nav-buttons side="right">
         <div>
-            <button class="button button-clear button-light" ng-click="doPayment()">
+            <button class=" button button-clear button-light " ng-click="data.showDelete=!data.showDelete ">
+                <i class="icon ion-compose "></i>
+            </button>
+            <button class="button button-clear button-light" ng-controller="ConfirmationModalCtrl " ng-click="editPayment(0)">
                 <i class="icon ion-plus-circled"></i>
             </button>
         </div>
@@ -35,17 +38,25 @@
                 <div ng-controller="ConfirmationCtrl" ng-include="'templates/basket-items.html'"></div>
 
                 <!-- Tarjetas -->
-                <div class="item item-divider">
-                    <span class="badge badge-left badge-assertive">3</span> Seleccione una tarjeta
-                </div>
-
-                <label class="item item-radio" ng-repeat="card in cards">
+                <!--<label class="item item-radio" ng-repeat="card in cards">
                     <input type="radio" name="codigo_credit_card" ng-model="paymentData.codigo_credit_card" value="{{card.CODIGO_CREDIT_CARD}}" required ng-click="paymentData.codigo_credit_card={{card.CODIGO_CREDIT_CARD}}; paymentData.codigo_card_type={{card.CODIGO_CARD_TYPE}}; paymentData.number='{{card.NUMBER}}'; paymentData.exp_month={{card.EXP_MONTH}}; paymentData.exp_year={{card.EXP_YEAR}}; paymentData.validation_number='{{card.VALIDATION_NUMBER}}'; paymentData.card_holder_name='{{card.CARD_HOLDER_NAME}}';" ng-checked="card.CODIGO_CREDIT_CARD == paymentData.codigo_credit_card_selected">
                     <div class="item-content ">
                         <span>{{card.CARD_TYPE}}, {{card.NUMBER_DISPLAY}}, finaliza {{card.EXP_MONTH}}/{{card.EXP_YEAR}}</span>
                     </div>
                     <i class="radio-icon ion-checkmark "></i>
-                </label>
+                </label>-->
+
+
+                <div class="item item-divider ">
+                    <span class="badge badge-left badge-assertive ">3</span> Seleccione una tarjeta
+                </div>
+                <ion-list show-delete="data.showDelete ">
+                    <ion-item ng-repeat="card in cards " class="item item-icon-right " item="item " name="codigo_credit_card " ng-model="paymentData.codigo_credit_card " value="{{card.CODIGO_CREDIT_CARD}} " required ng-click="paymentData.codigo_credit_card={{card.CODIGO_CREDIT_CARD}}; paymentData.codigo_card_type={{card.CODIGO_CARD_TYPE}}; paymentData.number='{{card.NUMBER}}'; paymentData.exp_month={{card.EXP_MONTH}}; paymentData.exp_year={{card.EXP_YEAR}}; paymentData.validation_number='{{card.VALIDATION_NUMBER}}'; paymentData.card_holder_name='{{card.CARD_HOLDER_NAME}}'; checkPayment();">
+                        <p>{{card.CARD_TYPE}}, {{card.NUMBER_DISPLAY}}, finaliza {{card.EXP_MONTH}}/{{card.EXP_YEAR}}</p>
+                        <ion-delete-button class="ion-compose " ng-controller="ConfirmationModalCtrl " ng-click="editPayment(card.CODIGO_CREDIT_CARD) "></ion-delete-button>
+                        <i class="icon ion-checkmark small-icon " ng-if="card.CODIGO_CREDIT_CARD==paymentData.codigo_credit_card "></i>
+                    </ion-item>
+                </ion-list>
 
 
                 <!-- Resumen de la orden -->

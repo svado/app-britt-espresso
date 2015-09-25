@@ -1,6 +1,7 @@
-<input type="text" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
-<input type="text" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
-<input type="text" ng-model="codigo_address_edit" name="codigo_address" ng-value="{{codigo_address_edit}}">
+<!-- TODO: ojo el name=codigo_address esta repetido -->
+<input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+<input type="hidden" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
+<input type="hidden" ng-model="codigo_address_edit" name="codigo_address" ng-value="{{codigo_address_edit}}">
 
 <label class="item item-input">
     <span class="input-label">Dirección</span>
@@ -31,7 +32,7 @@
         <option ng-repeat="state in stateslst" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
     </select>
     <select ng-model="$parent.codigo_state_edit" value="{{state.codigo_state}}" name="codigo_state" ng-if="codigo_address_edit > 0 || codigo_address_edit == 0">
-        <option ng-repeat="state in stateslst" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
+        <option ng-repeat="state in stateslst" ng-selected="state.codigo_state == codigo_state_edit">{{state.nombre}}</option>
     </select>
 </div>
 

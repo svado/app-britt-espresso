@@ -1,12 +1,12 @@
-<ion-modal-view>
+<ion-modal-view ng-controller="ConfirmationModalCtrl">
     <ion-header-bar>
-        <h1 class="title ">Ingresar nueva tarjeta</h1>
+        <h1 class="title ">Editar / crear tarjeta</h1>
         <div class="buttons ">
             <button class="button button-clear " ng-click="closePayment() ">Cerrar</button>
         </div>
     </ion-header-bar>
     <ion-content>
-        <form name="fCreditcard" ng-submit="updContactCreditcard()" ng-controller="ConfirmationCtrl">
+        <form name="$parent.fCreditcard" ng-submit="updContactCreditcard()">
 
             <!-- Tarjeta -->
             <div ng-include=" 'templates/payment.html' "></div>
