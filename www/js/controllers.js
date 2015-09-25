@@ -499,6 +499,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.meseslst = $meses;
     $scope.anoslist = $anostarjeta;
 
+    $scope.data = {
+        showDelete: false
+    };
+
     $cliente = $scope.getLocalData('cliente');
     $params = '&codigo_cliente=' + $cliente.codigo_cliente;
     $method = 'getContact';
@@ -604,11 +608,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.totales = [];
     $scope.$rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
+    $scope.basketData = {};
+    $scope.basketData.codigo_address = '0';
     $scope.data = {
         showDelete: false
     };
-    $scope.basketData = {};
-    $scope.basketData.codigo_address = '0';
 
     // Borra un producto al carrito
     $scope.delBasketItem = function (item) {
@@ -650,8 +654,94 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 })
 
+// Shipping modal
+.controller('ShippingModalCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
+
+    // TODO: cargar de nuevo el cliente desde una funcion
+
+    $scope.cargarCliente = function (codigo_address) {
+        $cliente = $scope.getLocalData('cliente');
+        $params = '&codigo_cliente=' + $cliente.codigo_cliente;
+        $method = 'getContact';
+
+        $params = $params + '&codigo_address=' + codigo_address;
+
+        $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
+            $scope.codigo_cliente = data.CODIGO_CLIENTE;
+            $scope.first_name = data.FIRST_NAME;
+            $scope.last_name = data.LAST_NAME;
+            $scope.email = data.EMAIL;
+            $scope.address_1 = data.ADDRESS_1;
+            $scope.address_2 = data.ADDRESS_2;
+            $scope.city = data.CITY;
+            $scope.state = data.STATE;
+            $scope.pais = data.PAIS;
+            $scope.phone = data.PHONE;
+            $scope.codigo_email = data.CODIGO_EMAIL;
+            $scope.codigo_address = data.CODIGO_ADDRESS;
+            $scope.codigo_phone = data.CODIGO_PHONE;
+            $scope.codigo_state = data.CODIGO_STATE;
+            $scope.zipcode = data.ZIPCODE;
+            $scope.codigo_credit_card = data.CODIGO_CREDIT_CARD;
+            $scope.card_holder_name = data.CARD_HOLDER_NAME;
+            $scope.exp_month = data.EXP_MONTH;
+            $scope.exp_year = data.EXP_YEAR;
+            $scope.number_display = data.NUMBER_DISPLAY;
+            $scope.validation_number = data.VALIDATION_NUMBER;
+            $scope.principal = data.PRINCIPAL;
+            $scope.principal_cc = data.PRINCIPAL_CC;
+            $scope.credit_card_number = '';
+            $scope.password = '';
+            $scope.password2 = '';
+            $scope.addresses = data.ADDRESSES;
+            $scope.cards = data.CARDS;
+            $scope.error = false;
+
+            // Modo edicion
+            $rootScope.codigo_cliente_edit = data.CODIGO_CLIENTE;
+            $rootScope.first_name_edit = data.FIRST_NAME;
+            $rootScope.last_name_edit = data.LAST_NAME;
+            $rootScope.email_edit = data.EMAIL;
+            $rootScope.address_1_edit = data.ADDRESS_1;
+            $rootScope.address_2_edit = data.ADDRESS_2;
+            $rootScope.city_edit = data.CITY;
+            $rootScope.state_edit = data.STATE;
+            $rootScope.pais_edit = data.PAIS;
+            $rootScope.phone_edit = data.PHONE;
+            $rootScope.codigo_email_edit = data.CODIGO_EMAIL;
+            $rootScope.codigo_address_edit = data.CODIGO_ADDRESS;
+            $rootScope.codigo_phone_edit = data.CODIGO_PHONE;
+            $rootScope.codigo_state_edit = data.CODIGO_STATE;
+            $rootScope.zipcode_edit = data.ZIPCODE;
+
+            $scope.modal.show();
+        }).error(function (data, status) {
+            $scope.error = true;
+            console.log(status);
+        });
+    }
+
+    // Edita la direccion
+    $scope.editAddress2 = function (codigo_address) {
+        $scope.cargarCliente(codigo_address);
+    }
+})
+
 // Shipping
-.controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
+.controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
+
+    $ionicModal.fromTemplateUrl('templates/address-edit-modal.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });
+    $scope.openModal = function () {
+        $scope.modal.show();
+    };
+    $scope.closeModal = function () {
+        $scope.modal.hide();
+    };
+
 
     $ionicHistory.nextViewOptions({
         historyRoot: true,
@@ -688,6 +778,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.shippingData.courier = '';
     $scope.shippingData.courier_display = '';
     $scope.shippingData.courier_padre = '';
+
+    // La direccion debe ser valida
+    $scope.checkAddress = function () {
+        /*if ($scope.shippingData.address_1 == '' || $scope.shippingData.city == '' || $scope.shippingData.codigo_state == '')
+        $scope.shippingData.codigo_address = '';*/
+    }
 
     // Obtiene los totales
     WebSql.getTotals().then(function (result) {
@@ -748,6 +844,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Tipos de envio
     $scope.getShipping = function (peso, state, codigo_service_type) {
+
         $params = '&rango_peso=' + peso + '&state=' + state + '&codigo_service_type=' + codigo_service_type;
         $method = 'getShipping';
         $http.post($rutaOrderWs + $method + $params).
@@ -761,6 +858,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.error = true;
             console.log(status);
         });
+    }
+
+    // Edita la direccion
+    $scope.editAddress = function (codigo_address) {
+        $scope.codigo_address = codigo_address;
+        //$scope.doAddress();
+        $scope.modal.show();
     }
 
 })

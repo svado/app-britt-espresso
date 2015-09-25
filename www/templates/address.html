@@ -1,16 +1,19 @@
 <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
-<input type="hidden" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
+<input type="text" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
+<input type="text" ng-model="codigo_address_edit" name="codigo_address_edit" ng-value="{{codigo_address_edit}}">
 
 <label class="item item-input">
     <span class="input-label">Dirección</span>
     <div ng-messages="fAddress.address_1.$error" ng-messages-include="messages.html"></div>
-    <input type="text" ng-model="$parent.address_1" name="address_1" required ng-minlength="3">
+    <input type="text" ng-model="$parent.address_1" name="address_1" required ng-minlength="3" ng-if="codigo_address_edit === undefined">
+    <input type="text" ng-model="$parent.address_1_edit" name="address_1" required ng-minlength="3" ng-if="codigo_address_edit > 0">
 </label>
 
 <label class="item item-input">
     <span class="input-label">Distrito</span>
     <div ng-messages="fAddress.address_2.$error" ng-messages-include="messages.html"></div>
-    <input type="text" ng-model="$parent.address_2" name="address_2" required ng-minlength="3">
+    <input type="text" ng-model="$parent.address_2" name="address_2" required ng-minlength="3" ng-if="codigo_address_edit === undefined">
+    <input type="text" ng-model="$parent.address_2_edit" name="address_2" required ng-minlength="3" ng-if="codigo_address_edit > 0">
 </label>
 
 <label class="item item-input">
@@ -51,7 +54,7 @@
 
 <label class="item ">
     <button class="button button-block button-positive " type="submit " ng-disabled="fAddress.$invalid ">
-        <span ng-if="codigo_address==0 ">Crear</span>
-        <span ng-if="codigo_address>0">Actualizar</span>
+        <span ng-if="codigo_address==0 && codigo_address_edit===undefined ">Crear</span>
+        <span ng-if="codigo_address>0 || codigo_address_edit>0">Actualizar</span>
     </button>
 </label>

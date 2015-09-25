@@ -6,6 +6,10 @@
   font-size: 22px !important; }
 
 /* Items */
+/* Iconos */
+i.small-icon {
+  font-size: 24px !important; }
+
 /* Validaciones */
 .ng-invalid {
   border-color: #a87b54;

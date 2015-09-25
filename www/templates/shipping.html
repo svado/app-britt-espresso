@@ -2,6 +2,9 @@
 
     <ion-nav-buttons side="right">
         <div>
+            <button class="button button-clear button-light" ng-click="data.showDelete=!data.showDelete">
+                <i class="icon ion-compose"></i>
+            </button>
             <button class="button button-clear button-light" ng-click="doAddress()">
                 <i class="icon ion-plus-circled"></i>
             </button>
@@ -20,48 +23,55 @@
     <ion-content class="has-header">
         <form name="fShipping" ng-controller="ShippingCtrl" ng-submit="addShipping()">
 
-            <div class="list ">
-
-                <!-- Direcciones -->
-                <div class="list">
+            <!-- Direcciones -->
+            <!--<div class="list">
                     <div class="item item-divider">
                         <span class="badge badge-left badge-assertive">1</span> Seleccione una dirección
                     </div>
                     <label class="item item-radio" ng-repeat="address in addresses">
-                        <input type="radio" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; shippingData.address_1='{{address.ADDRESS_1}}'; shippingData.address_2='{{address.ADDRESS_2}}'; shippingData.city='{{address.CITY}}'; shippingData.codigo_pais='{{address.CODIGO_PAIS}}'; shippingData.zipcode='{{address.ZIPCODE}}'; shippingData.phone='{{address.PHONE}}'; getShipping(shippingData.peso,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type);" ng-checked="address.CODIGO_ADDRESS == shippingData.codigo_address_selected">
-                        <div class="item-content ">
+                        <input type="radio" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; shippingData.address_1='{{address.ADDRESS_1}}'; shippingData.address_2='{{address.ADDRESS_2}}'; shippingData.city='{{address.CITY}}'; shippingData.codigo_pais='{{address.CODIGO_PAIS}}'; shippingData.zipcode='{{address.ZIPCODE}}'; shippingData.phone='{{address.PHONE}}'; getShipping(shippingData.peso,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type); checkAddress();" ng-checked="address.CODIGO_ADDRESS == shippingData.codigo_address_selected;">
+                        <div class="item-content">
                             <span>{{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</span>
                         </div>
-                        <i class="radio-icon ion-checkmark "></i>
                     </label>
-                </div>
+                </div>-->
 
-                <!-- Envios -->
-                <div class="list">
-                    <div class="item item-divider">
-                        <span class="badge badge-left badge-assertive">2</span> Selecciona un método de envío
-                    </div>
-                    <label class="item item-radio" ng-repeat="shipping in shippings">
-                        <input type="radio" name="codigo_service_type" ng-model="shippingData.codigo_service_type" value="{{shipping.CODIGO_SERVICE_TYPE}}" required ng-click="shippingData.codigo_service_type={{shipping.CODIGO_SERVICE_TYPE}}; shippingData.monto_envio={{shipping.MONTO}}; shippingData.courier='{{shipping.COURIER}}'; shippingData.courier_display='{{shipping.WEB_DISPLAY}}'; shippingData.courier_padre='{{shipping.COURIER_PADRE}}'" ng-checked="shipping.CODIGO_SERVICE_TYPE == shippingData.codigo_service_type_selected">
-                        <div class="item-content ">
-                            <span>{{shipping.WEB_DISPLAY}} ({{shipping.DAYS}} dias)</span>
-                            <span class="padding-horizontal ">-</span>
-                            <span>{{monedaSymbol}} {{shipping.MONTO | number}}</span>
-                        </div>
-                        <i class="radio-icon ion-checkmark "></i>
-                    </label>
-                </div>
+            <div class="list">
+                <ion-list show-delete="data.showDelete">
+                    <ion-item ng-repeat="address in addresses" class="item item-icon-right " item="item" name="codigo_address" ng-model="shippingData.codigo_address" value="{{address.CODIGO_ADDRESS}}" required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}'; shippingData.address_1='{{address.ADDRESS_1}}'; shippingData.address_2='{{address.ADDRESS_2}}'; shippingData.city='{{address.CITY}}'; shippingData.codigo_pais='{{address.CODIGO_PAIS}}'; shippingData.zipcode='{{address.ZIPCODE}}'; shippingData.phone='{{address.PHONE}}'; getShipping(shippingData.peso,'{{address.CODIGO_STATE}}',shippingData.codigo_service_type); checkAddress();">
+                        <p>{{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</p>
+                        <ion-delete-button class="ion-compose" ng-controller="ShippingModalCtrl" ng-click="editAddress2(address.CODIGO_ADDRESS) "></ion-delete-button>
+                        <i class="icon ion-checkmark small-icon " ng-if="address.CODIGO_ADDRESS == shippingData.codigo_address"></i>
+                    </ion-item>
+                </ion-list>
+            </div>
 
-                <!-- Resumen de la orden -->
+            <!-- Envios -->
+            <div class="list">
                 <div class="item item-divider">
-                    Totales
+                    <span class="badge badge-left badge-assertive">2</span> Selecciona un método de envío
                 </div>
-                <div ng-controller="BasketInfoCtrl" ng-include="'templates/order-summary.html'"></div>
-
-                <label class="item">
-                    <button class="button button-block button-positive " type="submit" ng-disabled="fShipping.$invalid ">Continuar</button>
+                <label class="item item-radio" ng-repeat="shipping in shippings">
+                    <input type="radio" name="codigo_service_type" ng-model="shippingData.codigo_service_type" value="{{shipping.CODIGO_SERVICE_TYPE}}" required ng-click="shippingData.codigo_service_type={{shipping.CODIGO_SERVICE_TYPE}}; shippingData.monto_envio={{shipping.MONTO}}; shippingData.courier='{{shipping.COURIER}}'; shippingData.courier_display='{{shipping.WEB_DISPLAY}}'; shippingData.courier_padre='{{shipping.COURIER_PADRE}}'" ng-checked="shipping.CODIGO_SERVICE_TYPE == shippingData.codigo_service_type_selected">
+                    <div class="item-content ">
+                        <span>{{shipping.WEB_DISPLAY}} ({{shipping.DAYS}} dias)</span>
+                        <span class="padding-horizontal ">-</span>
+                        <span>{{monedaSymbol}} {{shipping.MONTO | number}}</span>
+                    </div>
+                    <i class="radio-icon ion-checkmark "></i>
                 </label>
             </div>
+
+            <!-- Resumen de la orden -->
+            <div class="item item-divider ">
+                Totales
+            </div>
+            <div ng-controller="BasketInfoCtrl " ng-include=" 'templates/order-summary.html' "></div>
+
+            <label class="item ">
+                <button class="button button-block button-positive " type="submit " ng-disabled="fShipping.$invalid ">Continuar</button>
+            </label>
+
         </form>
     </ion-content>
 </ion-view>

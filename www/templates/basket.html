@@ -20,8 +20,8 @@
 
             <div class="list ">
 
-                <ion-list show-delete="data.showDelete ">
-                    <ion-item ng-repeat="(descripcion, items) in items | groupBy: 'descripcion' " ng-init="parentIndex=items " class="item item-avatar item-icon-right " item="item ">
+                <ion-list show-delete="data.showDelete">
+                    <ion-item ng-repeat="(descripcion, items) in items | groupBy: 'descripcion' " ng-init="parentIndex=items " class="item item-avatar item-icon-right " item="item " ng-click="data.showDelete=!data.showDelete ">
                         <img ng-src="{{$rutaImagenes}}{{image}} " ng-repeat="(image, items) in items | groupBy: 'image' ">
                         <h2>{{descripcion}}</h2>
                         <span class="item-note ">{{monedaSymbol}} {{parentIndex[0].precio_venta_total | number}}</span>

@@ -30,6 +30,15 @@ $button-stable-text: #fff !default;
 
 $item-divider-bg: #ecdfc2 !default;
 
+/* Iconos */
+
+i {
+    &.small-icon {
+        font-size: 24px !important;
+    }
+}
+
+
 /* Validaciones */
 
 .ng-invalid {
@@ -91,6 +100,7 @@ $item-divider-bg: #ecdfc2 !default;
     position: relative !important;
     top: 0 !important;
 }
+
 
 /* The path for our ionicons font files, relative to the built CSS in www/css */
 
