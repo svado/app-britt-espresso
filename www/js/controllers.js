@@ -41,13 +41,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalSignUp = modal;
     });
 
-    // Create the address modal that we will use later
-    $ionicModal.fromTemplateUrl('templates/address-modal.html', {
-        scope: $scope
-    }).then(function (modal) {
-        $scope.modalAddress = modal;
-    });
-
     // Create the payment modal that we will use later
     $ionicModal.fromTemplateUrl('templates/payment-modal.html', {
         scope: $scope
@@ -65,11 +58,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalSignUp.hide();
     };
 
-    // Triggered in the address modal to close it
-    $scope.closeAddress = function () {
-        $scope.modalAddress.hide();
-    };
-
     // Triggered in the payment modal to close it
     $scope.closePayment = function () {
         $scope.modalPayment.hide();
@@ -83,11 +71,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Open the signup modal
     $scope.signup = function () {
         $scope.modalSignUp.show();
-    };
-
-    // Open the address modal
-    $scope.doAddress = function () {
-        $scope.modalAddress.show();
     };
 
     // Open the payment modal
@@ -276,7 +259,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log(status);
         });
     };
-
 })
 
 // Lista de productos
@@ -492,7 +474,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Informacion de un contacto
-.controller('ContactInfoCtrl', function ($scope, $http, $stateParams, $ionicHistory) {
+.controller('ContactInfoCtrl', function ($scope, $http, $stateParams, $ionicHistory, $ionicModal) {
 
     // Lista de provincias, meses
     $scope.stateslst = $states;
@@ -654,16 +636,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 })
 
-// Shipping modal
+// Shipping modal edit
 .controller('ShippingModalCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
     // Obtiene los datos del cliente
     $scope.cargarCliente = function (codigo_address) {
         $cliente = $scope.getLocalData('cliente');
-        $params = '&codigo_cliente=' + $cliente.codigo_cliente;
+        $params = '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + codigo_address;
         $method = 'getContact';
-
-        $params = $params + '&codigo_address=' + codigo_address;
 
         $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
             $rootScope.codigo_address_edit = data.CODIGO_ADDRESS;
@@ -680,7 +660,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $rootScope.last_name = data.LAST_NAME;
             $rootScope.email = data.EMAIL;
             $scope.error = false;
-            $scope.modal.show();
+            $scope.modalAddress.show();
         }).error(function (data, status) {
             $scope.error = true;
             console.log(status);
@@ -718,7 +698,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     $scope.closeAddress = function () {
-        $scope.modal.hide();
+        $scope.modalAddress.hide();
     };
 
 })
@@ -729,13 +709,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $ionicModal.fromTemplateUrl('templates/address-edit-modal.html', {
         scope: $scope
     }).then(function (modal) {
-        $scope.modal = modal;
+        $scope.modalAddress = modal;
     });
     $scope.openModal = function () {
-        $scope.modal.show();
+        $scope.modalAddress.show();
     };
     $scope.closeModal = function () {
-        $scope.modal.hide();
+        $scope.modalAddress.hide();
     };
 
     $ionicHistory.nextViewOptions({
@@ -854,12 +834,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log(status);
         });
     }
-
-    // Edita la direccion
-    $scope.editAddress = function (codigo_address) {
-        $scope.modal.show();
-    }
-
 })
 
 // Confirmation
