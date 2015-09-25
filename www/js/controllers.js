@@ -657,8 +657,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Shipping modal
 .controller('ShippingModalCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
-    // TODO: cargar de nuevo el cliente desde una funcion
-
+    // Obtiene los datos del cliente
     $scope.cargarCliente = function (codigo_address) {
         $cliente = $scope.getLocalData('cliente');
         $params = '&codigo_cliente=' + $cliente.codigo_cliente;
@@ -667,53 +666,20 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $params = $params + '&codigo_address=' + codigo_address;
 
         $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
-            $scope.codigo_cliente = data.CODIGO_CLIENTE;
-            $scope.first_name = data.FIRST_NAME;
-            $scope.last_name = data.LAST_NAME;
-            $scope.email = data.EMAIL;
-            $scope.address_1 = data.ADDRESS_1;
-            $scope.address_2 = data.ADDRESS_2;
-            $scope.city = data.CITY;
-            $scope.state = data.STATE;
-            $scope.pais = data.PAIS;
-            $scope.phone = data.PHONE;
-            $scope.codigo_email = data.CODIGO_EMAIL;
-            $scope.codigo_address = data.CODIGO_ADDRESS;
-            $scope.codigo_phone = data.CODIGO_PHONE;
-            $scope.codigo_state = data.CODIGO_STATE;
-            $scope.zipcode = data.ZIPCODE;
-            $scope.codigo_credit_card = data.CODIGO_CREDIT_CARD;
-            $scope.card_holder_name = data.CARD_HOLDER_NAME;
-            $scope.exp_month = data.EXP_MONTH;
-            $scope.exp_year = data.EXP_YEAR;
-            $scope.number_display = data.NUMBER_DISPLAY;
-            $scope.validation_number = data.VALIDATION_NUMBER;
-            $scope.principal = data.PRINCIPAL;
-            $scope.principal_cc = data.PRINCIPAL_CC;
-            $scope.credit_card_number = '';
-            $scope.password = '';
-            $scope.password2 = '';
-            $scope.addresses = data.ADDRESSES;
-            $scope.cards = data.CARDS;
-            $scope.error = false;
-
-            // Modo edicion
-            $rootScope.codigo_cliente_edit = data.CODIGO_CLIENTE;
-            $rootScope.first_name_edit = data.FIRST_NAME;
-            $rootScope.last_name_edit = data.LAST_NAME;
-            $rootScope.email_edit = data.EMAIL;
+            $rootScope.codigo_address_edit = data.CODIGO_ADDRESS;
             $rootScope.address_1_edit = data.ADDRESS_1;
             $rootScope.address_2_edit = data.ADDRESS_2;
             $rootScope.city_edit = data.CITY;
             $rootScope.state_edit = data.STATE;
             $rootScope.pais_edit = data.PAIS;
             $rootScope.phone_edit = data.PHONE;
-            $rootScope.codigo_email_edit = data.CODIGO_EMAIL;
-            $rootScope.codigo_address_edit = data.CODIGO_ADDRESS;
-            $rootScope.codigo_phone_edit = data.CODIGO_PHONE;
             $rootScope.codigo_state_edit = data.CODIGO_STATE;
             $rootScope.zipcode_edit = data.ZIPCODE;
-
+            $rootScope.principal_edit = data.PRINCIPAL;
+            $rootScope.first_name = data.FIRST_NAME;
+            $rootScope.last_name = data.LAST_NAME;
+            $rootScope.email = data.EMAIL;
+            $scope.error = false;
             $scope.modal.show();
         }).error(function (data, status) {
             $scope.error = true;
@@ -722,13 +688,43 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     // Edita la direccion
-    $scope.editAddress2 = function (codigo_address) {
+    $scope.editAddress = function (codigo_address) {
         $scope.cargarCliente(codigo_address);
     }
+
+    // Actualiza la direccion de un contacto
+    $scope.updContactAddress = function () {
+
+        $scope.error = true;
+        $params = '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.fAddress.codigo_address.$modelValue + '&address_1=' + $scope.fAddress.address_1.$modelValue + '&address_2=' + $scope.fAddress.address_2.$modelValue + '&city=' + $scope.fAddress.city.$modelValue + '&state=' + $scope.fAddress.codigo_state.$modelValue + '&zipcode=' + $scope.fAddress.zipcode.$modelValue + '&phone=' + $scope.fAddress.phone.$modelValue + '&principal=' + $scope.fAddress.principal.$modelValue + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email;
+        $method = 'updContactAddress';
+
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $scope.error = false;
+                    $scope.closeAddress();
+                    $scope.refreshPage();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Envio', data.ALERTA);
+            } else {
+                $scope.showPopup('Envio', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
+    }
+
+    $scope.closeAddress = function () {
+        $scope.modal.hide();
+    };
+
 })
 
 // Shipping
-.controller('ShippingCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
+.controller('ShippingCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
     $ionicModal.fromTemplateUrl('templates/address-edit-modal.html', {
         scope: $scope
@@ -741,7 +737,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.closeModal = function () {
         $scope.modal.hide();
     };
-
 
     $ionicHistory.nextViewOptions({
         historyRoot: true,
@@ -862,8 +857,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Edita la direccion
     $scope.editAddress = function (codigo_address) {
-        $scope.codigo_address = codigo_address;
-        //$scope.doAddress();
         $scope.modal.show();
     }
 

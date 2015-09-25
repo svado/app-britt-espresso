@@ -1,12 +1,12 @@
 <ion-modal-view ng-controller="ShippingModalCtrl">
     <ion-header-bar>
-        <h1 class="title ">Ingresar nueva direcci&oacute;n</h1>
+        <h1 class="title ">Editar direcci&oacute;n</h1>
         <div class="buttons ">
             <button class="button button-clear " ng-click="closeAddress() ">Cerrar</button>
         </div>
     </ion-header-bar>
     <ion-content>
-        <form name="fAddress" ng-submit="updContactAddress()">
+        <form name="$parent.fAddress" ng-submit="updContactAddress()">
 
             <!-- Direccion -->
             <div ng-include=" 'templates/address.html' "></div>
