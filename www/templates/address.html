@@ -1,25 +1,25 @@
-<input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+<input type="text" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
 <input type="text" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}">
 <input type="text" ng-model="codigo_address_edit" name="codigo_address" ng-value="{{codigo_address_edit}}">
 
 <label class="item item-input">
     <span class="input-label">Dirección</span>
     <div ng-messages="fAddress.address_1.$error" ng-messages-include="messages.html"></div>
-    <input type="text" ng-model="$parent.address_1" name="address_1" required ng-minlength="3" ng-if="codigo_address_edit === undefined">
+    <input type="text" ng-model="$parent.address_1" name="address_1" required ng-minlength="3" ng-if="codigo_address_edit === undefined || codigo_address_edit == 0">
     <input type="text" ng-model="$parent.address_1_edit" name="address_1" required ng-minlength="3" ng-if="codigo_address_edit > 0">
 </label>
 
 <label class="item item-input">
     <span class="input-label">Distrito</span>
     <div ng-messages="fAddress.address_2.$error" ng-messages-include="messages.html"></div>
-    <input type="text" ng-model="$parent.address_2" name="address_2" required ng-minlength="3" ng-if="codigo_address_edit === undefined">
+    <input type="text" ng-model="$parent.address_2" name="address_2" required ng-minlength="3" ng-if="codigo_address_edit === undefined || codigo_address_edit == 0">
     <input type="text" ng-model="$parent.address_2_edit" name="address_2" required ng-minlength="3" ng-if="codigo_address_edit > 0">
 </label>
 
 <label class="item item-input">
     <span class="input-label">Cantón</span>
     <div ng-messages="fAddress.city.$error" ng-messages-include="messages.html"></div>
-    <input type="text" ng-model="$parent.city" name="city" required ng-minlength="3" ng-if="codigo_address_edit === undefined">
+    <input type="text" ng-model="$parent.city" name="city" required ng-minlength="3" ng-if="codigo_address_edit === undefined || codigo_address_edit == 0">
     <input type="text" ng-model="$parent.city_edit" name="city" required ng-minlength="3" ng-if="codigo_address_edit > 0">
 </label>
 
@@ -27,31 +27,31 @@
     <div class="input-label">
         Provincia
     </div>
-    <select ng-model="$parent.codigo_state" name="codigo_state" ng-if="codigo_address_edit === undefined">
-        <option ng-repeat="state in stateslst" value="{{state.codigo_state}}" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
+    <select ng-model="$parent.codigo_state" value="{{state.codigo_state}}" name="codigo_state" ng-if="codigo_address_edit === undefined || codigo_address_edit == 0">
+        <option ng-repeat="state in stateslst" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
     </select>
-    <select ng-model="$parent.codigo_state_edit" name="codigo_state" ng-if="codigo_address_edit > 0">
-        <option ng-repeat="state in stateslst" value="{{state.codigo_state}}" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
+    <select ng-model="$parent.codigo_state_edit" value="{{state.codigo_state}}" name="codigo_state" ng-if="codigo_address_edit > 0 || codigo_address_edit == 0">
+        <option ng-repeat="state in stateslst" ng-selected="state.codigo_state == codigo_state">{{state.nombre}}</option>
     </select>
 </div>
 
 <label class="item item-input">
     <span class="input-label">Código postal</span>
-    <input type="text" ng-model="$parent.zipcode" name="zipcode" ng-if="codigo_address_edit === undefined">
+    <input type="text" ng-model="$parent.zipcode" name="zipcode" ng-if="codigo_address_edit === undefined || codigo_address_edit == 0">
     <input type="text" ng-model="$parent.zipcode_edit" name="zipcode" ng-if="codigo_address_edit > 0">
 </label>
 
 <label class="item item-input">
     <span class="input-label">Teléfono</span>
     <div ng-messages="fAddress.phone.$error" ng-messages-include="messages.html"></div>
-    <input type="tel" ng-model="$parent.phone" name="phone" required ng-if="codigo_address_edit === undefined">
+    <input type="tel" ng-model="$parent.phone" name="phone" required ng-if="codigo_address_edit === undefined || codigo_address_edit == 0">
     <input type="tel" ng-model="$parent.phone_edit" name="phone" required ng-if="codigo_address_edit > 0">
 </label>
 
 <li class="item item-toggle">
     Principal
     <label class="toggle toggle-royal">
-        <input type="checkbox" ng-model="$parent.principal" name="principal" ng-checked="principal==1" ng-if="codigo_address_edit === undefined">
+        <input type="checkbox" ng-model="$parent.principal" name="principal" ng-checked="principal==1" ng-if="codigo_address_edit === undefined || codigo_address_edit == 0">
         <input type="checkbox" ng-model="$parent.principal_edit" name="principal" ng-checked="principal==1" ng-if="codigo_address_edit > 0">
         <div class="track">
             <div class="handle"></div>
@@ -61,7 +61,6 @@
 
 <label class="item ">
     <button class="button button-block button-positive " type="submit " ng-disabled="fAddress.$invalid ">
-        <span ng-if="codigo_address==0 && codigo_address_edit===undefined ">Crear</span>
-        <span ng-if="codigo_address>0 || codigo_address_edit>0">Actualizar</span>
+        <span>Guardar</span>
     </button>
 </label>

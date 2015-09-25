@@ -48,6 +48,19 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalPayment = modal;
     });
 
+    // Create the address modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/address-edit-modal.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modalAddress = modal;
+    });
+    $scope.openModal = function () {
+        $scope.modalAddress.show();
+    };
+    $scope.closeModal = function () {
+        $scope.modalAddress.hide();
+    };
+
     // Triggered in the login modal to close it
     $scope.closeLogin = function () {
         $scope.modalLogin.hide();
@@ -216,7 +229,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.updContactAddress = function () {
 
         $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&principal=' + $scope.principal;
+        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + fAddress.address_1.value + '&address_2=' + fAddress.address_2.value + '&city=' + fAddress.city.value + '&state=' + fAddress.codigo_state.value + '&zipcode=' + fAddress.zipcode.value + '&phone=' + fAddress.phone.value + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email + '&principal=' + fAddress.principal.value;
         $method = 'updContactAddress';
         $http.post($rutaAccountWs + $method + $params).
         success(function (data, status, headers) {
@@ -485,6 +498,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         showDelete: false
     };
 
+    // Obtiene los datos del contacto
     $cliente = $scope.getLocalData('cliente');
     $params = '&codigo_cliente=' + $cliente.codigo_cliente;
     $method = 'getContact';
@@ -639,6 +653,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Shipping modal edit
 .controller('ShippingModalCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
+    // Lista de provincias
+    $scope.stateslst = $states;
+    $rootScope.stateslst = $states;
+
+    $cliente = $scope.getLocalData('cliente');
+    $scope.codigo_cliente = $cliente.codigo_cliente;
+
     // Obtiene los datos del cliente
     $scope.cargarCliente = function (codigo_address) {
         $cliente = $scope.getLocalData('cliente');
@@ -706,17 +727,9 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Shipping
 .controller('ShippingCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
-    $ionicModal.fromTemplateUrl('templates/address-edit-modal.html', {
-        scope: $scope
-    }).then(function (modal) {
-        $scope.modalAddress = modal;
-    });
-    $scope.openModal = function () {
-        $scope.modalAddress.show();
-    };
-    $scope.closeModal = function () {
-        $scope.modalAddress.hide();
-    };
+    $scope.stateslst = $states;
+    $scope.meseslst = $meses;
+    $scope.anoslist = $anostarjeta;
 
     $ionicHistory.nextViewOptions({
         historyRoot: true,
@@ -754,6 +767,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.shippingData.courier_display = '';
     $scope.shippingData.courier_padre = '';
 
+
     // La direccion debe ser valida
     $scope.checkAddress = function () {
         /*if ($scope.shippingData.address_1 == '' || $scope.shippingData.city == '' || $scope.shippingData.codigo_state == '')
@@ -772,36 +786,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.getShipping(result.peso, result.codigo_state, result.codigo_service_type);
         }
     });
-
-    // Actualiza la direccion de un contacto
-    $scope.updContactAddress = function () {
-
-        $scope.productData = {};
-        $scope.productData.cantidad_incluir = '1';
-
-        $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address + '&address_1=' + $scope.address_1 + '&address_2=' + $scope.address_2 + '&city=' + $scope.city + '&state=' + $scope.codigo_state + '&zipcode=' + $scope.zipcode + '&phone=' + $scope.phone + '&principal=' + $scope.principal;
-        $method = 'updContactAddress';
-
-        $http.post($rutaAccountWs + $method + $params).
-        success(function (data, status, headers) {
-            if (data.length != 0) {
-                if (data.ERROR == false) {
-                    $scope.codigo_address = data.CODIGO_ADDRESS;
-                    $scope.error = false;
-                    if (data.ALERTA.length != 0) $scope.showPopup('Envio', data.ALERTA);
-                    $scope.closeAddress();
-                    $scope.refreshPage();
-                } else
-                if (data.ALERTA.length != 0) $scope.showPopup('Envio', data.ALERTA);
-            } else {
-                $scope.showPopup('Envio', 'Error de conexión');
-            }
-        }).
-        error(function (data, status) {
-            console.log(status);
-        });
-    };
 
     // Guarda el envio
     $scope.addShipping = function () {
