@@ -1,25 +1,25 @@
 <input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
-<input type="hidden" ng-model="codigo_credit_card" name="codigo_credit_card" ng-value="{{codigo_credit_card}}">
-<input type="hidden" ng-model="codigo_credit_card_edit" name="codigo_credit_card" ng-value="{{codigo_credit_card_edit}}">
+<input type="hidden" ng-model="codigo_credit_card" name="codigo_credit_card" ng-value="{{codigo_credit_card}}" ng-if="cardData.modal === undefined">
+<input type="hidden" ng-model="cardData.codigo_credit_card" name="codigo_credit_card" ng-value="{{codigo_credit_card}}" ng-if="cardData.modal !== undefined">
 
 <div class="list">
 
     <label class="item item-input">
         <span class="input-label">Nombre</span>
         <div ng-messages="fCreditcard.card_holder_name.$error" ng-messages-include="messages.html"></div>
-        <input type="text" ng-model="$parent.card_holder_name" name="card_holder_name" required ng-minlength="3" ng-if="codigo_credit_card_edit === undefined || codigo_credit_card_edit == 0">
-        <input type="text" ng-model="$parent.card_holder_name_edit" name="card_holder_name" required ng-minlength="3" ng-if="codigo_credit_card_edit > 0">
+        <input type="text" ng-model="card_holder_name" name="card_holder_name" required ng-minlength="3" ng-if="cardData.modal === undefined">
+        <input type="text" ng-model="cardData.card_holder_name" name="card_holder_name" required ng-minlength="3" ng-if="cardData.modal !== undefined">
     </label>
 
     <label class="item item-input">
         <span class="input-label">
             Numero<br>
-            <small ng-if="codigo_credit_card_edit === undefined || codigo_credit_card_edit == 0">{{number_display}}</small>
-            <small ng-if="codigo_credit_card_edit > 0">{{number_display_edit}}</small>
+            <small ng-if="cardData.modal === undefined">{{number_display}}</small>
+            <small ng-if="cardData.modal !== undefined">{{cardData.number_display}}</small>
         </span>
         <div ng-messages="fCreditcard.credit_card_number.$error" ng-messages-include="messages.html"></div>
-        <input type="number" ng-model="$parent.credit_card_number" name="credit_card_number" required ng-minlength="15" ng-maxlength="18" ng-if="codigo_credit_card_edit === undefined || codigo_credit_card_edit == 0">
-        <input type="number" ng-model="$parent.credit_card_number_edit" name="credit_card_number" required ng-minlength="15" ng-maxlength="18" ng-if="codigo_credit_card_edit > 0">
+        <input type="number" ng-model="credit_card_number" name="credit_card_number" required ng-minlength="15" ng-maxlength="18" ng-if="cardData.modal === undefined">
+        <input type="number" ng-model="cardData.credit_card_number" name="credit_card_number" required ng-minlength="15" ng-maxlength="18" ng-if="cardData.modal !== undefined">
     </label>
 
     <div class="item item-input item-select">
@@ -27,11 +27,11 @@
             Mes
         </div>
         <div ng-messages="fCreditcard.exp_month.$error" ng-messages-include="messages.html"></div>
-        <select ng-model="$parent.exp_month" name="exp_month" required ng-if="codigo_credit_card_edit === undefined || codigo_credit_card_edit == 0">
+        <select ng-model="exp_month" name="exp_month" required ng-if="cardData.modal === undefined">
             <option ng-repeat="mes in meseslst" value="{{mes.mes}}" ng-selected="mes.mes == exp_month">{{mes.nombre}}</option>
         </select>
-        <select ng-model="$parent.exp_month_edit" name="exp_month" required ng-if="codigo_credit_card_edit > 0">
-            <option ng-repeat="mes in meseslst" value="{{mes.mes}}" ng-selected="mes.mes == exp_month_edit">{{mes.nombre}}</option>
+        <select ng-model="cardData.exp_month" name="exp_month" required ng-if="cardData.modal !== undefined">
+            <option ng-repeat="mes in meseslst" value="{{mes.mes}}" ng-selected="mes.mes == cardData.exp_month">{{mes.nombre}}</option>
         </select>
     </div>
 
@@ -40,26 +40,26 @@
             Año
         </div>
         <div ng-messages="fCreditcard.exp_year.$error" ng-messages-include="messages.html"></div>
-        <select ng-model="$parent.exp_year" name="exp_year" required ng-if="codigo_credit_card_edit === undefined || codigo_credit_card_edit == 0">
+        <select ng-model="exp_year" name="exp_year" required ng-if="cardData.modal === undefined">
             <option ng-repeat="anno in anoslist" value="{{anno}}" ng-selected="anno == exp_year">{{anno}}</option>
         </select>
-        <select ng-model="$parent.exp_year_edit" name="exp_year" required ng-if="codigo_credit_card_edit > 0">
-            <option ng-repeat="anno in anoslist" value="{{anno}}" ng-selected="anno == exp_year_edit">{{anno}}</option>
+        <select ng-model="cardData.exp_year" name="exp_year" required ng-if="cardData.modal !== undefined">
+            <option ng-repeat="anno in anoslist" value="{{anno}}" ng-selected="anno == cardData.exp_year">{{anno}}</option>
         </select>
     </div>
 
     <label class="item item-input">
         <span class="input-label">CCV</span>
         <div ng-messages="fCreditcard.validation_number.$error" ng-messages-include="messages.html"></div>
-        <input type="number" ng-model="$parent.validation_number" name="validation_number" required ng-minlength="3" ng-maxlength="5" ng-if="codigo_credit_card_edit === undefined || codigo_credit_card_edit == 0">
-        <input type="number" ng-model="$parent.validation_number_edit" name="validation_number" required ng-minlength="3" ng-maxlength="5" ng-if="codigo_credit_card_edit > 0">
+        <input type="number" ng-model="validation_number" name="validation_number" required ng-minlength="3" ng-maxlength="5" ng-if="cardData.modal === undefined">
+        <input type="number" ng-model="cardData.validation_number" name="validation_number" required ng-minlength="3" ng-maxlength="5" ng-if="cardData.modal !== undefined">
     </label>
 
     <li class="item item-toggle">
         Principal
         <label class="toggle toggle-royal">
-            <input type="checkbox" ng-model="$parent.principal_cc" name="principal_cc" ng-checked="principal_cc==1" ng-if="codigo_credit_card_edit === undefined || codigo_credit_card_edit == 0">
-            <input type="checkbox" ng-model="$parent.principal_cc_edit" name="principal_cc" ng-checked="principal_cc==1" ng-if="codigo_credit_card_edit > 0">
+            <input type="checkbox" ng-model="principal_cc" name="principal_cc" ng-checked="principal_cc==1" ng-if="cardData.modal === undefined">
+            <input type="checkbox" ng-model="cardData.principal_cc" name="principal_cc" ng-checked="principal_cc==1" ng-if="cardData.modal !== undefined">
             <div class="track">
                 <div class="handle"></div>
             </div>

@@ -1,6 +1,6 @@
-<input type="text" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
-<input type="text" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}" ng-if="addressData.modal === undefined">
-<input type="text" ng-model="addressData.codigo_address" name="codigo_address" ng-value="{{codigo_address}}" ng-if="addressData.modal !== undefined">
+<input type="hidden" ng-model="codigo_cliente" name="codigo_cliente" ng-value="{{codigo_cliente}}">
+<input type="hidden" ng-model="codigo_address" name="codigo_address" ng-value="{{codigo_address}}" ng-if="addressData.modal === undefined">
+<input type="hidden" ng-model="addressData.codigo_address" name="codigo_address" ng-value="{{codigo_address}}" ng-if="addressData.modal !== undefined">
 
 <label class="item item-input">
     <span class="input-label">Dirección</span>
