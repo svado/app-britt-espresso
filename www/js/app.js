@@ -7,7 +7,7 @@
 // angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
 angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
 
-.run(function ($ionicPlatform, WebSql) {
+.run(function ($ionicPlatform, WebSql, $state) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -26,12 +26,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         // Variables globales
         $tiendaImpuesto = 13;
         $monedaSymbol = '¢';
-        //$rutaPagesWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
-        //$rutaAccountWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
-        //$rutaOrderWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
-        $rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
-        $rutaAccountWs = 'http://www.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
-        $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
+        $rutaPagesWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaAccountWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
+        $rutaOrderWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
+        //$rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
+        //$rutaAccountWs = 'http://www.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
+        //$rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
         $rutaImagenes = 'http://www.brittespresso.com/siteimg/';
 
         // Maximo de productos permitidos
@@ -124,6 +124,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         ];
 
 
+        //$state.go('app.home');
     });
 
     // Esta loqueado?
@@ -460,22 +461,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
-    //Home
-    .state('app.home', {
-        url: '/home',
-        cache: false,
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/home.html'
-            }
-        },
-        data: {
-            needLogged: false,
-            needItems: false,
-            needShipping: false
-        }
-    })
-
     //Shipping login
     .state('app.loginshipping', {
         url: '/login-shipping',
@@ -551,6 +536,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         },
         data: {
             needLogged: true,
+            needItems: false,
+            needShipping: false
+        }
+    })
+
+    //Home
+    .state('app.home', {
+        url: '/home',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/home.html'
+            }
+        },
+        data: {
+            needLogged: false,
             needItems: false,
             needShipping: false
         }

@@ -114,22 +114,22 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Pagina principal
-.controller('HomeCtrl', function ($scope, $http, WebSql) {
+.controller('HomeCtrl', function ($scope, $http, $timeout) {
 
-    $scope.hasBasket = hasBasket;
-
-    $params = '&template_id=54&article_types=70';
-    $method = 'getPageArticles';
-    $http.post($rutaPagesWs + $method + $params).
-    success(function (data, status, headers) {
-        console.log(data);
-        $scope.banners = data;
-        $scope.error = false;
-    }).
-    error(function (data, status) {
-        $scope.error = true;
-        console.log(status);
-    });
+    $timeout(function () {
+        $scope.hasBasket = hasBasket;
+        $params = '&template_id=54&article_types=70';
+        $method = 'getPageArticles';
+        $http.post($rutaPagesWs + $method + $params).
+        success(function (data, status, headers) {
+            $scope.banners = data;
+            $scope.error = false;
+        }).
+        error(function (data, status) {
+            $scope.error = true;
+            console.log(status);
+        });
+    }, 3000);
 })
 
 // Manejo de clientes
@@ -739,6 +739,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Shipping
 .controller('ShippingCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
+
     $ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
@@ -808,6 +809,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         });
     }
 
+
     // Tipos de envio
     $scope.getShipping = function (peso, state, codigo_service_type) {
 
@@ -824,7 +826,9 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.error = true;
             console.log(status);
         });
+
     }
+
 
 })
 
@@ -972,38 +976,40 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Mis pedidos
-.controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, WebSql) {
+.controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, $timeout, WebSql) {
 
-    $scope.monedaSymbol = $monedaSymbol;
-    $scope.$rutaImagenes = $rutaImagenes;
-    $scope.isLoggedIn = isLoggedIn;
+    $timeout(function () {
+        $scope.monedaSymbol = $monedaSymbol;
+        $scope.$rutaImagenes = $rutaImagenes;
+        $scope.isLoggedIn = isLoggedIn;
 
-    if (isLoggedIn()) {
-        $cliente = $scope.getLocalData('cliente');
-        $params = '&codigo_cliente=' + $cliente.codigo_cliente;
-        $method = 'getOrders';
+        if (isLoggedIn()) {
+            $cliente = $scope.getLocalData('cliente');
+            $params = '&codigo_cliente=' + $cliente.codigo_cliente;
+            $method = 'getOrders';
 
-        $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
-            console.log(data);
-            $scope.orders = data;
-            $scope.error = false;
-        }).error(function (data, status) {
-            $scope.error = true;
-            console.log(status);
-        });
+            $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
+                console.log(data);
+                $scope.orders = data;
+                $scope.error = false;
+            }).error(function (data, status) {
+                $scope.error = true;
+                console.log(status);
+            });
 
-        // Accordeon
-        $scope.toggleGroup = function (item) {
-            if ($scope.isGroupShown(item)) {
-                $scope.shownGroup = null;
-            } else {
-                $scope.shownGroup = item;
-            }
-        };
-        $scope.isGroupShown = function (item) {
-            return $scope.shownGroup === item;
-        };
-    }
+            // Accordeon
+            $scope.toggleGroup = function (item) {
+                if ($scope.isGroupShown(item)) {
+                    $scope.shownGroup = null;
+                } else {
+                    $scope.shownGroup = item;
+                }
+            };
+            $scope.isGroupShown = function (item) {
+                return $scope.shownGroup === item;
+            };
+        }
+    }, 3000);
 
 })
 
