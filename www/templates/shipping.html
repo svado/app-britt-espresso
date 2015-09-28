@@ -22,27 +22,19 @@
     <ion-content class="has-header ">
         <form name="fShipping " ng-controller="ShippingCtrl " ng-submit="addShipping() ">
             <!-- Direcciones -->
-            <!--<div class="list ">
-                    <div class="item item-divider ">
-                        <span class="badge badge-left badge-assertive ">1</span> Seleccione una dirección
-                    </div>
-                    <label class="item item-radio " ng-repeat="address in addresses ">
-                        <input type="radio " name="codigo_address " ng-model="shippingData.codigo_address " value="{{address.CODIGO_ADDRESS}} " required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}' ; shippingData.address_1='{{address.ADDRESS_1}}' ; shippingData.address_2='{{address.ADDRESS_2}}' ; shippingData.city='{{address.CITY}}' ; shippingData.codigo_pais='{{address.CODIGO_PAIS}}' ; shippingData.zipcode='{{address.ZIPCODE}}' ; shippingData.phone='{{address.PHONE}}' ; getShipping(shippingData.peso, '{{address.CODIGO_STATE}}',shippingData.codigo_service_type); checkAddress(); " ng-checked="address.CODIGO_ADDRESS==s hippingData.codigo_address_selected; ">
-                        <div class="item-content ">
-                            <span>{{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</span>
-                        </div>
-                    </label>
-                </div>-->
-
             <div class="list ">
                 <div class="item item-divider ">
                     <span class="badge badge-left badge-assertive ">1</span> Seleccione una dirección
                 </div>
                 <ion-list show-delete="data.showDelete ">
                     <ion-item ng-repeat="address in addresses " class="item item-icon-right " item="item " name="codigo_address " ng-model="shippingData.codigo_address " value="{{address.CODIGO_ADDRESS}} " required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}' ; shippingData.address_1='{{address.ADDRESS_1}}' ; shippingData.address_2='{{address.ADDRESS_2}}' ; shippingData.city='{{address.CITY}}' ; shippingData.codigo_pais='{{address.CODIGO_PAIS}}' ; shippingData.zipcode='{{address.ZIPCODE}}' ; shippingData.phone='{{address.PHONE}}' ; getShipping(shippingData.peso, '{{address.CODIGO_STATE}}',shippingData.codigo_service_type); checkAddress(); ">
-                        <p>{{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}</p>
+                        <p>
+                            {{address.ADDRESS_1}}, {{address.ADDRESS_2}}
+                            <br>{{address.CITY}}, {{address.STATE}}, {{address.ZIPCODE}}
+                        </p>
                         <ion-delete-button class="ion-compose " ng-click="addAddress(address.CODIGO_ADDRESS,address.ADDRESS_1,address.ADDRESS_2,address.CITY,address.CODIGO_STATE,address.ZIPCODE,address.PHONE,address.PRINCIPAL) "></ion-delete-button>
-                        <i class="icon ion-checkmark small-icon " ng-if="address.CODIGO_ADDRESS==shippingData.codigo_address "></i>
+                        <i class="icon ion-checkmark small-icon " ng-if="address.CODIGO_ADDRESS==shippingData.codigo_address"></i>
+                        <!-- address.CODIGO_ADDRESS==shippingData.codigo_address_selected -->
                     </ion-item>
                 </ion-list>
             </div>

@@ -20,7 +20,8 @@
                     Otras tarjetas
                 </div>
                 <a ng-repeat="card in cards" class="item item-icon-left item-icon-right" href="#/app/my-payment/{{card.CODIGO_CREDIT_CARD}}">
-                    <i class="icon ion-home"></i> #{{card.CODIGO_CREDIT_CARD}} {{card.CARD_TYPE}}, {{card.NUMBER_DISPLAY}}, finaliza {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
+                    <i class="icon ion-card"></i> {{card.CARD_TYPE}}, {{card.CARD_HOLDER_NAME}}
+                    <br>{{card.NUMBER_DISPLAY}}, expira {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
                     <i class="icon ion-arrow-right-c"></i>
                 </a>
             </div>

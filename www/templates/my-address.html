@@ -21,7 +21,8 @@
                     Otras direcciones
                 </div>
                 <a ng-repeat="address in addresses" class="item item-icon-left item-icon-right" href="#/app/my-address/{{address.CODIGO_ADDRESS}}">
-                    <i class="icon ion-home"></i> #{{address.CODIGO_ADDRESS}} {{address.ADDRESS_1}}, {{address.CITY}}, {{address.STATE}}
+                    <i class="icon ion-home"></i> {{address.ADDRESS_1}}, {{address.ADDRESS_2}}
+                    <br>{{address.CITY}}, {{address.STATE}}, {{address.ZIPCODE}}
                     <i class="icon ion-arrow-right-c"></i>
                 </a>
             </div>
