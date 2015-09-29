@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Controlador general
-.controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state) {
+.controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state, $parse) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -103,6 +103,39 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             template: $template
         });
         alertPopup.then(function (res) {});
+    };
+
+    // Alertas de confirmacion
+    $scope.showConfirm = function (titulo, subtitulo, negativo, positivo, fnRetorna) {
+        $ionicPopup.show({
+            title: titulo,
+            subTitle: subtitulo,
+            scope: $scope,
+            buttons: [
+                {
+                    text: negativo,
+                    type: 'button-light',
+                    onTap: function (e) {
+                        return true;
+                    }
+                    },
+                {
+                    text: positivo,
+                    type: 'button-positive',
+                    onTap: function (e) {
+                        //return $scope.showConfirmOK();
+                        return $scope.$eval(fnRetorna);
+                    }
+                },
+
+              ]
+        }).then(function (res) {
+            //console.log('Tapped!', res);
+        }, function (err) {
+            //console.log('Err:', err);
+        }, function (msg) {
+            //console.log('message:', msg);
+        });
     };
 
     // Actualiza una paginas
@@ -833,7 +866,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Confirmation
-.controller('ConfirmationCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
+.controller('ConfirmationCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, $ionicPopup, WebSql) {
 
     $ionicHistory.nextViewOptions({
         historyRoot: true,
@@ -894,59 +927,95 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.paymentData.monto_total = result.total;
     });
 
+    // Desea crear la orden?
+    $scope.addOrderConfirm = function () {
+        $scope.showConfirm('Confirmar compra', 'Está seguro?', 'Cancelar', 'Confirmar', 'addOrder()');
+    }
+
     // Crea la orden
-    $scope.addOrder = function () {
+    $rootScope.addOrder = function () {
+
         // Agrega la forma de pago
         WebSql.addPayment($scope.paymentData).then(function (alerta) {
 
-            var $orden = $scope.getLocalData('orden') || {};
-            var $cliente = $scope.getLocalData('cliente');
+                var $orden = $scope.getLocalData('orden') || {};
+                var $cliente = $scope.getLocalData('cliente');
 
-            console.log('shipping', $scope.shippingData);
-            console.log('items', $scope.items);
+                console.log('shipping', $scope.shippingData);
+                console.log('items', $scope.items);
 
-            // Crea el encabezado de la orden
-            $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&codigo_credit_card=' + $scope.paymentData.codigo_credit_card + '&monto_total=' + $scope.paymentData.monto_total + '&items=' + JSON.stringify($scope.items);
-            $method = 'addOrder';
+                // Crea el encabezado de la orden
+                $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&codigo_credit_card=' + $scope.paymentData.codigo_credit_card + '&monto_total=' + $scope.paymentData.monto_total + '&items=' + JSON.stringify($scope.items);
+                $method = 'addOrder';
 
-            $http.post($rutaOrderWs + $method + $params).
-            success(function (data, status, headers) {
-                if (data.ERROR == false && angular.isNumber(data.SECUENCIA_FACTURA) && data.SECUENCIA_FACTURA > 0) {
+                $http.post($rutaOrderWs + $method + $params).
+                success(function (data, status, headers) {
+                    if (data.ERROR == false && angular.isNumber(data.SECUENCIA_FACTURA) && data.SECUENCIA_FACTURA > 0) {
 
-                    // Guarda el numero de orden en sesion
-                    var $orden = $scope.getLocalData('orden') || {};
-                    $orden.hasPayment = true;
-                    $orden.hasOrder = true;
-                    $orden.codigo_punto_venta = data.CODIGO_PUNTO_VENTA;
-                    $orden.secuencia_factura = data.SECUENCIA_FACTURA;
-                    window.localStorage.setItem('orden', JSON.stringify($orden));
+                        // Guarda el numero de orden en sesion
+                        var $orden = $scope.getLocalData('orden') || {};
+                        $orden.hasPayment = true;
+                        $orden.hasOrder = true;
+                        $orden.codigo_punto_venta = data.CODIGO_PUNTO_VENTA;
+                        $orden.secuencia_factura = data.SECUENCIA_FACTURA;
+                        window.localStorage.setItem('orden', JSON.stringify($orden));
 
-                    if (data.COBRADA) {
-                        $state.go("app.confirmation-success", {
-                            'order_id': data.CODIGO_PUNTO_VENTA + '-' + data.SECUENCIA_FACTURA
-                        });
+                        if (data.COBRADA) {
+                            $state.go("app.confirmation-success", {
+                                'order_id': data.CODIGO_PUNTO_VENTA + '-' + data.SECUENCIA_FACTURA
+                            });
+                        } else {
+
+                            // Poner orden pendiente de cargo?
+                            $scope.showConfirm('Problema con la tarjeta', 'Se ha presentado un problema autorizando su tarjeta.<br><br>Desea continuar y que un representante de servicio al cliente se contacte con usted?', 'Cancelar', 'Continuar', 'chargePending()');
+                        }
+
+                        console.log('payment', $scope.paymentData);
                     } else {
-                        $state.go("app.confirmation-pending", {
-                            'order_id': data.CODIGO_PUNTO_VENTA + '-' + data.SECUENCIA_FACTURA
-                        });
+                        console.log(data.ALERTA);
+                        $scope.showPopup('Confirmacion', data.ALERTA);
                     }
+                }).
+                error(function (data, status) {
+                    console.log(status);
+                    $scope.showPopup('Confirmacion', status);
+                });
 
-                    console.log('payment', $scope.paymentData);
-                } else {
-                    console.log(data.ALERTA);
-                    $scope.showPopup('Confirmacion', data.ALERTA);
-                }
-            }).
-            error(function (data, status) {
-                console.log(status);
-                $scope.showPopup('Confirmacion', status);
+            },
+            function (err) {
+                $scope.showPopup('Confirmacion', err);
             });
-
-        }, function (err) {
-            $scope.showPopup('Confirmacion', err);
-        });
     }
 
+    // Orden pendiente de cargo
+    $rootScope.chargePending = function () {
+
+        var $orden = $scope.getLocalData('orden') || {};
+        var $cliente = $scope.getLocalData('cliente');
+
+        // Pone la orden pendiente de cargo
+        $params = '&secuencia_factura=' + $orden.secuencia_factura + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=';
+        $method = 'orderPending';
+
+        $http.post($rutaOrderWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.ERROR == false) {
+
+                // Poner orden pendiente de cargo
+                $state.go("app.confirmation-pending", {
+                    'order_id': $orden.codigo_punto_venta + '-' + $orden.secuencia_factura
+                })
+            } else {
+                console.log(data.ALERTA);
+                $scope.showPopup('Confirmacion', data.ALERTA);
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+            $scope.showPopup('Confirmacion', status);
+        });
+
+    }
 })
 
 // Confirmation success
