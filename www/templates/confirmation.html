@@ -22,7 +22,6 @@
 
     <ion-content>
         <form name="fConfirmation" ng-controller="ConfirmationCtrl" ng-submit="addOrderConfirm()">
-
             <div class="list ">
 
                 <!-- Resumen del envio -->
@@ -41,7 +40,11 @@
                 <div class="item item-divider ">
                     <span class="badge badge-left badge-assertive ">3</span> Seleccione una tarjeta
                 </div>
-                <ion-list show-delete="data.showDelete ">
+
+                <ion-list show-delete="data.showDelete">
+                    <ion-item ng-if="cards.length==0" class="item item-button-right">
+                        No hay tarjetas registradas
+                    </ion-item>
                     <ion-item ng-repeat="card in cards " class="item item-icon-right " item="item " name="codigo_credit_card " ng-model="paymentData.codigo_credit_card " value="{{card.CODIGO_CREDIT_CARD}} " required ng-click="paymentData.codigo_credit_card={{card.CODIGO_CREDIT_CARD}}; paymentData.codigo_card_type={{card.CODIGO_CARD_TYPE}}; paymentData.number='{{card.NUMBER}}'; paymentData.exp_month={{card.EXP_MONTH}}; paymentData.exp_year={{card.EXP_YEAR}}; paymentData.validation_number='{{card.VALIDATION_NUMBER}}'; paymentData.card_holder_name='{{card.CARD_HOLDER_NAME}}'; checkPayment();">
                         <p>
                             {{card.CARD_TYPE}}, {{card.CARD_HOLDER_NAME}}
@@ -60,7 +63,7 @@
                 <div ng-controller="BasketInfoCtrl" ng-include="'templates/order-summary.html'"></div>
 
                 <label class="item">
-                    <button class="button button-block button-positive icon ion-checkmark-circled icon-right " type="submit" ng-disabled="fConfirmation.$invalid || paymentData.codigo_credit_card == 0">Confirmar compra</button>
+                    <button class="button button-block button-positive icon ion-checkmark-circled icon-right " type="submit" ng-disabled="fConfirmation.$invalid || checkPayment()==false">Confirmar compra</button>
                 </label>
 
             </div>

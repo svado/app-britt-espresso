@@ -27,6 +27,9 @@
                     <span class="badge badge-left badge-assertive ">1</span> Seleccione una dirección
                 </div>
                 <ion-list show-delete="data.showDelete ">
+                    <ion-item ng-if="addresses.length==0" class="item item-button-right">
+                        No hay direcciones registradas
+                    </ion-item>
                     <ion-item ng-repeat="address in addresses " class="item item-icon-right " item="item " name="codigo_address " ng-model="shippingData.codigo_address " value="{{address.CODIGO_ADDRESS}} " required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}' ; shippingData.address_1='{{address.ADDRESS_1}}' ; shippingData.address_2='{{address.ADDRESS_2}}' ; shippingData.city='{{address.CITY}}' ; shippingData.codigo_pais='{{address.CODIGO_PAIS}}' ; shippingData.zipcode='{{address.ZIPCODE}}' ; shippingData.phone='{{address.PHONE}}' ; getShipping(shippingData.peso, '{{address.CODIGO_STATE}}',shippingData.codigo_service_type); checkAddress(); ">
                         <p>
                             {{address.ADDRESS_1}}, {{address.ADDRESS_2}}
@@ -63,7 +66,7 @@
             <div ng-controller="BasketInfoCtrl " ng-include=" 'templates/order-summary.html' "></div>
 
             <label class="item ">
-                <button class="button button-block button-positive " type="submit " ng-disabled="fShipping.$invalid ">Continuar</button>
+                <button class="button button-block button-positive " type="submit " ng-disabled="fShipping.$invalid || checkAddress()==false">Continuar</button>
             </label>
 
         </form>

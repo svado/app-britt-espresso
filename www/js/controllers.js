@@ -576,7 +576,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     });
 
     // Borra la direccion de un contacto
-    $scope.delContactAddress = function () {
+    $scope.delContactAddressConfirm = function () {
+        $scope.showConfirm('Borrar dirección', 'Está seguro?', 'Cancelar', 'Borrar', 'delContactAddress()');
+    }
+
+    // Borra la direccion de un contacto
+    $rootScope.delContactAddress = function () {
 
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address;
@@ -601,7 +606,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     };
 
     // Borra la tarjeta de un contacto
-    $scope.delContactCard = function () {
+    $scope.delContactCardConfirm = function () {
+        $scope.showConfirm('Borrar tarjeta', 'Está seguro?', 'Cancelar', 'Borrar', 'delContactCard()');
+    }
+
+    // Borra la tarjeta de un contacto
+    $rootScope.delContactCard = function () {
 
         $scope.error = true;
         $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card;
@@ -772,7 +782,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Shipping
 .controller('ShippingCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
-
     $ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
@@ -811,8 +820,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // La direccion debe ser valida
     $scope.checkAddress = function () {
-        /*if ($scope.shippingData.address_1 == '' || $scope.shippingData.city == '' || $scope.shippingData.codigo_state == '')
-        $scope.shippingData.codigo_address = '';*/
+
+        if ($scope.shippingData.address_1 == '' || $scope.shippingData.city == '' || $scope.shippingData.codigo_state == '') {
+            $scope.shippingData.codigo_address = '';
+            return false;
+        } else
+            return true;
     }
 
     // Obtiene los totales
@@ -842,7 +855,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         });
     }
 
-
     // Tipos de envio
     $scope.getShipping = function (peso, state, codigo_service_type) {
 
@@ -860,6 +872,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log(status);
         });
 
+        // Revisa que la direccion sea valida
+        $scope.checkAddress();
     }
 
 
@@ -906,8 +920,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // La tarjeta debe ser valida
     $scope.checkPayment = function () {
-        /*if ($scope.shippingData.address_1 == '' || $scope.shippingData.city == '' || $scope.shippingData.codigo_state == '')
-        $scope.shippingData.codigo_address = '';*/
+
+        if ($scope.paymentData.number == '' || $scope.paymentData.exp_month == '' || $scope.paymentData.exp_year == '') {
+            $scope.paymentData.codigo_card_type = '';
+            return false;
+        } else
+            return true;
     }
 
     // Obtiene el shipping
