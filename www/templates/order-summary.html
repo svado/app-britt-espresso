@@ -10,7 +10,7 @@
     <div class="item row">
         <div class="col col-20">Envio</div>
         <div class="col text-right item-note" ng-if="$state.includes('app.shipping')">{{monedaSymbol}} {{shippingData.monto_envio | number}}</div>
-        <div class="col text-right item-note" ng-if="!$state.includes('app.shipping')">{{monedaSymbol}} {{totales.envio}}</div>
+        <div class="col text-right item-note" ng-if="!$state.includes('app.shipping')">{{monedaSymbol}} {{totales.envio | number}}</div>
     </div>
     <div class="item row">
         <div class="col col-67">Impuesto</div>

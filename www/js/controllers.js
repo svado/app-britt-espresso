@@ -166,7 +166,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Manejo de clientes
-.controller('ContactCtrl', function ($scope, $http, $stateParams, $state, $ionicHistory) {
+.controller('ContactCtrl', function ($scope, $rootScope, $http, $stateParams, $state, $ionicHistory) {
 
     // Trata de loguearse en la web.
     $scope.doLogin = function (page) {
@@ -220,6 +220,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                     window.localStorage.setItem('cliente', JSON.stringify($cliente));
                     $scope.error = false;
                     if (data.ALERTA.length != 0) $scope.showPopup('Registro', data.ALERTA);
+                    $scope.closeSignUp();
                     $scope.login();
                 } else
                 if (data.ALERTA.length != 0) $scope.showPopup('Registro', data.ALERTA);
@@ -329,7 +330,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Informacion de un producto
-.controller('ProductInfoCtrl', function ($scope, $http, $stateParams, WebSql, $filter) {
+.controller('ProductInfoCtrl', function ($scope, $state, $rootScope, $http, $stateParams, WebSql, $filter) {
 
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
@@ -382,6 +383,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         console.log(status);
     });
 
+    // Desea seguir comprando?
+    $rootScope.goCart = function () {
+        $state.go("app.basket");
+    }
+
     // Agrega el producto al carrito
     $scope.addProduct = function () {
         $scope.productData.precio_venta_bruto = $scope.productData.precio;
@@ -391,8 +397,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             var $orden = $scope.getLocalData('orden') || {};
             $orden.hasItems = true;
             window.localStorage.setItem('orden', JSON.stringify($orden));
-
-            $scope.showPopup('Mi carrito', alerta);
+            $scope.showConfirm($scope.title, 'El producto fue agregado al carrito', 'Cerrar', 'Ver carrito', 'goCart()');
         }, function (err) {
             $scope.showPopup('Mi carrito', err);
         });
@@ -476,7 +481,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $orden.hasItems = true;
             window.localStorage.setItem('orden', JSON.stringify($orden));
 
-            $scope.showPopup('Mi carrito', 'El especial fue agregado');
+            $scope.showConfirm($scope.title, 'El especial fue agregado al carrito', 'Cerrar', 'Ver carrito', 'goCart()');
         } else $scope.showPopup('Mi carrito', error);
     }
 
@@ -519,363 +524,372 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Informacion de un contacto
-.controller('ContactInfoCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $ionicModal) {
+.controller('ContactInfoCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $timeout, $ionicModal) {
 
-    // Lista de provincias, meses
-    $scope.stateslst = $states;
-    $scope.meseslst = $meses;
-    $scope.anoslist = $anostarjeta;
+    $timeout(function () {
 
-    $scope.data = {
-        showDelete: false
-    };
+        // Lista de provincias, meses
+        $scope.stateslst = $states;
+        $scope.meseslst = $meses;
+        $scope.anoslist = $anostarjeta;
 
-    // Obtiene los datos del contacto
-    $cliente = $scope.getLocalData('cliente');
-    $params = '&codigo_cliente=' + $cliente.codigo_cliente;
-    $method = 'getContact';
+        $scope.data = {
+            showDelete: false
+        };
 
-    if ($ionicHistory.currentView().stateName == 'app.addressedit')
-        $params = $params + '&codigo_address=' + $stateParams.address_id;
-    else if ($ionicHistory.currentView().stateName == 'app.paymentedit')
-        $params = $params + '&codigo_credit_card=' + $stateParams.payment_id;
+        // Obtiene los datos del contacto
+        $cliente = $scope.getLocalData('cliente');
+        $params = '&codigo_cliente=' + $cliente.codigo_cliente;
+        $method = 'getContact';
 
-    $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
-        $scope.codigo_cliente = data.CODIGO_CLIENTE;
-        $scope.first_name = data.FIRST_NAME;
-        $scope.last_name = data.LAST_NAME;
-        $scope.email = data.EMAIL;
-        $scope.address_1 = data.ADDRESS_1;
-        $scope.address_2 = data.ADDRESS_2;
-        $scope.city = data.CITY;
-        $scope.state = data.STATE;
-        $scope.pais = data.PAIS;
-        $scope.phone = data.PHONE;
-        $scope.codigo_email = data.CODIGO_EMAIL;
-        $scope.codigo_address = data.CODIGO_ADDRESS;
-        $scope.codigo_phone = data.CODIGO_PHONE;
-        $scope.codigo_state = data.CODIGO_STATE;
-        $scope.zipcode = data.ZIPCODE;
-        $scope.codigo_credit_card = data.CODIGO_CREDIT_CARD;
-        $scope.card_holder_name = data.CARD_HOLDER_NAME;
-        $scope.exp_month = data.EXP_MONTH;
-        $scope.exp_year = data.EXP_YEAR;
-        $scope.number_display = data.NUMBER_DISPLAY;
-        $scope.validation_number = data.VALIDATION_NUMBER;
-        $scope.principal = data.PRINCIPAL;
-        $scope.principal_cc = data.PRINCIPAL_CC;
-        $scope.credit_card_number = '';
-        $scope.password = '';
-        $scope.password2 = '';
-        $scope.addresses = data.ADDRESSES;
-        $scope.cards = data.CARDS;
-        $scope.error = false;
-    }).error(function (data, status) {
-        $scope.error = true;
-        console.log(status);
-    });
+        if ($ionicHistory.currentView().stateName == 'app.addressedit')
+            $params = $params + '&codigo_address=' + $stateParams.address_id;
+        else if ($ionicHistory.currentView().stateName == 'app.paymentedit')
+            $params = $params + '&codigo_credit_card=' + $stateParams.payment_id;
 
-    // Borra la direccion de un contacto
-    $scope.delContactAddressConfirm = function () {
-        $scope.showConfirm('Borrar dirección', 'Está seguro?', 'Cancelar', 'Borrar', 'delContactAddress()');
-    }
-
-    // Borra la direccion de un contacto
-    $rootScope.delContactAddress = function () {
-
-        $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address;
-        $method = 'removeAddress';
-
-        $http.post($rutaAccountWs + $method + $params).
-        success(function (data, status, headers) {
-            if (data.length != 0) {
-                if (data.ERROR == false) {
-                    $scope.error = false;
-                    if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
-                    $scope.refreshPage();
-                } else
-                if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
-            } else {
-                $scope.showPopup('Mi dirección', 'Error de conexión');
-            }
-        }).
-        error(function (data, status) {
-            console.log(status);
-        });
-    };
-
-    // Borra la tarjeta de un contacto
-    $scope.delContactCardConfirm = function () {
-        $scope.showConfirm('Borrar tarjeta', 'Está seguro?', 'Cancelar', 'Borrar', 'delContactCard()');
-    }
-
-    // Borra la tarjeta de un contacto
-    $rootScope.delContactCard = function () {
-
-        $scope.error = true;
-        $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card;
-        $method = 'removeCreditCard';
-        $http.post($rutaAccountWs + $method + $params).
-        success(function (data, status, headers) {
-            if (data.length != 0) {
-                if (data.ERROR == false) {
-                    $scope.error = false;
-                    if (data.ALERTA.length != 0) $scope.showPopup('Mi tarjeta', data.ALERTA);
-                    $scope.refreshPage();
-                } else
-                if (data.ALERTA.length != 0) $scope.showPopup('Mi tarjeta', data.ALERTA);
-            } else {
-                $scope.showPopup('Mi tarjeta', 'Error de conexión');
-            }
-        }).
-        error(function (data, status) {
-            console.log(status);
-        });
-    };
-
-    // Agrega una direccion
-    $scope.addAddress = function (codigo_address, address_1, address_2, city, codigo_state, zipcode, phone, principal) {
-        $scope.addressData.modal = true;
-        $scope.addressData.codigo_address = codigo_address;
-        $scope.addressData.address_1 = address_1;
-        $scope.addressData.address_2 = address_2;
-        $scope.addressData.city = city;
-        $scope.addressData.codigo_state = codigo_state;
-        $scope.addressData.zipcode = zipcode;
-        $scope.addressData.phone = phone;
-        $scope.addressData.principal = principal;
-        $scope.modalAddress.show();
-    }
-
-    // Agrega una tarjeta
-    $scope.addPayment = function (codigo_credit_card, codigo_card_type, number, exp_month, exp_year, validation_number, card_holder_name, number_display) {
-        $scope.cardData.modal = true;
-        $scope.cardData.codigo_credit_card = codigo_credit_card;
-        $scope.cardData.codigo_card_type = codigo_card_type;
-        $scope.cardData.number = number;
-        $scope.cardData.exp_month = exp_month;
-        $scope.cardData.exp_year = exp_year;
-        $scope.cardData.validation_number = validation_number;
-        $scope.cardData.card_holder_name = card_holder_name;
-        $scope.cardData.number_display = number_display;
-        $scope.modalPayment.show();
-    }
-
-    // Cierra el modal de la direccion
-    $rootScope.closeAddress = function () {
-        $scope.modalAddress.hide();
-    };
-
-    // Cierra el modal de la tarjeta
-    $rootScope.closePayment = function () {
-        $scope.modalPayment.hide();
-    };
-
-    // Actualiza la direccion de un contacto
-    $rootScope.updContactAddress = function () {
-
-        $scope.error = true;
-        $params = '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.addressData.codigo_address + '&address_1=' + $scope.addressData.address_1 + '&address_2=' + $scope.addressData.address_2 + '&city=' + $scope.addressData.city + '&state=' + $scope.addressData.codigo_state + '&zipcode=' + $scope.addressData.zipcode + '&phone=' + $scope.addressData.phone + '&principal=' + $scope.addressData.principal + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email;
-        $method = 'updContactAddress';
-
-        $http.post($rutaAccountWs + $method + $params).
-        success(function (data, status, headers) {
-            if (data.length != 0) {
-                if (data.ERROR == false) {
-                    $scope.error = false;
-                    $rootScope.closeAddress();
-                    $scope.refreshPage();
-                } else
-                if (data.ALERTA.length != 0) $scope.showPopup('Envio', data.ALERTA);
-            } else {
-                $scope.showPopup('Envio', 'Error de conexión');
-            }
-        }).
-        error(function (data, status) {
-            console.log(status);
-        });
-    }
-
-    // Actualiza la tarjeta de un contacto
-    $rootScope.updContactCreditcard = function () {
-        $scope.error = true;
-        $params = '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_credit_card=' + $scope.cardData.codigo_credit_card + '&credit_card_number=' + $scope.cardData.credit_card_number + '&validation_number=' + $scope.cardData.validation_number + '&exp_month=' + $scope.cardData.exp_month + '&exp_year=' + $scope.cardData.exp_year + '&card_holder_name=' + $scope.cardData.card_holder_name + '&principal=' + $scope.cardData.principal_cc;
-        $method = 'updContactPayment';
-
-        $http.post($rutaAccountWs + $method + $params).
-        success(function (data, status, headers) {
-            if (data.length != 0) {
-                if (data.ERROR == false) {
-                    $scope.error = false;
-                    $rootScope.closePayment();
-                    $scope.refreshPage();
-                } else
-                if (data.ALERTA.length != 0) $scope.showPopup('Mi Tarjeta', data.ALERTA);
-            } else {
-                $scope.showPopup('Mi Tarjeta', 'Error de conexión');
-            }
-        }).
-        error(function (data, status) {
-            console.log(status);
-        });
-    };
-})
-
-// Basket
-.controller('BasketInfoCtrl', function ($scope, $http, $stateParams, WebSql, $state, $ionicHistory) {
-
-    $ionicHistory.nextViewOptions({
-        historyRoot: true,
-        disableBack: true
-    });
-
-    $scope.items = [];
-    $scope.totales = [];
-    $scope.$rutaImagenes = $rutaImagenes;
-    $scope.monedaSymbol = $monedaSymbol;
-    $scope.basketData = {};
-    $scope.basketData.codigo_address = '0';
-    $scope.data = {
-        showDelete: false
-    };
-
-    // Borra un producto al carrito
-    $scope.delBasketItem = function (item) {
-        WebSql.delProduct(item).then(function (alerta) {
-            $scope.items.splice($scope.items.indexOf(item), 1);
-
-            // Si el basket esta vacio elimina el shipping y redirecciona
-            WebSql.getTotals().then(function (result) {
-                if (result.total == 0) {
-
-                    var $orden = $scope.getLocalData('orden') || {};
-                    $orden.hasItems = false;
-                    $orden.hasShipping = false;
-                    window.localStorage.setItem('orden', JSON.stringify($orden));
-
-                    WebSql.delShipping().then(function (alerta) {
-                        $state.go("app.home");
-                    }, function (err) {
-                        $scope.showPopup('Mi carrito', err);
-                    });
-                } else
-                    $scope.refreshPage();
-            });
-
-        }, function (err) {
-            $scope.showPopup('Mi carrito', err);
-        });
-    }
-
-    // Obtiene el basket
-    WebSql.getBasket().then(function (result) {
-        $scope.items = result;
-    });
-
-    // Obtiene los totales
-    WebSql.getTotals().then(function (result) {
-        $scope.totales = result;
-    });
-})
-
-// Shipping
-.controller('ShippingCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
-
-    $ionicHistory.nextViewOptions({
-        historyRoot: true,
-        disableBack: true
-    });
-
-    // Lista de provincias
-    $rootScope.stateslst = $states;
-    $scope.monedaSymbol = $monedaSymbol;
-
-    // Obtiene las funciones del state en el cual estoy
-    $scope.$state = $state;
-
-    // Datos del cliente en sesion
-    $cliente = $scope.getLocalData('cliente');
-    $scope.codigo_cliente = $cliente.codigo_cliente;
-    $scope.codigo_address = 0;
-
-    // Datos para el envio
-    $scope.shippingData = {};
-    $scope.shippingData.codigo_address = '';
-    $scope.shippingData.codigo_service_type = '';
-    $scope.shippingData.codigo_address_selected = '';
-    $scope.shippingData.codigo_service_type_selected = '';
-    $scope.shippingData.monto_envio = 0;
-    $scope.shippingData.peso = 0;
-    $scope.shippingData.address_1 = '';
-    $scope.shippingData.address_2 = '';
-    $scope.shippingData.city = '';
-    $scope.shippingData.codigo_state = '';
-    $scope.shippingData.codigo_pais = 0;
-    $scope.shippingData.zipcode = '';
-    $scope.shippingData.phone = '';
-    $scope.shippingData.courier = '';
-    $scope.shippingData.courier_display = '';
-    $scope.shippingData.courier_padre = '';
-
-    // La direccion debe ser valida
-    $scope.checkAddress = function () {
-
-        if ($scope.shippingData.address_1 == '' || $scope.shippingData.city == '' || $scope.shippingData.codigo_state == '') {
-            $scope.shippingData.codigo_address = '';
-            return false;
-        } else
-            return true;
-    }
-
-    // Obtiene los totales
-    WebSql.getTotals().then(function (result) {
-        $scope.shippingData.peso = result.peso;
-        $scope.shippingData.monto_envio = result.envio;
-        $scope.shippingData.codigo_address_selected = result.codigo_address;
-        $scope.shippingData.codigo_service_type_selected = result.codigo_service_type;
-
-        // Calcula el envio ya seleccionado
-        if (result.total > 0) {
-            $scope.getShipping(result.peso, result.codigo_state, result.codigo_service_type);
-        }
-    });
-
-    // Guarda el envio
-    $scope.addShipping = function () {
-        WebSql.addShipping($scope.shippingData).then(function (alerta) {
-
-            var $orden = $scope.getLocalData('orden') || {};
-            $orden.hasShipping = true;
-            window.localStorage.setItem('orden', JSON.stringify($orden));
-
-            $state.go("app.confirmation");
-        }, function (err) {
-            $scope.showPopup('Envio', err);
-        });
-    }
-
-    // Tipos de envio
-    $scope.getShipping = function (peso, state, codigo_service_type) {
-
-        $params = '&rango_peso=' + peso + '&state=' + state + '&codigo_service_type=' + codigo_service_type;
-        $method = 'getShipping';
-        $http.post($rutaOrderWs + $method + $params).
-        success(function (data, status, headers) {
-            if (data.length > 0) {
-                $scope.shippings = data;
-                $scope.shippingData.monto_envio = data[0].MONTO;
-                $scope.error = false;
-            }
+        $http.post($rutaAccountWs + $method + $params).success(function (data, status, headers) {
+            $scope.codigo_cliente = data.CODIGO_CLIENTE;
+            $scope.first_name = data.FIRST_NAME;
+            $scope.last_name = data.LAST_NAME;
+            $scope.email = data.EMAIL;
+            $scope.address_1 = data.ADDRESS_1;
+            $scope.address_2 = data.ADDRESS_2;
+            $scope.city = data.CITY;
+            $scope.state = data.STATE;
+            $scope.pais = data.PAIS;
+            $scope.phone = data.PHONE;
+            $scope.codigo_email = data.CODIGO_EMAIL;
+            $scope.codigo_address = data.CODIGO_ADDRESS;
+            $scope.codigo_phone = data.CODIGO_PHONE;
+            $scope.codigo_state = data.CODIGO_STATE;
+            $scope.zipcode = data.ZIPCODE;
+            $scope.codigo_credit_card = data.CODIGO_CREDIT_CARD;
+            $scope.card_holder_name = data.CARD_HOLDER_NAME;
+            $scope.exp_month = data.EXP_MONTH;
+            $scope.exp_year = data.EXP_YEAR;
+            $scope.number_display = data.NUMBER_DISPLAY;
+            $scope.validation_number = data.VALIDATION_NUMBER;
+            $scope.principal = data.PRINCIPAL;
+            $scope.principal_cc = data.PRINCIPAL_CC;
+            $scope.credit_card_number = '';
+            $scope.password = '';
+            $scope.password2 = '';
+            $scope.addresses = data.ADDRESSES;
+            $scope.cards = data.CARDS;
+            $scope.error = false;
         }).error(function (data, status) {
             $scope.error = true;
             console.log(status);
         });
 
-        // Revisa que la direccion sea valida
-        $scope.checkAddress();
-    }
 
+        // Borra la direccion de un contacto
+        $scope.delContactAddressConfirm = function () {
+            $scope.showConfirm('Borrar dirección', 'Está seguro?', 'Cancelar', 'Borrar', 'delContactAddress()');
+        }
+
+        // Borra la direccion de un contacto
+        $rootScope.delContactAddress = function () {
+
+            $scope.error = true;
+            $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_address=' + $scope.codigo_address;
+            $method = 'removeAddress';
+
+            $http.post($rutaAccountWs + $method + $params).
+            success(function (data, status, headers) {
+                if (data.length != 0) {
+                    if (data.ERROR == false) {
+                        $scope.error = false;
+                        if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
+                        $scope.refreshPage();
+                    } else
+                    if (data.ALERTA.length != 0) $scope.showPopup('Mi dirección', data.ALERTA);
+                } else {
+                    $scope.showPopup('Mi dirección', 'Error de conexión');
+                }
+            }).
+            error(function (data, status) {
+                console.log(status);
+            });
+        };
+
+        // Borra la tarjeta de un contacto
+        $scope.delContactCardConfirm = function () {
+            $scope.showConfirm('Borrar tarjeta', 'Está seguro?', 'Cancelar', 'Borrar', 'delContactCard()');
+        }
+
+        // Borra la tarjeta de un contacto
+        $rootScope.delContactCard = function () {
+
+            $scope.error = true;
+            $params = '&codigo_cliente=' + $scope.codigo_cliente + '&codigo_credit_card=' + $scope.codigo_credit_card;
+            $method = 'removeCreditCard';
+            $http.post($rutaAccountWs + $method + $params).
+            success(function (data, status, headers) {
+                if (data.length != 0) {
+                    if (data.ERROR == false) {
+                        $scope.error = false;
+                        if (data.ALERTA.length != 0) $scope.showPopup('Mi tarjeta', data.ALERTA);
+                        $scope.refreshPage();
+                    } else
+                    if (data.ALERTA.length != 0) $scope.showPopup('Mi tarjeta', data.ALERTA);
+                } else {
+                    $scope.showPopup('Mi tarjeta', 'Error de conexión');
+                }
+            }).
+            error(function (data, status) {
+                console.log(status);
+            });
+        };
+
+        // Agrega una direccion
+        $scope.addAddress = function (codigo_address, address_1, address_2, city, codigo_state, zipcode, phone, principal) {
+            $scope.addressData.modal = true;
+            $scope.addressData.codigo_address = codigo_address;
+            $scope.addressData.address_1 = address_1;
+            $scope.addressData.address_2 = address_2;
+            $scope.addressData.city = city;
+            $scope.addressData.codigo_state = codigo_state;
+            $scope.addressData.zipcode = zipcode;
+            $scope.addressData.phone = phone;
+            $scope.addressData.principal = principal;
+            $scope.modalAddress.show();
+        }
+
+        // Agrega una tarjeta
+        $scope.addPayment = function (codigo_credit_card, codigo_card_type, number, exp_month, exp_year, validation_number, card_holder_name, number_display) {
+            $scope.cardData.modal = true;
+            $scope.cardData.codigo_credit_card = codigo_credit_card;
+            $scope.cardData.codigo_card_type = codigo_card_type;
+            $scope.cardData.number = number;
+            $scope.cardData.exp_month = exp_month;
+            $scope.cardData.exp_year = exp_year;
+            $scope.cardData.validation_number = validation_number;
+            $scope.cardData.card_holder_name = card_holder_name;
+            $scope.cardData.number_display = number_display;
+            $scope.modalPayment.show();
+        }
+
+        // Cierra el modal de la direccion
+        $rootScope.closeAddress = function () {
+            $scope.modalAddress.hide();
+        };
+
+        // Cierra el modal de la tarjeta
+        $rootScope.closePayment = function () {
+            $scope.modalPayment.hide();
+        };
+
+        // Actualiza la direccion de un contacto
+        $rootScope.updContactAddress = function () {
+
+            $scope.error = true;
+            $params = '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.addressData.codigo_address + '&address_1=' + $scope.addressData.address_1 + '&address_2=' + $scope.addressData.address_2 + '&city=' + $scope.addressData.city + '&state=' + $scope.addressData.codigo_state + '&zipcode=' + $scope.addressData.zipcode + '&phone=' + $scope.addressData.phone + '&principal=' + $scope.addressData.principal + '&first_name=' + $scope.first_name + '&last_name=' + $scope.last_name + '&email=' + $scope.email;
+            $method = 'updContactAddress';
+
+            $http.post($rutaAccountWs + $method + $params).
+            success(function (data, status, headers) {
+                if (data.length != 0) {
+                    if (data.ERROR == false) {
+                        $scope.error = false;
+                        $rootScope.closeAddress();
+                        $scope.refreshPage();
+                    } else
+                    if (data.ALERTA.length != 0) $scope.showPopup('Envio', data.ALERTA);
+                } else {
+                    $scope.showPopup('Envio', 'Error de conexión');
+                }
+            }).
+            error(function (data, status) {
+                console.log(status);
+            });
+        }
+
+        // Actualiza la tarjeta de un contacto
+        $rootScope.updContactCreditcard = function () {
+            $scope.error = true;
+            $params = '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_credit_card=' + $scope.cardData.codigo_credit_card + '&credit_card_number=' + $scope.cardData.credit_card_number + '&validation_number=' + $scope.cardData.validation_number + '&exp_month=' + $scope.cardData.exp_month + '&exp_year=' + $scope.cardData.exp_year + '&card_holder_name=' + $scope.cardData.card_holder_name + '&principal=' + $scope.cardData.principal_cc;
+            $method = 'updContactPayment';
+
+            $http.post($rutaAccountWs + $method + $params).
+            success(function (data, status, headers) {
+                if (data.length != 0) {
+                    if (data.ERROR == false) {
+                        $scope.error = false;
+                        $rootScope.closePayment();
+                        $scope.refreshPage();
+                    } else
+                    if (data.ALERTA.length != 0) $scope.showPopup('Mi Tarjeta', data.ALERTA);
+                } else {
+                    $scope.showPopup('Mi Tarjeta', 'Error de conexión');
+                }
+            }).
+            error(function (data, status) {
+                console.log(status);
+            });
+        };
+
+    }, 3000);
+})
+
+// Basket
+.controller('BasketInfoCtrl', function ($scope, $timeout, $http, $stateParams, WebSql, $state, $ionicHistory) {
+
+    $timeout(function () {
+        $ionicHistory.nextViewOptions({
+            historyRoot: true,
+            disableBack: true
+        });
+
+        $scope.items = [];
+        $scope.totales = [];
+        $scope.$rutaImagenes = $rutaImagenes;
+        $scope.monedaSymbol = $monedaSymbol;
+        $scope.basketData = {};
+        $scope.basketData.codigo_address = '0';
+        $scope.data = {
+            showDelete: false
+        };
+
+        // Borra un producto al carrito
+        $scope.delBasketItem = function (item) {
+            WebSql.delProduct(item).then(function (alerta) {
+                $scope.items.splice($scope.items.indexOf(item), 1);
+
+                // Si el basket esta vacio elimina el shipping y redirecciona
+                WebSql.getTotals().then(function (result) {
+                    if (result.total == 0) {
+
+                        var $orden = $scope.getLocalData('orden') || {};
+                        $orden.hasItems = false;
+                        $orden.hasShipping = false;
+                        window.localStorage.setItem('orden', JSON.stringify($orden));
+
+                        WebSql.delShipping().then(function (alerta) {
+                            $state.go("app.home");
+                        }, function (err) {
+                            $scope.showPopup('Mi carrito', err);
+                        });
+                    } else
+                        $scope.refreshPage();
+                });
+
+            }, function (err) {
+                $scope.showPopup('Mi carrito', err);
+            });
+        }
+
+        // Obtiene el basket
+        WebSql.getBasket().then(function (result) {
+            $scope.items = result;
+        });
+
+        // Obtiene los totales
+        WebSql.getTotals().then(function (result) {
+            $scope.totales = result;
+        });
+    }, 3000);
+
+})
+
+// Shipping
+.controller('ShippingCtrl', function ($scope, $timeout, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
+
+    $timeout(function () {
+        $ionicHistory.nextViewOptions({
+            historyRoot: true,
+            disableBack: true
+        });
+
+        // Lista de provincias
+        $rootScope.stateslst = $states;
+        $scope.monedaSymbol = $monedaSymbol;
+
+        // Obtiene las funciones del state en el cual estoy
+        $scope.$state = $state;
+
+        // Datos del cliente en sesion
+        $cliente = $scope.getLocalData('cliente');
+        $scope.codigo_cliente = $cliente.codigo_cliente;
+        $scope.codigo_address = 0;
+
+        // Datos para el envio
+        $scope.shippingData = {};
+        $scope.shippingData.codigo_address = '';
+        $scope.shippingData.codigo_service_type = '';
+        $scope.shippingData.codigo_address_selected = '';
+        $scope.shippingData.codigo_service_type_selected = '';
+        $scope.shippingData.monto_envio = 0;
+        $scope.shippingData.peso = 0;
+        $scope.shippingData.address_1 = '';
+        $scope.shippingData.address_2 = '';
+        $scope.shippingData.city = '';
+        $scope.shippingData.codigo_state = '';
+        $scope.shippingData.codigo_pais = 0;
+        $scope.shippingData.zipcode = '';
+        $scope.shippingData.phone = '';
+        $scope.shippingData.courier = '';
+        $scope.shippingData.courier_display = '';
+        $scope.shippingData.courier_padre = '';
+
+        // La direccion debe ser valida
+        $scope.checkAddress = function () {
+
+            if ($scope.shippingData.address_1 == '' || $scope.shippingData.city == '' || $scope.shippingData.codigo_state == '') {
+                $scope.shippingData.codigo_address = '';
+                return false;
+            } else
+                return true;
+        }
+
+        // Obtiene los totales
+        WebSql.getTotals().then(function (result) {
+            $scope.shippingData.peso = result.peso;
+            $scope.shippingData.monto_envio = result.envio;
+            $scope.shippingData.codigo_address_selected = result.codigo_address;
+            $scope.shippingData.codigo_service_type_selected = result.codigo_service_type;
+
+            // Calcula el envio ya seleccionado
+            if (result.total > 0) {
+                $scope.getShipping(result.peso, result.codigo_state, result.codigo_service_type);
+            }
+        });
+
+        // Guarda el envio
+        $scope.addShipping = function () {
+            WebSql.addShipping($scope.shippingData).then(function (alerta) {
+
+                var $orden = $scope.getLocalData('orden') || {};
+                $orden.hasShipping = true;
+                window.localStorage.setItem('orden', JSON.stringify($orden));
+
+                $state.go("app.confirmation");
+            }, function (err) {
+                $scope.showPopup('Envio', err);
+            });
+        }
+
+        // Tipos de envio
+        $scope.getShipping = function (peso, state, codigo_service_type) {
+
+            $params = '&rango_peso=' + peso + '&state=' + state + '&codigo_service_type=' + codigo_service_type;
+            $method = 'getShipping';
+            $http.post($rutaOrderWs + $method + $params).
+            success(function (data, status, headers) {
+                if (data.length > 0) {
+                    $scope.shippings = data;
+                    $scope.shippingData.monto_envio = data[0].MONTO;
+                    $scope.error = false;
+                }
+            }).error(function (data, status) {
+                $scope.error = true;
+                console.log(status);
+            });
+
+            // Revisa que la direccion sea valida
+            $scope.checkAddress();
+        }
+    }, 3000);
 
 })
 

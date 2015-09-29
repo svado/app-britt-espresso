@@ -39,7 +39,7 @@
                 <div ng-include=" 'templates/order-summary.html' "></div>
 
                 <label class="item ">
-                    <button class="button button-block button-positive " type="submit ">Continuar</button>
+                    <button class="button button-block button-positive " type="submit " ng-disabled="items.length==0">Continuar</button>
                 </label>
             </div>
 
