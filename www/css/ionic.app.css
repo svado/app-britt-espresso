@@ -17,9 +17,14 @@ i.small-icon {
   font-size: 24px !important; }
 
 /* Validaciones */
+.item-note.invalid {
+  position: absolute !important;
+  right: 15px !important;
+  color: #A4502A; }
+
 .ng-invalid {
   border-color: #a87b54;
-  outline-color: a87b54; }
+  outline-color: #a87b54; }
 
 .ng-valid {
   border-color: green;
