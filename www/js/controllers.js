@@ -387,7 +387,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.title = data.TITLE;
         $scope.mini_description = data.MINI_DESCRIPTION;
         $scope.description = data.DESCRIPTION;
-        $scope.imagen = $rutaImagenes + data.IMAGEN;
+        $scope.imagen = $rutaImagenes + data.IMAGEN + '?cache=1';
         $scope.imagen_sin_ruta = data.IMAGEN;
         $scope.codigo_articulo = data.CODIGO_ARTICULO;
         $scope.total_items = data.TOTAL_ITEMS;
@@ -878,6 +878,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.shippingData.courier = '';
         $scope.shippingData.courier_display = '';
         $scope.shippingData.courier_padre = '';
+        $scope.shippingData.total_items = 0;
+        $scope.shippingData.items = {};
 
         // La direccion debe ser valida
         $scope.checkAddress = function () {
@@ -889,12 +891,18 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                 return true;
         }
 
+        // Obtiene el basket
+        WebSql.getBasket().then(function (result) {
+            $scope.shippingData.items = result;
+        });
+
         // Obtiene los totales
         WebSql.getTotals().then(function (result) {
             $scope.shippingData.peso = result.peso;
             $scope.shippingData.monto_envio = result.envio;
             $scope.shippingData.codigo_address_selected = result.codigo_address;
             $scope.shippingData.codigo_service_type_selected = result.codigo_service_type;
+            $scope.shippingData.total_items = result.items;
 
             // Calcula el envio ya seleccionado
             if (result.total > 0) {
@@ -919,7 +927,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         // Tipos de envio
         $scope.getShipping = function (peso, state, codigo_service_type) {
 
-            $params = '&rango_peso=' + peso + '&state=' + state + '&codigo_service_type=' + codigo_service_type;
+            $params = '&rango_peso=' + peso + '&state=' + state + '&codigo_service_type=' + codigo_service_type + '&total_items=' + $scope.shippingData.total_items + '&items=' + JSON.stringify($scope.shippingData.items);
             $method = 'getShipping';
             $http.post($rutaOrderWs + $method + $params).
             success(function (data, status, headers) {

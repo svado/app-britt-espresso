@@ -7,7 +7,7 @@
 // angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
 angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
 
-.run(function ($ionicPlatform, WebSql, $state) {
+.run(function ($ionicPlatform, WebSql, $state, $rootScope, $ionicPopup, $ionicHistory) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -169,6 +169,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             return false;
         }
     };
+
+    // Doble back para salir
+    $ionicPlatform.registerBackButtonAction(function (e) {
+        if ($rootScope.backButtonPressedOnceToExit) {
+            ionic.Platform.exitApp();
+        } else if ($ionicHistory.backView()) {
+            $ionicHistory.goBack();
+        } else {
+            $rootScope.backButtonPressedOnceToExit = true;
+            var alertPopup = $ionicPopup.alert({
+                title: 'Desea salir?',
+                template: 'Presione atrás 2 veces para salir'
+            });
+            alertPopup.then(function (res) {});
+
+            setTimeout(function () {
+                $rootScope.backButtonPressedOnceToExit = false;
+            }, 2000);
+        }
+        e.preventDefault();
+        return false;
+    }, 101);
+
 })
 
 .run(function ($rootScope, $ionicLoading, $state) {
@@ -199,29 +222,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
-})
-
-// Directiva: solo digitar numeros
-.directive('onlyDigits', function () {
-    return {
-        require: 'ngModel',
-        restrict: 'A',
-        link: function (scope, element, attr, ctrl) {
-            function inputValue(val) {
-                if (val) {
-                    var digits = val.replace(/[^0-9]/g, '');
-
-                    if (digits !== val) {
-                        ctrl.$setViewValue(digits);
-                        ctrl.$render();
-                    }
-                    return parseInt(digits, 10);
-                }
-                return undefined;
-            }
-            ctrl.$parsers.push(inputValue);
-        }
-    };
 })
 
 // Manejo de paginas
