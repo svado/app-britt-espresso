@@ -26,6 +26,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         return $elemento;
     }
 
+    // Obtiene los datos de sesion
+    $scope.getSessionlData = function (elemento) {
+        $elemento = {};
+        if (window.sessionStorage.getItem(elemento) !== null)
+            $elemento = JSON.parse(window.sessionStorage.getItem(elemento));
+        return $elemento;
+    }
+
     //Obtiene los datos del cliente
     $scope.loginData = $scope.getLocalData('cliente');
 
@@ -147,7 +155,17 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Pagina principal
-.controller('HomeCtrl', function ($scope, $http, $timeout) {
+.controller('HomeCtrl', function ($scope, $rootScope, $http, $timeout) {
+
+    // Timer para la primera vez
+    var timer = 3000;
+    var $paginas = $scope.getSessionlData('paginas') || {};
+    if ($paginas.HomeCtrl !== undefined) {
+        timer = 0;
+    } else {
+        $paginas.HomeCtrl = true;
+        window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
+    }
 
     $timeout(function () {
         $scope.hasBasket = hasBasket;
@@ -162,7 +180,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.error = true;
             console.log(status);
         });
-    }, 3000);
+    }, timer);
+
 })
 
 // Manejo de clientes
@@ -526,6 +545,16 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Informacion de un contacto
 .controller('ContactInfoCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $timeout, $ionicModal) {
 
+    // Timer para la primera vez
+    var timer = 3000;
+    var $paginas = $scope.getSessionlData('paginas') || {};
+    if ($paginas.ContactInfoCtrl !== undefined) {
+        timer = 0;
+    } else {
+        $paginas.OrderListCtrl = true;
+        window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
+    }
+
     $timeout(function () {
 
         // Lista de provincias, meses
@@ -729,11 +758,20 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             });
         };
 
-    }, 3000);
+    }, timer);
 })
 
 // Basket
 .controller('BasketInfoCtrl', function ($scope, $timeout, $http, $stateParams, WebSql, $state, $ionicHistory) {
+
+    var timer = 3000;
+    var $paginas = $scope.getSessionlData('paginas') || {};
+    if ($paginas.BasketInfoCtrl !== undefined) {
+        timer = 0;
+    } else {
+        $paginas.BasketInfoCtrl = true;
+        window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
+    }
 
     $timeout(function () {
         $ionicHistory.nextViewOptions({
@@ -788,12 +826,21 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         WebSql.getTotals().then(function (result) {
             $scope.totales = result;
         });
-    }, 3000);
+    }, timer);
 
 })
 
 // Shipping
 .controller('ShippingCtrl', function ($scope, $timeout, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
+
+    var timer = 3000;
+    var $paginas = $scope.getSessionlData('paginas') || {};
+    if ($paginas.ShippingCtrl !== undefined) {
+        timer = 0;
+    } else {
+        $paginas.ShippingCtrl = true;
+        window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
+    }
 
     $timeout(function () {
         $ionicHistory.nextViewOptions({
@@ -889,7 +936,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             // Revisa que la direccion sea valida
             $scope.checkAddress();
         }
-    }, 3000);
+    }, timer);
 
 })
 
@@ -1079,6 +1126,16 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Mis pedidos
 .controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, $timeout, WebSql) {
 
+    // Timer para la primera vez
+    var timer = 3000;
+    var $paginas = $scope.getSessionlData('paginas') || {};
+    if ($paginas.OrderListCtrl !== undefined) {
+        timer = 0;
+    } else {
+        $paginas.OrderListCtrl = true;
+        window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
+    }
+
     $timeout(function () {
         $scope.monedaSymbol = $monedaSymbol;
         $scope.$rutaImagenes = $rutaImagenes;
@@ -1110,7 +1167,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                 return $scope.shownGroup === item;
             };
         }
-    }, 3000);
+    }, timer);
 
 })
 

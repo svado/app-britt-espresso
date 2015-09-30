@@ -169,7 +169,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
             return false;
         }
     };
-
 })
 
 .run(function ($rootScope, $ionicLoading, $state) {
