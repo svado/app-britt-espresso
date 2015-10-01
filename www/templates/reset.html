@@ -1,0 +1,22 @@
+<ion-modal-view ng-controller="ContactCtrl">
+    <ion-header-bar>
+        <h1 class="title">Olvid&oacute; su contrase&ntilde;a</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeLogin()">Cerrar</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form name="fReset" ng-submit="doReset()">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Ingrese su email</span>
+                    <div ng-messages="fReset.email.$error" ng-messages-include="messages.html"></div>
+                    <input type="email" ng-model="$parent.resetData.email" name="email" required>
+                </label>
+                <label class="item">
+                    <button class="button button-block button-positive" type="submit" ng-disabled="fReset.$invalid">Aceptar</button>
+                </label>
+            </div>
+        </form>
+    </ion-content>
+</ion-modal-view>

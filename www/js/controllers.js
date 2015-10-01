@@ -13,6 +13,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Inicializador
     $scope.loginData = {};
     $scope.signData = [];
+    $scope.resetData = [];
     $scope.addressData = [];
     $scope.cardData = [];
     $scope.isLoggedIn = isLoggedIn;
@@ -51,6 +52,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalSignUp = modal;
     });
 
+    // Create the reset  modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/reset.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.modalReset = modal;
+    });
+
     // Create the address modal that we will use later
     $ionicModal.fromTemplateUrl('templates/address-edit-modal.html', {
         scope: $scope
@@ -87,6 +95,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.modalSignUp.hide();
     };
 
+    // Triggered in the reset modal to close it
+    $scope.closeReset = function () {
+        $scope.modalReset.hide();
+    };
+
     // Open the login modal
     $scope.login = function () {
         $scope.modalLogin.show();
@@ -95,6 +108,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     // Open the signup modal
     $scope.signup = function () {
         $scope.modalSignUp.show();
+    };
+
+    // Open the reset modal
+    $scope.reset = function () {
+        $scope.modalReset.show();
     };
 
     // Logout
@@ -223,6 +241,30 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             console.log(status);
         });
     };
+
+    // Resetea la clave
+    $scope.doReset = function () {
+        $scope.error = true;
+        $params = '&email=' + $scope.resetData.email;
+        $method = 'resetPassword';
+        $http.post($rutaAccountWs + $method + $params).
+        success(function (data, status, headers) {
+            if (data.length != 0) {
+                if (data.ERROR == false) {
+                    $scope.error = false;
+                    if (data.ALERTA.length != 0) $scope.showPopup('Solicitud enviada', data.ALERTA);
+                    $scope.closeReset();
+                    $scope.login();
+                } else
+                if (data.ALERTA.length != 0) $scope.showPopup('Ingreso', data.ALERTA);
+            } else {
+                $scope.showPopup('Registro', 'Error de conexión');
+            }
+        }).
+        error(function (data, status) {
+            console.log(status);
+        });
+    }
 
     // Crea el cliente en la web.
     $scope.doSignUp = function () {
