@@ -395,6 +395,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.precio = data.PRECIO;
         $scope.combo = data.COMBO;
         $scope.items = data.ITEMS;
+        $scope.related = data.RELATED;
         $scope.error = false;
     }).
     error(function (data, status) {
