@@ -52,7 +52,8 @@
                             <br>{{card.NUMBER_DISPLAY}}, expira {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
                         </p>
                         <ion-delete-button class="ion-compose " ng-click="addPayment(card.CODIGO_CREDIT_CARD,card.CODIGO_CARD_TYPE,card.NUMBER,card.EXP_MONTH,card.EXP_YEAR,card.VALIDATION_NUMBER,card.CARD_HOLDER_NAME,card.NUMBER_DISPLAY) "></ion-delete-button>
-                        <i class="icon ion-checkmark small-icon " ng-if="card.CODIGO_CREDIT_CARD==paymentData.codigo_credit_card "></i>
+                        <i class="icon ion-ios-circle-filled small-icon " ng-if="card.CODIGO_CREDIT_CARD==paymentData.codigo_credit_card "></i>
+                        <i class="icon ion-ios-circle-outline small-icon " ng-if="card.CODIGO_CREDIT_CARD!=paymentData.codigo_credit_card "></i>
                         <!-- ng-checked="card.CODIGO_CREDIT_CARD == paymentData.codigo_credit_card_selected" -->
                     </ion-item>
                 </ion-list>

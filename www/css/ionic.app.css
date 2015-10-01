@@ -12,6 +12,12 @@
   font-size: 22px !important; }
 
 /* Items */
+.item.item-radio i.radio-icon {
+  visibility: visible !important; }
+
+.item-radio input:checked ~ .radio-icon:before {
+  content: "\f400" !important; }
+
 /* Iconos */
 i.small-icon {
   font-size: 24px !important; }

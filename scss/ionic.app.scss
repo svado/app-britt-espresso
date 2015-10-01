@@ -37,6 +37,14 @@ $button-stable-text: #fff !default;
 /* Items */
 
 $item-divider-bg: #ecdfc2 !default;
+.item.item-radio i.radio-icon {
+    visibility: visible !important;
+}
+
+.item-radio input:checked ~ .radio-icon:before {
+    content: "\f400" !important;
+}
+
 
 /* Iconos */
 
