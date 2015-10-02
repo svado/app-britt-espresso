@@ -7,6 +7,10 @@
 
 /* Colores */
 /* Base */
+/* Menu */
+.menu-footer, .menu-footer div {
+  height: 65px !important; }
+
 /* Botones */
 .button-bar a button-small:before {
   font-size: 22px !important; }
@@ -23,6 +27,9 @@ i.small-icon {
   font-size: 24px !important; }
 
 /* Validaciones */
+.text-invalid {
+  color: #a87b54 !important; }
+
 .item-note.invalid {
   position: absolute !important;
   right: 15px !important;

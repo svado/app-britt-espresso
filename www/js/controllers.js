@@ -594,9 +594,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     if ($paginas.ContactInfoCtrl !== undefined) {
         timer = 0;
     } else {
-        $paginas.OrderListCtrl = true;
+        $paginas.ContactInfoCtrl = true;
         window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
     }
+
 
     $timeout(function () {
 
@@ -640,7 +641,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.exp_month = data.EXP_MONTH;
             $scope.exp_year = data.EXP_YEAR;
             $scope.number_display = data.NUMBER_DISPLAY;
-            $scope.validation_number = data.VALIDATION_NUMBER;
+            $scope.validation_number = ''; //data.VALIDATION_NUMBER;
             $scope.principal = data.PRINCIPAL;
             $scope.principal_cc = data.PRINCIPAL_CC;
             $scope.credit_card_number = '';

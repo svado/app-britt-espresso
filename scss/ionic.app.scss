@@ -22,6 +22,14 @@ $dark: #444 !default;
 
 $base-background-color: #f9f3e6 !default;
 
+/* Menu */
+
+.menu-footer,
+.menu-footer div {
+    height: 65px !important;
+}
+
+
 /* Botones */
 
 $button-stable-text: #fff !default;
@@ -56,6 +64,10 @@ i {
 
 
 /* Validaciones */
+
+.text-invalid {
+    color: $royal !important;
+}
 
 .item-note {
     &.invalid {
