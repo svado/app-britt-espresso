@@ -8,6 +8,7 @@ angular.module('app.services', [])
     // Transaction error callback
     function errorDB(tx, err) {
         console.log(tx);
+        alert(err);
     }
 
     // Transaction success callback
