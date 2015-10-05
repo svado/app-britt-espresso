@@ -7,6 +7,10 @@
 
 /* Colores */
 /* Base */
+/* Textos */
+.full_wrap, .full_wrap > p {
+  white-space: normal !important; }
+
 /* Menu */
 .menu-footer, .menu-footer div {
   height: 65px !important; }

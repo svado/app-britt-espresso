@@ -84,6 +84,21 @@ angular.module('app.services', [])
         return deferred.promise;
     };
 
+    // Obtiene el basket mini
+    this.getBasketMini = function () {
+        var deferred = $q.defer();
+        db.transaction(function (tx) {
+            tx.executeSql('SELECT codigo_articulo, codigo_combo, cantidad, precio, precio_venta_bruto, precio_venta_total, impuesto, peso, freebie, linea_combo FROM DETALLE_FACTURA', [], function (tx, results) {
+                var res = []
+                for (var i = 0; i < results.rows.length; i++) {
+                    res[i] = results.rows.item(i);
+                }
+                deferred.resolve(res);
+            });
+        });
+        return deferred.promise;
+    };
+
     // Inserta el shipping
     this.addShipping = function (data) {
         var deferred = $q.defer();

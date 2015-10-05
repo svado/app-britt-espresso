@@ -22,6 +22,14 @@ $dark: #444 !default;
 
 $base-background-color: #f9f3e6 !default;
 
+/* Textos */
+
+.full_wrap,
+.full_wrap > p {
+    white-space: normal!important;
+}
+
+
 /* Menu */
 
 .menu-footer,

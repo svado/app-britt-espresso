@@ -430,6 +430,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.mini_description = data.MINI_DESCRIPTION;
         $scope.description = data.DESCRIPTION;
         $scope.imagen = $rutaImagenes + data.IMAGEN + '?cache=1';
+        $scope.imagen_small = $rutaImagenes + data.IMAGEN_SMALL + '?cache=1';
         $scope.imagen_sin_ruta = data.IMAGEN;
         $scope.codigo_articulo = data.CODIGO_ARTICULO;
         $scope.total_items = data.TOTAL_ITEMS;
@@ -935,8 +936,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                 return true;
         }
 
-        // Obtiene el basket
-        WebSql.getBasket().then(function (result) {
+        // Obtiene el basket mini
+        WebSql.getBasketMini().then(function (result) {
             $scope.shippingData.items = result;
         });
 
@@ -1002,6 +1003,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     // Lista de meses y variables
     $scope.items = [];
+    $scope.items_mini = [];
     $rootScope.meseslst = $meses;
     $rootScope.anoslist = $anostarjeta;
     $scope.monedaSymbol = $monedaSymbol;
@@ -1051,6 +1053,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.items = result;
     });
 
+    // Obtiene el basket mini
+    WebSql.getBasketMini().then(function (result) {
+        $scope.items_mini = result;
+    });
+
     // Obtiene los totales
     WebSql.getTotals().then(function (result) {
         $scope.paymentData.codigo_credit_card_selected = result.codigo_credit_card;
@@ -1076,7 +1083,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                 console.log('items', $scope.items);
 
                 // Crea el encabezado de la orden
-                $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&codigo_credit_card=' + $scope.paymentData.codigo_credit_card + '&monto_total=' + $scope.paymentData.monto_total + '&items=' + JSON.stringify($scope.items);
+                $params = '&secuencia_factura=' + ($orden.secuencia_factura === undefined ? 0 : $orden.secuencia_factura) + '&codigo_cliente=' + $cliente.codigo_cliente + '&codigo_address=' + $scope.shippingData.codigo_address + '&codigo_service_type=' + $scope.shippingData.codigo_service_type + '&first_name=' + $cliente.first_name + '&last_name=' + $cliente.last_name + '&codigo_credit_card=' + $scope.paymentData.codigo_credit_card + '&monto_total=' + $scope.paymentData.monto_total + '&items=' + JSON.stringify($scope.items_mini);
                 $method = 'addOrder';
 
                 $http.post($rutaOrderWs + $method + $params).

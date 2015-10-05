@@ -21,7 +21,7 @@
 
                 <div class="item item-body">
                     <img class="full-image" ng-src="{{imagen}}">
-                    <p ng-bind-html="mini_description"></p>
+                    <p ng-bind-html="mini_description" class="full_wrap"></p>
                     <p class="text-right">Precio: {{monedaSymbol}} {{precio | number}}</p>
 
                     <ul>
@@ -63,7 +63,7 @@
                     <a class="item item-thumbnail-left" ng-repeat="item in related" href="#/app/{{item.TEMPLATE}}/{{item.PAGE_ID}}">
                         <img ng-src="{{rutaImagenes}}{{item.PRESENTATION_IMG}}">
                         <h2>{{item.TITLE}}</h2>
-                        <p ng-bind-html="item.ARTICLE_TEXT"></p>
+                        <p ng-bind-html="item.ARTICLE_TEXT" class="full_wrap"></p>
                     </a>
                 </div>
             </div>

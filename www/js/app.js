@@ -21,19 +21,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
 
         // Inicializa la base de datos
-        $timeout(function () {
-            WebSql.createDbAndTables();
-        }, 2000);
+        WebSql.createDbAndTables();
 
         // Variables globales
         $tiendaImpuesto = 13;
         $monedaSymbol = '¢';
-        /*$rutaPagesWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaPagesWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
         $rutaAccountWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
-        $rutaOrderWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';*/
-        $rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
+        $rutaOrderWs = 'http://prueba.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
+        /*$rutaPagesWs = 'http://www.cafebritt.com/app/brittespresso/ws/pages.cfc?returnformat=json&callback=&method=';
         $rutaAccountWs = 'http://www.cafebritt.com/app/brittespresso/ws/account.cfc?returnformat=json&callback=&method=';
-        $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';
+        $rutaOrderWs = 'http://www.cafebritt.com/app/brittespresso/ws/order.cfc?returnformat=json&callback=&method=';*/
         $rutaImagenes = 'http://www.brittespresso.com/siteimg/';
 
         // Maximo de productos permitidos
