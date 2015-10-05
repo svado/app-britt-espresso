@@ -8,7 +8,6 @@ angular.module('app.services', [])
     // Transaction error callback
     function errorDB(tx, err) {
         console.log(tx);
-        alert(err);
     }
 
     // Transaction success callback
@@ -116,25 +115,65 @@ angular.module('app.services', [])
 
     // Obtiene el resumen del basket
     this.getTotals = function () {
+
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio, B.codigo_address, B.codigo_service_type, B.codigo_state, B.codigo_credit_card FROM DETALLE_FACTURA A LEFT OUTER JOIN ENCABEZADO_FACTURA B', [], function (tx, results) {
-                var res = [];
-                if (results.rows.length > 0) {
-                    res.total_sin_envio = results.rows[0].total;
-                    res.total = (results.rows[0].total + results.rows[0].envio);
-                    res.items = results.rows[0].items;
-                    res.impuesto = results.rows[0].impuesto;
-                    res.sub_total = results.rows[0].sub_total;
-                    res.peso = results.rows[0].peso;
-                    res.envio = results.rows[0].envio;
-                    res.codigo_address = results.rows[0].codigo_address;
-                    res.codigo_service_type = results.rows[0].codigo_service_type;
-                    res.codigo_state = results.rows[0].codigo_state;
-                    res.codigo_credit_card = results.rows[0].codigo_credit_card;
-                }
-                deferred.resolve(res);
-            });
+            /*tx.executeSql('SELECT sum(A.precio_venta_bruto*A.cantidad) as total, sum(A.cantidad) as items, sum(A.impuesto*A.cantidad) as impuesto, (sum(A.precio_venta_bruto*A.cantidad)-sum(A.impuesto*A.cantidad)) as sub_total, (((A.peso*sum(A.cantidad)*2.2)+0.89)) as peso, B.monto_envio as envio, B.codigo_address, B.codigo_service_type, B.codigo_state, B.codigo_state, B.codigo_credit_card FROM DETALLE_FACTURA A LEFT OUTER JOIN ENCABEZADO_FACTURA B', [],*/
+            tx.executeSql('SELECT A.*, B.* FROM DETALLE_FACTURA A LEFT OUTER JOIN ENCABEZADO_FACTURA B', [],
+                function (tx, results) {
+                    var res = []
+                    var total = 0;
+                    var items = 0;
+                    var impuesto = 0;
+                    var peso = 0;
+                    var envio = 0;
+                    var codigo_address = 0;
+                    var codigo_service_type = 0;
+                    var codigo_state = '';
+                    var codigo_credit_card = 0;
+
+                    for (var i = 0; i < results.rows.length; i++) {
+                        total = total + (results.rows.item(i).precio_venta_bruto * results.rows.item(i).cantidad);
+                        items = items + results.rows.item(i).cantidad;
+                        impuesto = impuesto + (results.rows.item(i).impuesto * results.rows.item(i).cantidad);
+                        peso = peso + results.rows.item(i).peso;
+                        envio = results.rows.item(i).monto_envio;
+                        codigo_address = results.rows.item(i).codigo_address;
+                        codigo_service_type = results.rows.item(i).codigo_service_type;
+                        codigo_state = results.rows.item(i).codigo_state;
+                        codigo_credit_card = results.rows.item(i).codigo_credit_card;
+                    }
+
+                    res.total_sin_envio = total;
+                    res.total = total + envio;
+                    res.items = items;
+                    res.impuesto = impuesto;
+                    res.sub_total = total - impuesto;
+                    res.peso = (((peso * items * 2.2) + 0.89));
+                    res.envio = envio;
+                    res.codigo_address = codigo_address;
+                    res.codigo_service_type = codigo_service_type;
+                    res.codigo_state = codigo_state;
+                    res.codigo_credit_card = codigo_credit_card;
+
+
+                    /*var res = [];
+                        if (results.rows.length > 0) {
+                            res.total_sin_envio = results.rows[0].total;
+                            res.total = (results.rows[0].total + results.rows[0].envio);
+                            res.items = results.rows[0].items;
+                            res.impuesto = results.rows[0].impuesto;
+                            res.sub_total = results.rows[0].sub_total;
+                            res.peso = results.rows[0].peso;
+                            res.envio = results.rows[0].envio;
+                            res.codigo_address = results.rows[0].codigo_address;
+                            res.codigo_service_type = results.rows[0].codigo_service_type;
+                            res.codigo_state = results.rows[0].codigo_state;
+                            res.codigo_credit_card = results.rows[0].codigo_credit_card;
+                        }*/
+
+                    deferred.resolve(res);
+                });
         });
         return deferred.promise;
     };
@@ -145,8 +184,9 @@ angular.module('app.services', [])
         db.transaction(function (tx) {
             tx.executeSql('SELECT * FROM ENCABEZADO_FACTURA', [], function (tx, results) {
                 var res = [];
-                if (results.rows.length > 0)
-                    res = results.rows[0];
+                for (var i = 0; i < results.rows.length; i++) {
+                    res = results.rows.item(i);
+                }
                 deferred.resolve(res);
             });
         });

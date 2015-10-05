@@ -13,8 +13,9 @@
         <preference name="DisallowOverscroll" value="true" />
         <preference name="android-minSdkVersion" value="16" />
         <preference name="BackupWebStorage" value="none" />
-        <preference name="SplashScreen" value="screen" />
+        <preference name="SplashScreen" value="splash" />
         <preference name="SplashScreenDelay" value="3000" />
+        <preference name="orientation" value="portrait" />
         <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />
         </feature>
@@ -71,8 +72,8 @@
         <gap:plugin name="cordova-plugin-whitelist" source="npm" />
         <gap:plugin name="io.litehelpers.cordova.sqlite" version="0.7.10" />
         <access origin="*" />
-        <icon src="icon.png" />
-        <gap:splash src="splash.png" />
+        <icon src="resources/icon.png" />
+        <gap:splash src="resources/splash.png" />
         <icon src="resources\android\icon\drawable-ldpi-icon.png" gap:platform="android" gap:qualifier="ldpi" />
         <icon src="resources\android\icon\drawable-mdpi-icon.png" gap:platform="android" gap:qualifier="mdpi" />
         <icon src="resources\android\icon\drawable-hdpi-icon.png" gap:platform="android" gap:qualifier="hdpi" />
