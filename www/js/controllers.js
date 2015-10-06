@@ -498,7 +498,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             var $orden = $scope.getLocalData('orden') || {};
             $orden.hasItems = true;
             window.localStorage.setItem('orden', JSON.stringify($orden));
-            $scope.showConfirm($scope.title, 'El producto fue agregado al carrito', 'Cerrar', 'Ver carrito', 'goCart()');
+            $scope.showConfirm($scope.title, 'El producto fue agregado al carrito', 'Continuar comprando', 'Ver carrito', 'goCart()');
         }, function (err) {
             $scope.showPopup('Mi carrito', err);
         });
@@ -582,7 +582,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $orden.hasItems = true;
             window.localStorage.setItem('orden', JSON.stringify($orden));
 
-            $scope.showConfirm($scope.title, 'El especial fue agregado al carrito', 'Cerrar', 'Ver carrito', 'goCart()');
+            $scope.showConfirm($scope.title, 'El especial fue agregado al carrito', 'Continuar comprando', 'Ver carrito', 'goCart()');
         } else $scope.showPopup('Mi carrito', error);
     }
 
@@ -1256,6 +1256,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.$rutaImagenes = $rutaImagenes;
         $scope.isLoggedIn = isLoggedIn;
 
+        // Lista de ordenes
         if (isLoggedIn()) {
             $cliente = $scope.getLocalData('cliente');
             $params = '&codigo_cliente=' + $cliente.codigo_cliente;

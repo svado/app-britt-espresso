@@ -26,11 +26,16 @@
             <div class="list ">
                 <div class="item item-divider ">
                     <span class="badge badge-left badge-assertive ">1</span> Seleccione una dirección
+                    <button type="button" class=" button button-clear button-positive button-small edit-button " ng-click="data.showDelete=!data.showDelete " ng-if="addresses.length>0">
+                        Editar&nbsp;&nbsp;<i class="icon ion-compose "></i>
+                    </button>
+                    <button type="button" class=" button button-clear button-positive button-small edit-button " ng-click="addAddress(0) " ng-if="addresses.length==0">
+                        Agregar&nbsp;&nbsp;<i class="icon ion-plus-circled "></i>
+                    </button>
                 </div>
                 <ion-list show-delete="data.showDelete ">
                     <ion-item ng-if="addresses.length==0" class="item item-button-right text-invalid">
                         No hay direcciones registradas.
-                        <br> Ingrese a &nbsp;<i class="icon ion-plus-circled "></i> &nbsp;para agregar una.
                     </ion-item>
                     <ion-item ng-repeat="address in addresses " class="item item-icon-right " item="item " name="codigo_address " ng-model="shippingData.codigo_address " value="{{address.CODIGO_ADDRESS}} " required ng-click="shippingData.codigo_address={{address.CODIGO_ADDRESS}};shippingData.codigo_state='{{address.CODIGO_STATE}}' ; shippingData.address_1='{{address.ADDRESS_1}}' ; shippingData.address_2='{{address.ADDRESS_2}}' ; shippingData.city='{{address.CITY}}' ; shippingData.codigo_pais='{{address.CODIGO_PAIS}}' ; shippingData.zipcode='{{address.ZIPCODE}}' ; shippingData.phone='{{address.PHONE}}' ; getShipping(shippingData.peso, '{{address.CODIGO_STATE}}',shippingData.codigo_service_type); checkAddress(); ">
                         <p class="full_wrap">
@@ -38,7 +43,6 @@
                             <br>{{address.CITY}}, {{address.STATE}}, {{address.ZIPCODE}}
                         </p>
                         <p class="text-invalid " ng-if="address.ADDRESS_1 == '' || address.CITY == '' || address.CODIGO_STATE == ''">La direcci&oacute;n tiene datos incompletos.
-                            <br>Ingrese a &nbsp;<i class=" ion-compose "></i> &nbsp;para editarlos.
                         </p>
                         <ion-delete-button class="ion-compose " ng-click="addAddress(address.CODIGO_ADDRESS,address.ADDRESS_1,address.ADDRESS_2,address.CITY,address.CODIGO_STATE,address.ZIPCODE,address.PHONE,address.PRINCIPAL) "></ion-delete-button>
                         <i class="icon ion-ios-circle-filled small-icon " ng-if="address.CODIGO_ADDRESS==shippingData.codigo_address"></i>

@@ -39,12 +39,17 @@
                 <!-- Tarjetas -->
                 <div class="item item-divider ">
                     <span class="badge badge-left badge-assertive ">3</span> Seleccione una tarjeta
+                    <button type="button" class=" button button-clear button-positive button-small edit-button " ng-click="data.showDelete=!data.showDelete " ng-if="cards.length>0">
+                        Editar&nbsp;&nbsp;<i class="icon ion-compose "></i>
+                    </button>
+                    <button type="button" class=" button button-clear button-positive button-small edit-button " ng-click="addPayment(0) " ng-if="cards.length==0">
+                        Agregar&nbsp;&nbsp;<i class="icon ion-plus-circled "></i>
+                    </button>
                 </div>
 
                 <ion-list show-delete="data.showDelete">
                     <ion-item ng-if="cards.length==0" class="item item-button-right text-invalid">
                         No hay tarjetas registradas.
-                        <br> Ingrese a &nbsp;<i class="icon ion-plus-circled "></i> &nbsp;para agregar una.
                     </ion-item>
                     <ion-item ng-repeat="card in cards " class="item item-icon-right " item="item " name="codigo_credit_card " ng-model="paymentData.codigo_credit_card " value="{{card.CODIGO_CREDIT_CARD}} " required ng-click="paymentData.codigo_credit_card={{card.CODIGO_CREDIT_CARD}}; paymentData.codigo_card_type={{card.CODIGO_CARD_TYPE}}; paymentData.number='{{card.NUMBER}}'; paymentData.exp_month={{card.EXP_MONTH}}; paymentData.exp_year={{card.EXP_YEAR}}; paymentData.validation_number='{{card.VALIDATION_NUMBER}}'; paymentData.card_holder_name='{{card.CARD_HOLDER_NAME}}'; checkPayment();">
                         <p>
@@ -52,7 +57,6 @@
                             <br>{{card.NUMBER_DISPLAY}}, expira {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
                         </p>
                         <p class="text-invalid " ng-if="card.NUMBER == '' || card.EXP_MONTH == '' || card.EXP_YEAR == ''">La tarjeta tiene datos incompletos.
-                            <br>Ingrese a &nbsp;<i class=" ion-compose "></i> &nbsp;para editarlos.
                         </p>
                         <ion-delete-button class="ion-compose " ng-click="addPayment(card.CODIGO_CREDIT_CARD,card.CODIGO_CARD_TYPE,card.NUMBER,card.EXP_MONTH,card.EXP_YEAR,card.VALIDATION_NUMBER,card.CARD_HOLDER_NAME,card.NUMBER_DISPLAY) "></ion-delete-button>
                         <i class="icon ion-ios-circle-filled small-icon " ng-if="card.CODIGO_CREDIT_CARD==paymentData.codigo_credit_card "></i>

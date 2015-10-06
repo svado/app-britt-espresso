@@ -22,6 +22,10 @@
 .button-bar a button-small:before {
   font-size: 22px !important; }
 
+.edit-button {
+  float: right !important;
+  top: -4px !important; }
+
 /* Items */
 .item.item-radio i.radio-icon {
   visibility: visible !important; }
