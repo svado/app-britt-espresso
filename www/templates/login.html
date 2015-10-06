@@ -9,13 +9,11 @@
         <div ng-messages="fLogin.password.$error" ng-messages-include="messages.html"></div>
         <input type="password" ng-model="$parent.loginData.password" name="password" required>
     </label>
-    <label class="item">
+    <div class="item">
         <button class="button button-block button-positive" type="submit" ng-disabled="fLogin.$invalid">Ingresar</button>
-    </label>
-    <div class="item text-center">
-        <p>No eres miembro? <a class="" href="#/app/signup" ng-click="signup()">ingrese aqu&iacute;</a></p>
+        <a class="button button-block button-assertive" href="#/app/signup" ng-click="signup()">No tiene cuenta a&uacute;n? ingrese aqu&iacute;</a>
     </div>
     <div class="item text-center">
-        <p>Olvid&oacute; su contrase&ntilde;a? <a class="" href="#/app/reset" ng-click="reset()">ingrese aqu&iacute;</a></p>
+        <p>Olvid&oacute; su contrase&ntilde;a? <a class="" href="#/app/reset" ng-click="reset()">favor ingrese aqu&iacute;</a></p>
     </div>
 </div>

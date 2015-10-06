@@ -1,5 +1,5 @@
 <ion-modal-view ng-controller="ContactCtrl">
-    <ion-header-bar>
+    <ion-header-bar class="bar-positive">
         <h1 class="title">Crear cuenta</h1>
         <div class="buttons">
             <button class="button button-clear" ng-click="closeSignUp()">Cerrar</button>
@@ -7,8 +7,8 @@
     </ion-header-bar>
     <ion-content>
         <form name="fSignUp" ng-submit="doSignUp()">
+            <h5 class="text-center">Favor digite su información de contacto para crear una cuenta en Britt Espresso.</h5>
             <div class="list">
-
                 <label class="item item-input">
                     <span class="input-label">Nombre</span>
                     <div ng-messages="fSignUp.first_name.$error" ng-messages-include="messages.html"></div>
@@ -45,12 +45,9 @@
                     <input type="password" ng-model="signData.password2" name="password2" required ng-minlength="6">
                 </label>
 
-                <label class="item">
+                <div class="item">
                     <button class="button button-block button-positive" type="submit" ng-disabled="fSignUp.$invalid">Registrarse</button>
-                </label>
-
-                <div class="item text-center">
-                    <p>Ya eres miembro? <a class="" href="#/app/login" ng-click="login()">ingrese aqu&iacute;</a></p>
+                    <a class="button button-block button-assertive" href="#/app/login" ng-click="login()">Ya eres miembro? ingrese aqu&iacute;</a>
                 </div>
             </div>
         </form>

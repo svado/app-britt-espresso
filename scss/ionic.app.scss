@@ -37,6 +37,10 @@ $base-background-color: #f9f3e6 !default;
     height: 65px !important;
 }
 
+.menu-footer p {
+    margin-bottom: 0 !important;
+}
+
 
 /* Botones */
 
@@ -104,6 +108,27 @@ i {
         left: 60px;
         position: relative;
     }
+}
+
+
+/* Basket */
+
+.continue-shopping {
+    img {
+        width: 100% !important;
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+    h5 {
+        text-align: center !important;
+    }
+    a {
+        text-decoration: none;
+    }
+}
+
+.continue-shopping .item-divider {
+    margin-bottom: 15px !important;
 }
 
 

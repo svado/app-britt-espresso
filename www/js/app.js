@@ -8,6 +8,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
 
 .run(function ($ionicPlatform, WebSql, $state, $rootScope, $ionicPopup, $ionicHistory, $timeout) {
+
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -225,7 +226,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
 })
 
 // Manejo de paginas
-.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
+
+    // Configuracion general
+    $ionicConfigProvider.backButton.text('Atrás');
 
     // Intercepta un evento http cuando es invocado
     $httpProvider.interceptors.push(function ($rootScope) {

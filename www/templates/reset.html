@@ -1,5 +1,5 @@
 <ion-modal-view ng-controller="ContactCtrl">
-    <ion-header-bar>
+    <ion-header-bar class="bar-positive">
         <h1 class="title">Olvid&oacute; su contrase&ntilde;a</h1>
         <div class="buttons">
             <button class="button button-clear" ng-click="closeReset()">Cerrar</button>
@@ -7,6 +7,7 @@
     </ion-header-bar>
     <ion-content>
         <form name="fReset" ng-submit="doReset()">
+            <h5 class="text-center">No se preocupe, ingrese su dirección de correo y le enviaremos las instrucciones para ingresar a su cuenta.</h5>
             <div class="list">
                 <label class="item item-input">
                     <span class="input-label">Ingrese su email</span>

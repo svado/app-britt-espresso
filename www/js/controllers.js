@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Controlador general
-.controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state, $parse) {
+.controller('AppCtrl', function ($scope, $ionicModal, $ionicPlatform, $timeout, $http, $ionicPopup, $state, $parse, $ionicHistory) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -18,6 +18,20 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.cardData = [];
     $scope.isLoggedIn = isLoggedIn;
     $scope.hasBasket = hasBasket;
+
+    // Es IOS o no
+    $scope.isIOS = function () {
+        if (ionic.Platform.isIOS() || ionic.Platform.isIPad())
+            return true;
+        else
+            return false;
+    }
+
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     // Obtiene los datos locales
     $scope.getLocalData = function (elemento) {
@@ -173,7 +187,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Pagina principal
-.controller('HomeCtrl', function ($scope, $rootScope, $http, $timeout) {
+.controller('HomeCtrl', function ($scope, $rootScope, $http, $timeout, $ionicHistory) {
+
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     // Timer para la primera vez
     var timer = 3000;
@@ -204,6 +224,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Manejo de clientes
 .controller('ContactCtrl', function ($scope, $rootScope, $http, $stateParams, $state, $ionicHistory) {
+
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     // Trata de loguearse en la web.
     $scope.doLogin = function (page) {
@@ -369,7 +395,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Lista de productos
-.controller('ProductListCtrl', function ($scope, $http, $stateParams) {
+.controller('ProductListCtrl', function ($scope, $http, $stateParams, $ionicHistory) {
+
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     $scope.$rutaImagenes = $rutaImagenes;
     $scope.hasBasket = hasBasket;
@@ -391,7 +423,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Informacion de un producto
-.controller('ProductInfoCtrl', function ($scope, $state, $rootScope, $http, $stateParams, WebSql, $filter) {
+.controller('ProductInfoCtrl', function ($scope, $state, $rootScope, $http, $stateParams, WebSql, $filter, $ionicHistory) {
+
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
@@ -588,6 +626,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
 // Informacion de un contacto
 .controller('ContactInfoCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $timeout, $ionicModal) {
+
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
+
 
     // Timer para la primera vez
     var timer = 3000;
@@ -809,6 +854,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Basket
 .controller('BasketInfoCtrl', function ($scope, $timeout, $http, $stateParams, WebSql, $state, $ionicHistory) {
 
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
+
     var timer = 3000;
     var $paginas = $scope.getSessionlData('paginas') || {};
     if ($paginas.BasketInfoCtrl !== undefined) {
@@ -819,11 +870,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     $timeout(function () {
-        $ionicHistory.nextViewOptions({
-            historyRoot: true,
-            disableBack: true
-        });
-
         $scope.items = [];
         $scope.totales = [];
         $scope.$rutaImagenes = $rutaImagenes;
@@ -878,6 +924,12 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Shipping
 .controller('ShippingCtrl', function ($scope, $timeout, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
+
     var timer = 3000;
     var $paginas = $scope.getSessionlData('paginas') || {};
     if ($paginas.ShippingCtrl !== undefined) {
@@ -888,10 +940,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     $timeout(function () {
-        $ionicHistory.nextViewOptions({
-            historyRoot: true,
-            disableBack: true
-        });
 
         // Lista de provincias
         $rootScope.stateslst = $states;
@@ -996,6 +1044,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Confirmation
 .controller('ConfirmationCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, $ionicPopup, WebSql) {
 
+    // Inactiva el boton de atras
     $ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
@@ -1159,6 +1208,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Confirmation success
 .controller('ConfirmationSuccessCtrl', function ($scope, $http, $stateParams, $ionicHistory, $state, WebSql) {
 
+    // Inactiva el boton de atras
     $ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
@@ -1183,7 +1233,13 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Mis pedidos
-.controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, $timeout, WebSql) {
+.controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, $timeout, WebSql, $ionicHistory) {
+
+    // Inactiva el boton de atras
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true
+    });
 
     // Timer para la primera vez
     var timer = 3000;
@@ -1277,8 +1333,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 // Genericos
 .controller('GenericCtrl', function ($scope, $rootScope, $ionicHistory) {
 
+    // Inactiva el boton de atras
     $ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
     });
+
 });

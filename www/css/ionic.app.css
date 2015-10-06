@@ -15,6 +15,9 @@
 .menu-footer, .menu-footer div {
   height: 65px !important; }
 
+.menu-footer p {
+  margin-bottom: 0 !important; }
+
 /* Botones */
 .button-bar a button-small:before {
   font-size: 22px !important; }
@@ -55,6 +58,19 @@ i.small-icon {
   .messages div {
     left: 60px;
     position: relative; }
+
+/* Basket */
+.continue-shopping img {
+  width: 100% !important;
+  padding-left: 15%;
+  padding-right: 15%; }
+.continue-shopping h5 {
+  text-align: center !important; }
+.continue-shopping a {
+  text-decoration: none; }
+
+.continue-shopping .item-divider {
+  margin-bottom: 15px !important; }
 
 /* Home page */
 .home-page h3 {
