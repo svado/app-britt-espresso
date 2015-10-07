@@ -13,9 +13,9 @@
 
     <label class="item item-input">
         <span class="input-label">
-            Numero<br>
-            <small ng-if="cardData.modal === undefined">{{number_display}}</small>
-            <small ng-if="cardData.modal !== undefined">{{cardData.number_display}}</small>
+            N&uacute;mero<br>
+            <small ng-if="cardData.modal === undefined"> {{number_display}}</small>
+            <small ng-if="cardData.modal !== undefined"> {{cardData.number_display}}</small>
         </span>
         <div ng-messages="fCreditcard.credit_card_number.$error" ng-messages-include="messages.html"></div>
         <input type="number" ng-model="credit_card_number" name="credit_card_number" required ng-minlength="15" ng-maxlength="18" ng-if="cardData.modal === undefined">

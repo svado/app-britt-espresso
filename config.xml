@@ -72,6 +72,10 @@
         <gap:plugin name="cordova-plugin-whitelist" source="npm" />
         <gap:plugin name="io.litehelpers.cordova.sqlite" version="0.7.10" />
         <access origin="*" />
+        <allow-intent href="mailto:*" />
+        <allow-intent href="tel:*" />
+        <access origin="tel:*" launch-external="yes" />
+        <access origin="mailto:*" launch-external="yes" />
         <icon src="icon.png" />
         <gap:splash src="splash.png" />
         <icon src="resources\android\icon\drawable-ldpi-icon.png" gap:platform="android" gap:qualifier="ldpi" />

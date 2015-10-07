@@ -6,6 +6,19 @@
   background-size: cover; }
 
 /* Colores */
+/* Tarjetas */
+.ion-card.mastercard:before {
+  content: url('../img/mastercard.png') !important; }
+
+.ion-card.visa:before {
+  content: url('../img/visa.png') !important; }
+
+.ion-card.amex:before {
+  content: url('../img/amex.png') !important; }
+
+.ion-card.discover:before {
+  content: url('../img/discover.png') !important; }
+
 /* Base */
 /* Textos */
 .full_wrap, .full_wrap > p {

@@ -644,7 +644,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
     }
 
-
     $timeout(function () {
 
         // Lista de provincias, meses
@@ -690,11 +689,29 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.validation_number = ''; //data.VALIDATION_NUMBER;
             $scope.principal = data.PRINCIPAL;
             $scope.principal_cc = data.PRINCIPAL_CC;
+            $scope.clase_credit_card = data.CLASE_CREDIT_CARD;
             $scope.credit_card_number = '';
             $scope.password = '';
             $scope.password2 = '';
             $scope.addresses = data.ADDRESSES;
             $scope.cards = data.CARDS;
+            $scope.addressData.address_1 = data.ADDRESS_1;
+            $scope.addressData.address_2 = data.ADDRESS_2;
+            $scope.addressData.city = data.CITY;
+            $scope.addressData.state = data.STATE;
+            $scope.addressData.pais = data.PAIS;
+            $scope.addressData.phone = data.PHONE;
+            $scope.addressData.codigo_state = data.CODIGO_STATE;
+            $scope.addressData.zipcode = data.ZIPCODE;
+            $scope.addressData.card_holder_name = data.CARD_HOLDER_NAME;
+            $scope.addressData.exp_month = data.EXP_MONTH;
+            $scope.addressData.exp_year = data.EXP_YEAR;
+            $scope.addressData.number_display = data.NUMBER_DISPLAY;
+            $scope.addressData.validation_number = ''; //data.VALIDATION_NUMBER;
+            $scope.addressData.principal = data.NUMBER_DISPLAY;
+            $scope.addressData.principal_cc = data.PRINCIPAL_CC;
+            $scope.addressData.credit_card_number = '';
+            $scope.addressData.clase_credit_card = data.CLASE_CREDIT_CARD;
             $scope.error = false;
         }).error(function (data, status) {
             $scope.error = true;

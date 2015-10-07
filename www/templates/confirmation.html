@@ -51,9 +51,9 @@
                     <ion-item ng-if="cards.length==0" class="item item-button-right text-invalid">
                         No hay tarjetas registradas.
                     </ion-item>
-                    <ion-item ng-repeat="card in cards " class="item item-icon-right " item="item " name="codigo_credit_card " ng-model="paymentData.codigo_credit_card " value="{{card.CODIGO_CREDIT_CARD}} " required ng-click="paymentData.codigo_credit_card={{card.CODIGO_CREDIT_CARD}}; paymentData.codigo_card_type={{card.CODIGO_CARD_TYPE}}; paymentData.number='{{card.NUMBER}}'; paymentData.exp_month={{card.EXP_MONTH}}; paymentData.exp_year={{card.EXP_YEAR}}; paymentData.validation_number='{{card.VALIDATION_NUMBER}}'; paymentData.card_holder_name='{{card.CARD_HOLDER_NAME}}'; checkPayment();">
+                    <ion-item ng-repeat="card in cards " class="item iten-icon-left item-icon-right " item="item " name="codigo_credit_card " ng-model="paymentData.codigo_credit_card " value="{{card.CODIGO_CREDIT_CARD}} " required ng-click="paymentData.codigo_credit_card={{card.CODIGO_CREDIT_CARD}}; paymentData.codigo_card_type={{card.CODIGO_CARD_TYPE}}; paymentData.number='{{card.NUMBER}}'; paymentData.exp_month={{card.EXP_MONTH}}; paymentData.exp_year={{card.EXP_YEAR}}; paymentData.clase_credit_card={{card.CLASE_CREDIT_CARD}}; paymentData.validation_number='{{card.VALIDATION_NUMBER}}'; paymentData.card_holder_name='{{card.CARD_HOLDER_NAME}}'; checkPayment();">
                         <p>
-                            {{card.CARD_TYPE}}, {{card.CARD_HOLDER_NAME}}
+                            <img class="ion-card visa" src="img/{{card.CLASE_CREDIT_CARD}}.png">{{card.CARD_TYPE}}, {{card.CARD_HOLDER_NAME}}
                             <br>{{card.NUMBER_DISPLAY}}, expira {{card.EXP_MONTH}}/{{card.EXP_YEAR}}
                         </p>
                         <p class="text-invalid " ng-if="card.NUMBER == '' || card.EXP_MONTH == '' || card.EXP_YEAR == ''">La tarjeta tiene datos incompletos.
