@@ -200,6 +200,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     var $paginas = $scope.getSessionlData('paginas') || {};
     if ($paginas.HomeCtrl !== undefined) {
         timer = 0;
+
     } else {
         $paginas.HomeCtrl = true;
         window.sessionStorage.setItem('paginas', JSON.stringify($paginas));
@@ -218,6 +219,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.error = true;
             console.log(status);
         });
+
     }, timer);
 
 })
@@ -1305,7 +1307,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 })
 
 // Notificaciones
-.controller('PushCtrl', function ($scope, $rootScope, $ionicUser, $ionicPush) {
+.controller('PushCtrl', function ($scope, $rootScope, $ionicUser, $ionicPush, $ionicPlatform) {
 
     $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
         console.log('Got token: ', data.token, data.platform);
@@ -1314,14 +1316,22 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
     $scope.identifyUser = function () {
         var user = $ionicUser.get();
+        var user_name = 'unknown-user';
+        var user_bio = 'unknown-user';
 
         if (!user.user_id) {
             user.user_id = $ionicUser.generateGUID();
         }
 
+        // Datos del cliente
+        $scope.isLoggedIn = isLoggedIn;
+        $cliente = JSON.parse(window.localStorage.getItem('cliente'));
+        user_name = $cliente.first_name + ' ' + $cliente.last_name;
+        user_bio = 'id: ' + $cliente.codigo_cliente + '| email: ' + $cliente.email;
+
         angular.extend(user, {
-            name: 'steve-test',
-            bio: 'developer'
+            name: user_name,
+            bio: user_bio
         });
 
         $ionicUser.identify(user).then(function () {
@@ -1331,7 +1341,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     $scope.pushRegister = function () {
-        console.log('push');
         $ionicPush.register({
             canShowAlert: true,
             canSetBadge: true,
@@ -1344,8 +1353,11 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         })
     };
 
-    $scope.identifyUser();
-    //$scope.pushRegister();
+    if (isLoggedIn()) {
+        $scope.identifyUser();
+        $scope.pushRegister();
+    }
+
 })
 
 // Genericos

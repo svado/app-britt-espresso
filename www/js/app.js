@@ -4,12 +4,17 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-// angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
 angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
+    //angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova', 'ionic.service.core', 'ionic.service.push'])
 
-.run(function ($ionicPlatform, WebSql, $state, $rootScope, $ionicPopup, $ionicHistory, $timeout) {
+.run(function ($ionicPlatform, WebSql, $state, $rootScope, $ionicPopup, $ionicHistory, $timeout, $cordovaSplashscreen) {
 
     $ionicPlatform.ready(function () {
+
+        /* setTimeout(function () {
+             $cordovaSplashscreen.hide();
+         }, 3000)*/
+
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -227,15 +232,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
 
 // Manejo de paginas
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
+    //.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider, $ionicAppProvider) {
 
     // Configuracion general
     $ionicConfigProvider.backButton.text('Atrás');
+
+    // Id de la aplicacion
+    /*$ionicAppProvider.identify({
+    app_id: '356cbc2f',
+    api_key: '77fbd68f1e4fee8d57a1e3606dca31a71b529243f085cf3d',
+    dev_push: true
+});*/
 
     // Intercepta un evento http cuando es invocado
     $httpProvider.interceptors.push(function ($rootScope) {
         return {
             request: function (config) {
-                $rootScope.$broadcast('loading:show')
+                if (config.url != 'https://push.ionic.io/dev/push/check')
+                    $rootScope.$broadcast('loading:show')
                 return config
             },
             response: function (response) {
