@@ -11,10 +11,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
 
     $ionicPlatform.ready(function () {
 
-        /* setTimeout(function () {
-             $cordovaSplashscreen.hide();
-         }, 3000)*/
-
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {

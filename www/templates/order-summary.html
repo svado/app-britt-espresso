@@ -5,21 +5,21 @@
     </div>
     <div class="item row">
         <div class="col col-67">Subtotal</div>
-        <div class="col text-right">{{monedaSymbol}} {{totales.sub_total | number}}</div>
+        <div class="col text-right">{{monedaSymbol}} {{totales.sub_total | number:0}}</div>
     </div>
     <div class="item row">
         <div class="col col-20">Envio</div>
-        <div class="col text-right item-note" ng-if="$state.includes('app.shipping')">{{monedaSymbol}} {{shippingData.monto_envio | number}}</div>
-        <div class="col text-right item-note" ng-if="!$state.includes('app.shipping')">{{monedaSymbol}} {{totales.envio | number}}</div>
+        <div class="col text-right item-note" ng-if="$state.includes('app.shipping')">{{monedaSymbol}} {{shippingData.monto_envio | number:0}}</div>
+        <div class="col text-right item-note" ng-if="!$state.includes('app.shipping')">{{monedaSymbol}} {{totales.envio | number:0}}</div>
     </div>
     <div class="item row">
         <div class="col col-67">Impuesto</div>
-        <div class="col text-right">{{monedaSymbol}} {{totales.impuesto | number}}</div>
+        <div class="col text-right">{{monedaSymbol}} {{totales.impuesto | number:0}}</div>
     </div>
     <div class="item row item-divider">
         <div class="col col-67" ng-if="$state.includes('app.basket')">Total Estimado</div>
         <div class="col col-67" ng-if="!$state.includes('app.basket')">Total</div>
-        <div class="col text-right" ng-if="!$state.includes('app.shipping')">{{monedaSymbol}} {{totales.total | number}}</div>
-        <div class="col text-right" ng-if="$state.includes('app.shipping')">{{monedaSymbol}} {{totales.total_sin_envio+shippingData.monto_envio | number}}</div>
+        <div class="col text-right" ng-if="!$state.includes('app.shipping')">{{monedaSymbol}} {{totales.total | number:0}}</div>
+        <div class="col text-right" ng-if="$state.includes('app.shipping')">{{monedaSymbol}} {{totales.total_sin_envio+shippingData.monto_envio | number:0}}</div>
     </div>
 </div>
