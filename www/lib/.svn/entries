@@ -36,6 +36,20 @@ dir
 
 add
 
+ngCordova
+dir
+
+
+
+add
+
+ionic-service-core
+dir
+
+
+
+add
+
 angular
 dir
 
@@ -43,7 +57,35 @@ dir
 
 add
 
+ionic-platform-web-client
+dir
+
+
+
+add
+
+angular-filter
+dir
+
+
+
+add
+
+ionic-service-push
+dir
+
+
+
+add
+
 angular-sanitize
+dir
+
+
+
+add
+
+angular-websocket
 dir
 
 

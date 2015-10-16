@@ -1,0 +1,70 @@
+10
+
+dir
+0
+http://subversion.grupocafebritt.com:80/Sistemas/app-britt-espresso/www/lib/angular-filter
+http://subversion.grupocafebritt.com:80/Sistemas
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7fbfb38e-5f93-4992-b219-878775e548b1
+
+.bowerrc
+file
+
+
+
+add
+
+license.md
+file
+
+
+
+add
+
+dist
+dir
+
+
+
+add
+
+.bower.json
+file
+
+
+
+add
+
+.travis.yml
+file
+
+
+
+add
+
+bower.json
+file
+
+
+
+add
+

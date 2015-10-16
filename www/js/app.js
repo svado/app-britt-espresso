@@ -7,7 +7,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova'])
     //angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.services', 'angular.filter', 'ngCordova', 'ionic.service.core', 'ionic.service.push'])
 
-.run(function ($ionicPlatform, WebSql, $state, $rootScope, $ionicPopup, $ionicHistory, $timeout, $cordovaSplashscreen) {
+.run(function ($ionicPlatform, WebSql, $state, $rootScope, $ionicPopup, $ionicHistory, $timeout) {
 
     $ionicPlatform.ready(function () {
 
