@@ -100,11 +100,32 @@ svado
 
 380
 
+resources
+dir
+
+
+
+add
+
 img
 dir
 
 js
 dir
+
+splash.png
+file
+0
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
 
 templates
 dir
