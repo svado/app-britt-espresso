@@ -1,0 +1,98 @@
+10
+
+dir
+0
+http://subversion.grupocafebritt.com:80/Sistemas/app-britt-espresso/www/lib/ionic-platform-web-client
+http://subversion.grupocafebritt.com:80/Sistemas
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7fbfb38e-5f93-4992-b219-878775e548b1
+
+build
+dir
+
+
+
+add
+
+LICENSE
+file
+
+
+
+add
+
+gulpfile.js
+file
+
+
+
+add
+
+dist
+dir
+
+
+
+add
+
+package.json
+file
+
+
+
+add
+
+.bower.json
+file
+
+
+
+add
+
+CHANGELOG.md
+file
+
+
+
+add
+
+bower.json
+file
+
+
+
+add
+
+src
+dir
+
+
+
+add
+
+README.md
+file
+
+
+
+add
+

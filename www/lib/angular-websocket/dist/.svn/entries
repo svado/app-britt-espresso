@@ -1,0 +1,56 @@
+10
+
+dir
+0
+http://subversion.grupocafebritt.com:80/Sistemas/app-britt-espresso/www/lib/angular-websocket/dist
+http://subversion.grupocafebritt.com:80/Sistemas
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7fbfb38e-5f93-4992-b219-878775e548b1
+
+angular-websocket-mock.js
+file
+
+
+
+add
+
+angular-websocket.min.js.map
+file
+
+
+
+add
+
+angular-websocket.js
+file
+
+
+
+add
+
+angular-websocket.min.js
+file
+
+
+
+add
+

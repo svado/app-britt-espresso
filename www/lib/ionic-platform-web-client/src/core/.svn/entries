@@ -1,0 +1,112 @@
+10
+
+dir
+0
+http://subversion.grupocafebritt.com:80/Sistemas/app-britt-espresso/www/lib/ionic-platform-web-client/src/core
+http://subversion.grupocafebritt.com:80/Sistemas
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7fbfb38e-5f93-4992-b219-878775e548b1
+
+events.js
+file
+
+
+
+add
+
+storage.js
+file
+
+
+
+add
+
+core.js
+file
+
+
+
+add
+
+request.js
+file
+
+
+
+add
+
+angular.js
+file
+
+
+
+add
+
+data-types.js
+file
+
+
+
+add
+
+es5.js
+file
+
+
+
+add
+
+promise.js
+file
+
+
+
+add
+
+user.js
+file
+
+
+
+add
+
+logger.js
+file
+
+
+
+add
+
+app.js
+file
+
+
+
+add
+
+settings.js
+file
+
+
+
+add
+
