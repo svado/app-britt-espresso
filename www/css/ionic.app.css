@@ -40,6 +40,9 @@
 .item-radio input:checked ~ .radio-icon:before {
   content: "\f400" !important; }
 
+.combo .item p {
+  margin-top: 5px !important; }
+
 /* Iconos */
 i.small-icon {
   font-size: 24px !important; }
