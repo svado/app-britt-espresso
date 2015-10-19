@@ -599,6 +599,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
         var items_lineas = 0;
         var lineas_valid = true;
+        var linea_maximo = false;
 
         // Verifica que el total seleccionado sea el total del combo
         for (var i = 0; i <= $scope.comboData.total_lineas - 1; i++) {
@@ -614,10 +615,39 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                 // Verifica que se haya seleccionado el total de elementos de cada linea
                 if ($scope.comboData.lineas[i].cantidad == undefined)
                     lineas_valid = false;
-                else if (items_linea != $scope.comboData.lineas[i].cantidad)
+                else if (items_linea < $scope.comboData.lineas[i].cantidad)
                     lineas_valid = false;
+                else if (items_linea > $scope.comboData.lineas[i].cantidad)
+                    lineas_valid = false;
+
+                // Actualiza el total seleccionado
+                if (items_linea == 0)
+                    $scope.comboData.lineas[i].selection = '';
+                else
+                    $scope.comboData.lineas[i].selection = items_linea + ' de';
+
+                // Alertas
+                $scope.comboData.lineas[i].selection_alert = '';
+                if (items_linea == $scope.comboData.lineas[i].cantidad)
+                    $scope.comboData.lineas[i].selection_alert = 'Selección completa';
+                else if (items_linea > $scope.comboData.lineas[i].cantidad)
+                    $scope.comboData.lineas[i].selection_alert = 'Remueva ' + (items_linea - cantidad) + ' productos';
             }
         }
+
+
+        /*// Actualiza el total seleccionado
+        if (items_linea == 0)
+            $scope.comboData.lineas[index].selection = '';
+        else
+            $scope.comboData.lineas[index].selection = items_linea + ' de';
+
+        // Alertas
+        $scope.comboData.lineas[index].selection_alert = '';
+        if (items_linea == $scope.comboData.lineas[index].cantidad)
+            $scope.comboData.lineas[index].selection_alert = 'Selección completa';
+        else if (items_linea > $scope.comboData.lineas[index].cantidad)
+            $scope.comboData.lineas[index].selection_alert = 'Remueva ' + (items_linea - cantidad) + ' productos';*/
 
         // Valida el combo
         if (items_lineas == $scope.comboData.total_items && lineas_valid)

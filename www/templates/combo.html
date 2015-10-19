@@ -10,7 +10,7 @@
     </ion-nav-buttons>
 
     <ion-content>
-        <form name="fCombo" ng-submit="addCombo()">
+        <form name="fCombo" class="combo" ng-submit="addCombo()">
             <div class="list card">
 
                 <div class="item item-avatar">
@@ -22,17 +22,19 @@
                 <div class="item item-body">
                     <img class="full-image" ng-src="{{imagen}}">
                     <p ng-bind-html="mini_description" class="full_wrap"></p>
-                    <p class="text-right">Precio: {{monedaSymbol}} {{precio | number}}</p>
-
                     <ul>
-                        <li ng-repeat="(linea, lineas) in items | groupBy: 'LINEA_DESC'" ng-init="parentIndex = $index">
+                        <li ng-repeat="(linea, lineas) in items | groupBy: 'LINEA_DESC'" ng-init="parentIndex = $index" class="linea_{{$index}}">
 
                             <div class="item item-divider">
                                 <span class="item-icon-right">
                                     Seleccione
-                                    <span class="badge badge-assertive" ng-repeat="linea in lineas">{{linea.CANTIDAD}}</span>
-                                </span>
+                                <span class="badge badge-assertive" ng-repeat="linea in lineas">
+                                        <div ng-bind="comboData.lineas[{{parentIndex}}].selection"></div>
+                                        &nbsp;{{linea.CANTIDAD}}
+                                    </span>
                                 <p>{{linea}}</p>
+                                </span>
+                                <div ng-bind="comboData.lineas[{{parentIndex}}].selection_alert" class="text-invalid text-right"></div>
                             </div>
 
                             <ul>
