@@ -19,7 +19,7 @@ angular.module('app.services', [])
     function populateDB(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS DETALLE_FACTURA');
 
-        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, precio_venta_bruto float, precio_venta_total float, impuesto float, peso float, freebie, item_descripcion, linea_combo integer, primary key (codigo_articulo, codigo_combo))');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DETALLE_FACTURA (codigo_articulo integer, codigo_combo integer, descripcion, cantidad integer, image, precio float, precio_venta_bruto float, precio_venta_total float, impuesto float, peso float, freebie, item_descripcion, linea_combo integer, cantidad_combo integer, primary key (codigo_articulo, codigo_combo))');
 
         //tx.executeSql('DROP TABLE IF EXISTS ENCABEZADO_FACTURA');
 
@@ -39,7 +39,7 @@ angular.module('app.services', [])
         console.log(data);
         db.transaction(function (tx) {
             tx.executeSql('DELETE FROM DETALLE_FACTURA WHERE codigo_articulo = ? AND codigo_combo = ?', [data.codigo_articulo_incluir, data.codigo_combo]);
-            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, codigo_combo, descripcion, cantidad, image, precio, precio_venta_bruto, precio_venta_total, impuesto, peso, freebie, item_descripcion, linea_combo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.codigo_combo, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.precio_venta_bruto.toString(), data.precio_venta_total.toString(), data.impuesto.toString(), data.peso.toString(), data.freebie, data.item_descripcion, data.linea_combo]);
+            tx.executeSql('INSERT INTO DETALLE_FACTURA (codigo_articulo, codigo_combo, descripcion, cantidad, image, precio, precio_venta_bruto, precio_venta_total, impuesto, peso, freebie, item_descripcion, linea_combo, cantidad_combo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [data.codigo_articulo_incluir, data.codigo_combo, data.presentation_name, data.cantidad_incluir, data.presentation_img, data.precio.toString(), data.precio_venta_bruto.toString(), data.precio_venta_total.toString(), data.impuesto.toString(), data.peso.toString(), data.freebie, data.item_descripcion, data.linea_combo, data.cantidad_combo]);
         }, function () {
             deferred.reject('No se pudo agregar el producto');
         }, function () {
@@ -87,7 +87,7 @@ angular.module('app.services', [])
     this.getBasketMini = function () {
         var deferred = $q.defer();
         db.transaction(function (tx) {
-            tx.executeSql('SELECT codigo_articulo, codigo_combo, cantidad, precio, precio_venta_bruto, precio_venta_total, impuesto, peso, freebie, linea_combo FROM DETALLE_FACTURA', [], function (tx, results) {
+            tx.executeSql('SELECT codigo_articulo, codigo_combo, cantidad, precio, precio_venta_bruto, precio_venta_total, impuesto, peso, freebie, linea_combo, cantidad_combo FROM DETALLE_FACTURA', [], function (tx, results) {
                 var res = []
                 for (var i = 0; i < results.rows.length; i++) {
                     res[i] = results.rows.item(i);

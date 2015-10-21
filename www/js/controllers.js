@@ -28,10 +28,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     }
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
+    });*/
 
     // Obtiene los datos locales
     $scope.getLocalData = function (elemento) {
@@ -190,10 +190,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('HomeCtrl', function ($scope, $rootScope, $http, $timeout, $ionicHistory) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
-        historyRoot: true,
-        disableBack: true
-    });
+    /*$ionicHistory.nextViewOptions({
+    historyRoot: true,
+    disableBack: true
+});*/
 
     // Timer para la primera vez
     var timer = 3000;
@@ -228,10 +228,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ContactCtrl', function ($scope, $rootScope, $http, $stateParams, $state, $ionicHistory) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
+    });*/
 
     // Trata de loguearse en la web.
     $scope.doLogin = function (page) {
@@ -400,10 +400,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ProductListCtrl', function ($scope, $http, $stateParams, $ionicHistory) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
+    });*/
 
     $scope.$rutaImagenes = $rutaImagenes;
     $scope.hasBasket = hasBasket;
@@ -428,10 +428,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ProductInfoCtrl', function ($scope, $state, $rootScope, $http, $stateParams, WebSql, $filter, $ionicHistory) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
+    });*/
 
     $scope.rutaImagenes = $rutaImagenes;
     $scope.monedaSymbol = $monedaSymbol;
@@ -452,6 +452,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
     $scope.productData.codigo_combo = '0';
     $scope.productData.linea_combo = '0';
     $scope.productData.freebie = '0';
+    $scope.productData.cantidad_combo = '1';
 
     //Combo
     $scope.comboData = {};
@@ -480,6 +481,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.items = data.ITEMS;
         $scope.related = data.RELATED;
         $scope.error = false;
+        $scope.productData.codigo_articulo_incluir = data.ITEMS[0].CODIGO_ARTICULO; // Default
     }).
     error(function (data, status) {
         $scope.error = true;
@@ -568,7 +570,8 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                             peso: item_found[0].PESO,
                             freebie: 0,
                             item_descripcion: item_found[0].ITEM_HEADER,
-                            linea_combo: item_found[0].LINEA_COMBO
+                            linea_combo: item_found[0].LINEA_COMBO,
+                            cantidad_combo: 1
                         }
 
                         WebSql.addProduct(item).then(function (alerta) {}, function (err) {
@@ -599,7 +602,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 
         var items_lineas = 0;
         var lineas_valid = true;
-        var linea_maximo = false;
 
         // Verifica que el total seleccionado sea el total del combo
         for (var i = 0; i <= $scope.comboData.total_lineas - 1; i++) {
@@ -635,20 +637,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             }
         }
 
-
-        /*// Actualiza el total seleccionado
-        if (items_linea == 0)
-            $scope.comboData.lineas[index].selection = '';
-        else
-            $scope.comboData.lineas[index].selection = items_linea + ' de';
-
-        // Alertas
-        $scope.comboData.lineas[index].selection_alert = '';
-        if (items_linea == $scope.comboData.lineas[index].cantidad)
-            $scope.comboData.lineas[index].selection_alert = 'Selección completa';
-        else if (items_linea > $scope.comboData.lineas[index].cantidad)
-            $scope.comboData.lineas[index].selection_alert = 'Remueva ' + (items_linea - cantidad) + ' productos';*/
-
         // Valida el combo
         if (items_lineas == $scope.comboData.total_items && lineas_valid)
             $scope.comboData.valid = true;
@@ -660,11 +648,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ContactInfoCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $timeout, $ionicModal) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
-
+    });*/
 
     // Timer para la primera vez
     var timer = 3000;
@@ -708,6 +695,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.state = data.STATE;
             $scope.pais = data.PAIS;
             $scope.phone = data.PHONE;
+            $scope.phone_default = data.PHONE_DEFAULT;
             $scope.codigo_email = data.CODIGO_EMAIL;
             $scope.codigo_address = data.CODIGO_ADDRESS;
             $scope.codigo_phone = data.CODIGO_PHONE;
@@ -744,6 +732,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.addressData.principal_cc = data.PRINCIPAL_CC;
             $scope.addressData.credit_card_number = '';
             $scope.addressData.clase_credit_card = data.CLASE_CREDIT_CARD;
+
+            if ($ionicHistory.currentView().stateName == 'app.profileinfo' || $ionicHistory.currentView().stateName == 'app.contactinfo')
+                $scope.phone = $scope.phone_default;
+
             $scope.error = false;
         }).error(function (data, status) {
             $scope.error = true;
@@ -904,10 +896,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('BasketInfoCtrl', function ($scope, $timeout, $http, $stateParams, WebSql, $state, $ionicHistory) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
+    });*/
 
     var timer = 3000;
     var $paginas = $scope.getSessionlData('paginas') || {};
@@ -974,10 +966,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ShippingCtrl', function ($scope, $timeout, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, WebSql) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
+    });*/
 
     var timer = 3000;
     var $paginas = $scope.getSessionlData('paginas') || {};
@@ -1076,6 +1068,7 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
                 if (data.length > 0) {
                     $scope.shippings = data;
                     $scope.shippingData.monto_envio = data[0].MONTO;
+                    $scope.shippingData.codigo_service_type = data[0].CODIGO_SERVICE_TYPE; // Default
                     $scope.error = false;
                 }
             }).error(function (data, status) {
@@ -1094,10 +1087,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('ConfirmationCtrl', function ($scope, $rootScope, $http, $stateParams, $ionicHistory, $state, $ionicModal, $ionicPopup, WebSql) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
+    /*$ionicHistory.nextViewOptions({
         historyRoot: true,
         disableBack: true
-    });
+    });*/
 
     // Lista de meses y variables
     $scope.items = [];
@@ -1285,10 +1278,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('OrderListCtrl', function ($scope, $http, $stateParams, $state, $timeout, WebSql, $ionicHistory) {
 
     // Inactiva el boton de atras
-    $ionicHistory.nextViewOptions({
-        historyRoot: true,
-        disableBack: true
-    });
+    /* $ionicHistory.nextViewOptions({
+         historyRoot: true,
+         disableBack: true
+     });*/
 
     // Timer para la primera vez
     var timer = 3000;

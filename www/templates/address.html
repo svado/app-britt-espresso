@@ -37,11 +37,15 @@
     </select>
 </div>
 
+<!--
 <label class="item item-input">
     <span class="input-label">Código postal</span>
     <input type="text" ng-model="zipcode" name="zipcode" ng-if="addressData.modal === undefined">
     <input type="text" ng-model="addressData.zipcode" name="zipcode" ng-if="addressData.modal !== undefined">
 </label>
+-->
+<input type="hidden" ng-model="zipcode" name="zipcode" ng-if="addressData.modal === undefined">
+<input type="hidden" ng-model="addressData.zipcode" name="zipcode" ng-if="addressData.modal !== undefined">
 
 <label class="item item-input">
     <span class="input-label">Teléfono</span>
