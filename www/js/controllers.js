@@ -190,10 +190,10 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
 .controller('HomeCtrl', function ($scope, $rootScope, $http, $timeout, $ionicHistory) {
 
     // Inactiva el boton de atras
-    /*$ionicHistory.nextViewOptions({
+    $ionicHistory.nextViewOptions({
     historyRoot: true,
     disableBack: true
-});*/
+});
 
     // Timer para la primera vez
     var timer = 3000;
@@ -481,7 +481,14 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.items = data.ITEMS;
         $scope.related = data.RELATED;
         $scope.error = false;
-        $scope.productData.codigo_articulo_incluir = data.ITEMS[0].CODIGO_ARTICULO; // Default
+
+        $scope.productData.codigo_articulo_incluir = data.ITEMS[0].CODIGO_ARTICULO;
+        $scope.productData.presentation_name = data.TITLE;
+        $scope.productData.presentation_img = data.ITEMS[0].PRESENTATION_IMG;
+        $scope.productData.precio = data.ITEMS[0].PRECIO;
+        $scope.productData.impuesto = data.ITEMS[0].IMPUESTO;
+        $scope.productData.peso = data.ITEMS[0].PESO;
+        $scope.productData.item_descripcion = data.ITEMS[0].PRESENTATION_NAME;
     }).
     error(function (data, status) {
         $scope.error = true;
@@ -741,7 +748,6 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
             $scope.error = true;
             console.log(status);
         });
-
 
         // Borra la direccion de un contacto
         $scope.delContactAddressConfirm = function () {
@@ -1381,6 +1387,29 @@ angular.module('starter.controllers', ['app.services', 'app.services'])
         $scope.pushRegister();
     }
 
+})
+
+// Pagina contenido
+.controller('ContentCtrl', function ($scope, $rootScope, $http, $timeout, $ionicHistory, $stateParams) {
+
+    // Inactiva el boton de atras
+    /*$ionicHistory.nextViewOptions({
+    historyRoot: true,
+    disableBack: true
+});*/
+
+    $scope.hasBasket = hasBasket;
+    $params = '&template_id=55&article_types=95&page_url=' + $stateParams.page_url;
+    $method = 'getPageArticles';
+    $http.post($rutaPagesWs + $method + $params).
+    success(function (data, status, headers) {
+        $scope.contents = data;
+        $scope.error = false;
+    }).
+    error(function (data, status) {
+        $scope.error = true;
+        console.log(status);
+    });
 })
 
 // Genericos

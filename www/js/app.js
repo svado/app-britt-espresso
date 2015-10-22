@@ -570,6 +570,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngMessages', 'app.se
         }
     })
 
+    //Contenido
+    .state('app.content', {
+        url: '/contenido/:page_url',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/content.html'
+            }
+        },
+        data: {
+            needLogged: false,
+            needItems: false,
+            needShipping: false
+        }
+    })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/home');
 

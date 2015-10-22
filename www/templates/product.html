@@ -36,13 +36,13 @@
                             productData.impuesto = product.IMPUESTO;
                             productData.peso = product.PESO;
                             productData.item_descripcion = product.PRESENTATION_NAME">
-                            <!-- ng-checked="product.PRINCIPAL==1 " -->
+                            <!-- ng-checked=" product.PRINCIPAL==1 " -->
                             <div class="item-content ">
                                 <span>{{product.PRESENTATION_NAME}}</span>
                                 <span class="padding-horizontal ">-</span>
                                 <span>{{monedaSymbol}} {{product.PRECIO | number}}</span>
                             </div>
-                            <i class="radio-icon ion-ios-circle-outline"></i>
+                            <i class="radio-icon ion-ios-circle-outline "></i>
                         </label>
                     </div>
 
@@ -56,21 +56,21 @@
 
                 </div>
 
-                <div class="item-body">
+                <div class="item-body ">
                     <label class="item item-input ">
                         <button class="button button-block button-positive " type="submit " ng-disabled="fProduct.$invalid ">Agregar al carrito</button>
                     </label>
                 </div>
 
                 <!-- Productos relacionados -->
-                <div class="list">
-                    <div class="item item-divider text-center">
+                <div class="list ">
+                    <div class="item item-divider text-center ">
                         Descubra m&aacute;s experiencias
                     </div>
-                    <a class="item item-thumbnail-left" ng-repeat="item in related" href="#/app/{{item.TEMPLATE}}/{{item.PAGE_ID}}">
-                        <img ng-src="{{rutaImagenes}}{{item.PRESENTATION_IMG}}">
+                    <a class="item item-thumbnail-left " ng-repeat="item in related " href="#/app/{{item.TEMPLATE}}/{{item.PAGE_ID}} ">
+                        <img ng-src="{{rutaImagenes}}{{item.PRESENTATION_IMG}} ">
                         <h2>{{item.TITLE}}</h2>
-                        <p ng-bind-html="item.ARTICLE_TEXT" class="full_wrap"></p>
+                        <p ng-bind-html="item.ARTICLE_TEXT " class="full_wrap "></p>
                     </a>
                 </div>
             </div>
