@@ -46,6 +46,7 @@ $base-background-color: #f9f3e6 !default;
 .menu-footer,
 .menu-footer div {
     height: 65px !important;
+    z-index: 100 !important;
 }
 
 .menu-footer p {
@@ -135,6 +136,25 @@ i {
 
 .continue-shopping p {
     margin-top: 10px !important;
+}
+
+
+/* Contenido */
+
+.contenido {
+    background-color: $stable;
+    color: $light;
+}
+
+.contenido .scroll .item {
+    color: $light;
+    background-color: $stable;
+    border: 0;
+}
+
+.contenido .scroll .item p,
+.contenido .scroll .item h3 {
+    color: $light;
 }
 
 

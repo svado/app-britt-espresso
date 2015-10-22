@@ -20,7 +20,8 @@
 
 /* Menu */
 .menu-footer, .menu-footer div {
-  height: 65px !important; }
+  height: 65px !important;
+  z-index: 100 !important; }
 
 .menu-footer p {
   margin-bottom: 0 !important; }
@@ -76,6 +77,19 @@ i.small-icon {
 /* Basket */
 .continue-shopping p {
   margin-top: 10px !important; }
+
+/* Contenido */
+.contenido {
+  background-color: #000;
+  color: #fff; }
+
+.contenido .scroll .item {
+  color: #fff;
+  background-color: #000;
+  border: 0; }
+
+.contenido .scroll .item p, .contenido .scroll .item h3 {
+  color: #fff; }
 
 /* Home page */
 .home-page h3 {
